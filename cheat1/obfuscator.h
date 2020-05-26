@@ -134,7 +134,12 @@ namespace ay
 
 // Obfuscates the string 'data' at compile-time and returns an ay::obfuscated_data object that has
 // functions for decrypting the string and is also implicitly convertable to a char*
+
+#ifdef STRING_OBFUSCATOR 
 #define AY_OBFUSCATE(data) AY_OBFUSCATE_KEY(data, '.')
+#else
+#define AY_OBFUSCATE(data) data
+#endif
 
 // Obfuscates the string 'data' with 'key' at compile-time and returns an ay::obfuscated_data object that has
 // functions for decrypting the string and is also implicitly convertable to a char*
