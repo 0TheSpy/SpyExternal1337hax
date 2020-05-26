@@ -25,6 +25,7 @@
 } */
 
 //#define DEBUG
+#define STRING_OBFUSCATOR
 
 #define PI 3.14159265
 #include <Windows.h>
