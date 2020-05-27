@@ -107,7 +107,6 @@ void Bunnyhop()
 	float VisY, VisYnew; $$$;
 	float VisYd; $$$;
 	byte onGround = 1; $$$;
-	BOOL boostsleep = 0; $$$;
 
 	while (true)
 	{
@@ -121,7 +120,6 @@ void Bunnyhop()
 				VisYnew = rvm<float>(clientstate + dwClientState_ViewAngles + 4); $$$;
 				if (VisY != VisYnew) //Y changed?
 				{
-					boostsleep = 1; $$$;
 					VisYd = 1 * (VisY - VisYnew); $$$;
 					if (VisYd < 0.0f)
 					{
