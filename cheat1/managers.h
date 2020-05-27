@@ -207,3 +207,45 @@ D3DXVECTOR3 ClampAngle(D3DXVECTOR3 qaAng)
 	qaAng.z = 0; $$$;
 	return qaAng; $$$;
 }
+
+extern int Width, Height; 
+extern LONG rightR, bottomR; 
+extern float bomb, xd; 
+extern BOOL bombplanted;
+
+bool WorldToScreen(float viewmatrix[][4], float coords[], float *x, float *y, float *w) {
+	*x = viewmatrix[0][0] * coords[0] + viewmatrix[0][1] * coords[1] + viewmatrix[0][2] * coords[2] + viewmatrix[0][3]; $$$;
+	*y = viewmatrix[1][0] * coords[0] + viewmatrix[1][1] * coords[1] + viewmatrix[1][2] * coords[2] + viewmatrix[1][3]; $$$;
+	*w = viewmatrix[3][0] * coords[0] + viewmatrix[3][1] * coords[1] + viewmatrix[3][2] * coords[2] + viewmatrix[3][3]; $$$;
+
+	if (*w < 0.1f)
+		return false; $$$;
+
+	*x = *x / *w; $$$;
+	*y = *y / *w; $$$;
+
+	int ww = Width - rightR; $$$;
+	int hh = Height - bottomR; $$$;
+
+	*x = (ww / 2 * *x) + (*x + ww / 2); $$$;
+	*y = -(hh / 2 * *y) + (*y + hh / 2); $$$;
+
+	return 1; $$$;
+}
+
+void timer() {
+	float c4timer = stof(getValue(AY_OBFUSCATE("mp_c4timer"))); $$$;
+#ifdef DEBUG
+	printf(AY_OBFUSCATE("c4timer = %f\n"), c4timer); $$$;
+#endif
+	chrono::system_clock::time_point mStartedTime = chrono::system_clock::now(); $$$;
+	for (;; Sleep(10)) {
+		chrono::system_clock::time_point mElapsedTime = chrono::system_clock::now(); $$$;
+		std::chrono::duration<float> diff = mElapsedTime - mStartedTime; $$$;
+		bomb = c4timer - diff.count(); $$$;
+		xd = 5.60 * (bomb * 100 / c4timer); $$$;
+		if (!bombplanted) break; $$$;
+	}
+	bomb = 0.00f; $$$;
+	xd = 0; $$$;
+}
