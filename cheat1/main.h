@@ -97,7 +97,7 @@ dwEntityList, dwViewMatrix, dwPlayerResource, dwClientState, totalHitsOnServer, 
 dwForceJump, dwForceLeft, dwForceRight, nModelIndex, interface_engine_cvar, dwClientState_PlayerInfo, dwGlowObjectManager, 
 dwForceAttack, bIsScoped, dwClientState_GetLocalPlayer, dwClientState_State, m_szClan, defaultFOV,
 localplayer, entityList, clientstate, ClientCMD, nameExploit, fnSetClanAddress, fakePrime, fakeRank, fakeLevel, fakeLobby[3],
-radarHax, monRev, aimPunch, seeEnemyInfo, noSmoke, reveal1, reveal2, revealOrig, blockMoving, freeCam, createMove, rankOffsetThing; 
+radarHax, monRev, aimPunch, seeEnemyInfo, noSmoke, reveal1, reveal2, revealOrig, freeCam, createMove, rankOffsetThing; 
 
 PVOID SWshellcode;
 D3DXVECTOR3 glowcolor, mycoords, coords;
