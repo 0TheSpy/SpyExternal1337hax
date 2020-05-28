@@ -289,44 +289,45 @@ void Draw() {
 			}
 		}
 
+		if (cheat(AY_OBFUSCATE("ESP & HP Bar & C4timer")) != 0) {
+			bombplanted = rvm<bool>(rvm<DWORD>(client_dll + dwGameRulesProxy) + bBombPlanted); $$$; //we have a bomb?
+			if (bombplanted)
+			{
+				if (!xd)
+					CreateThread(0, 0, (LPTHREAD_START_ROUTINE)timer, 0, 0, 0); $$$;
+				if (bomb > 0)
+				{
+					ID3DXFont* pFont; $$$;
+					D3DXCreateFont(p_Device, 20, 0, FW_BOLD, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "Arial", &pFont); $$$;
+
+					DrawBorderBox(
+						(Width - rightR) / 2 - 280 - border,
+						(Height - bottomR) / 2 + (Height - bottomR) / 4 - border,
+						565,
+						40 + border, border, colorprim); $$$;
+					DrawFilledRectangle(
+						(Width - rightR) / 2 - 280,
+						(Height - bottomR) / 2 + (Height - bottomR) / 4,
+						(Width - rightR) / 2 - 280 + xd,
+						(Height - bottomR) / 2 + (Height - bottomR) / 4 + 40, colorsec); $$$;
+					DrawString((char*)(std::to_string(bomb).c_str()),
+						(Width - rightR) / 2 - 5,
+						(Height - bottomR) / 2 + (Height - bottomR) / 4 + 10, 4, D3DCOLOR_XRGB(255, 255, 255), pFont); $$$;
+
+					pFont->Release(); $$$;
+				}
+			}
+		}
+
 		if (cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")) != 0 ||
-			cheat(AY_OBFUSCATE("ESP & HP Bar & C4timer")) != 0 ||
+			cheat(AY_OBFUSCATE("ESP & HP Bar & C4timer")) == 1 ||
 			cheat(AY_OBFUSCATE("Player Glow & Color")) != 0 ||
-			cheat(AY_OBFUSCATE("Spectator List")) == 1)
+			cheat(AY_OBFUSCATE("Spectator List")) != 0)
 		{
 			mycoords = rvm<D3DXVECTOR3>(localplayer + vecOrigin); $$$;
 			yl_closest = 1000; $$$; xl_closest = 1000; $$$;
 			char charint[32]; $$$; int intbuf; $$$; WORD shintbuf; $$$; byte lifeState; $$$;
 			byte speccount = 0; $$$;
-			if (cheat(AY_OBFUSCATE("ESP & HP Bar & C4timer")) != 0) {
-				bombplanted = rvm<bool>(rvm<DWORD>(client_dll + dwGameRulesProxy) + bBombPlanted); $$$; //we have a bomb?
-				if (bombplanted)
-				{
-					if (!xd)
-						CreateThread(0, 0, (LPTHREAD_START_ROUTINE)timer, 0, 0, 0); $$$;
-					if (bomb > 0)
-					{
-						ID3DXFont* pFont; $$$;
-						D3DXCreateFont(p_Device, 20, 0, FW_BOLD, 1, false, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE, "Arial", &pFont); $$$;
-
-						DrawBorderBox(
-							(Width - rightR) / 2 - 280 - border,
-							(Height - bottomR) / 2 + (Height - bottomR) / 4 - border,
-							565,
-							40 + border, border, colorprim); $$$;
-						DrawFilledRectangle(
-							(Width - rightR) / 2 - 280,
-							(Height - bottomR) / 2 + (Height - bottomR) / 4,
-							(Width - rightR) / 2 - 280 + xd,
-							(Height - bottomR) / 2 + (Height - bottomR) / 4 + 40, colorsec); $$$;
-						DrawString((char*)(std::to_string(bomb).c_str()),
-							(Width - rightR) / 2 - 5,
-							(Height - bottomR) / 2 + (Height - bottomR) / 4 + 10, 4, D3DCOLOR_XRGB(255, 255, 255), pFont); $$$;
-
-						pFont->Release(); $$$;
-					}
-				}
-			}
 
 			for (i = 0; i < 64;  i++)
 			{
