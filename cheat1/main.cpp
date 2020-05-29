@@ -133,6 +133,7 @@ void myInit() {
 	rankOffsetThing = client_dll + SpyPatternScan(clientBytes, client_dll_size,
 		AY_OBFUSCATE("55 8B EC 8B 0D ? ? ? ? 85 C9 75 28 A1 ? ? ? ? 68 ? ? ? ? 8B 08 8B 01 FF 50 04 85 C0 74 0B 8B C8 E8 ? ? ? ? 8B C8 EB 02 33 C9 89 0D ? ? ? ? 8B 45 08"),
 		AY_OBFUSCATE("rankOffset")); $$$;
+	skyFunc = engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("55 8B EC 81 EC ? ? ? ? 56 57 8B F9 C7 45"), AY_OBFUSCATE("skyFunc")); $$$;
 
 	DWORD dwWorld = client_dll + FindSignatureLocal(clientBytes, client_dll_size, AY_OBFUSCATE("DT_TEWorldDecal"), AY_OBFUSCATE("xxxxxxxxxxxxxxx")); $$$;
 	DWORD dwClasses = rvm<DWORD>(client_dll + FindSignatureLocal(clientBytes, client_dll_size, (char*)&dwWorld, AY_OBFUSCATE("xxxx")) + 0x2B); $$$;
@@ -188,6 +189,7 @@ void myInit() {
 	cheat.New(AY_OBFUSCATE("Name & ClanTag Stealer")); $$$;
 	cheat.New(AY_OBFUSCATE("Various Name Exploits"), 4); $$$;
 	cheat.New(AY_OBFUSCATE("Lobby Prime & Rank & lvl"), 2); $$$;
+	cheat.New(AY_OBFUSCATE("Skybox Changer"),6);
 	cheat.New(AY_OBFUSCATE("Disable All & Close Cheat")); $$$;
 
 	CreateThread(0, 0, (LPTHREAD_START_ROUTINE)MenuSelect, 0, 0, 0); $$$;
