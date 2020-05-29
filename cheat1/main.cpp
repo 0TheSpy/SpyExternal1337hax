@@ -179,6 +179,7 @@ void myInit() {
 	cheat.New(AY_OBFUSCATE("Crosshair Recoil & Spread")); $$$;
 	cheat.New(AY_OBFUSCATE("Grenade Trajectory")); $$$;
 	cheat.New(AY_OBFUSCATE("Reduce Flash & Smoke"), 2); $$$;
+	cheat.New(AY_OBFUSCATE("Skybox Changer"),6);
 	cheat.New(AY_OBFUSCATE("No Hands & Scope & Postproc"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Bunnyhop & Autostrafe")); $$$;
 	cheat.New(AY_OBFUSCATE("Hit Sound")); $$$;
@@ -189,7 +190,6 @@ void myInit() {
 	cheat.New(AY_OBFUSCATE("Name & ClanTag Stealer")); $$$;
 	cheat.New(AY_OBFUSCATE("Various Name Exploits"), 4); $$$;
 	cheat.New(AY_OBFUSCATE("Lobby Prime & Rank & lvl"), 2); $$$;
-	cheat.New(AY_OBFUSCATE("Skybox Changer"),6);
 	cheat.New(AY_OBFUSCATE("Disable All & Close Cheat")); $$$;
 
 	CreateThread(0, 0, (LPTHREAD_START_ROUTINE)MenuSelect, 0, 0, 0); $$$;
