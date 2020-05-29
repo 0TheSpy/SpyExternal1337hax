@@ -24,7 +24,7 @@
     __asm popfd          \
 } */
 
-//#define DEBUG
+#define DEBUG
 #define STRING_OBFUSCATOR
 
 #define PI 3.14159265
@@ -92,14 +92,14 @@ int closest, closest_final, aimfov, menutop = 340, i, hp, team, myteam, playersc
 
 DWORD engine_dll, engine_dll_size, vstdlib_dll, vstdlib_dll_size, client_dll, client_dll_size,
 iGlowIndex, dwBoneMatrix, aimPunchAngle, iCrosshairId, hObserverTarget, vecOrigin, iTeamNum, iHealth, iObserverMode,
-m_lifeState, flFlashMaxAlpha, fFlags, vecViewOffset, dwGameRulesProxy, bBombPlanted, convar_name_hash_table, dwLocalPlayer, 
-dwEntityList, dwViewMatrix, dwPlayerResource, dwClientState, totalHitsOnServer, dwClientState_ViewAngles, bDormantOffset, 
-dwForceJump, dwForceLeft, dwForceRight, nModelIndex, interface_engine_cvar, dwClientState_PlayerInfo, dwGlowObjectManager, 
+m_lifeState, flFlashMaxAlpha, fFlags, vecViewOffset, dwGameRulesProxy, bBombPlanted, convar_name_hash_table, dwLocalPlayer,
+dwEntityList, dwViewMatrix, dwPlayerResource, dwClientState, totalHitsOnServer, dwClientState_ViewAngles, bDormantOffset,
+dwForceJump, dwForceLeft, dwForceRight, nModelIndex, interface_engine_cvar, dwClientState_PlayerInfo, dwGlowObjectManager,
 dwForceAttack, bIsScoped, dwClientState_GetLocalPlayer, dwClientState_State, m_szClan, defaultFOV,
 localplayer, entityList, clientstate, ClientCMD, nameExploit, fnSetClanAddress, fakePrime, fakeRank, fakeLevel, fakeLobby[3],
-radarHax, monRev, aimPunch, seeEnemyInfo, noSmoke, reveal1, reveal2, revealOrig, freeCam, createMove, rankOffsetThing; 
+radarHax, monRev, aimPunch, seeEnemyInfo, noSmoke, reveal1, reveal2, revealOrig, freeCam, createMove, rankOffsetThing, skyFunc;
 
-PVOID SWshellcode;
+PVOID SWshellcode, SCshellcode, skyName;
 D3DXVECTOR3 glowcolor, mycoords, coords;
 byte head = 8, spec, who, myid, drawmenu, menuselect, bDormant, punchExtraOrigBytes[22];
 char charint[32];
