@@ -1,6 +1,15 @@
 #pragma once
 #define endfunc __asm _emit 0xCC __asm _emit 0xCC __asm _emit 0xCC __asm _emit 0xCC
 
+__declspec(naked) void SkyChange(void)
+{
+	__asm {
+		mov ecx,0x00000000
+		sub esp,0x134
+	}
+	endfunc
+}
+
 __declspec(naked) void SlideWalkFastCrouch(void)
 {
 	__asm {
