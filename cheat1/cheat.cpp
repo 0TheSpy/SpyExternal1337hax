@@ -398,7 +398,6 @@ void Draw() {
 					}
 
 					if (cheat(AY_OBFUSCATE("Player Glow & Color")) != 0) {
-						go.glowStyle = cheat(AY_OBFUSCATE("Player Glow & Color")).enabled - 1; $$$;
 						wvm<GlowObject>(rvm<DWORD>(client_dll + dwGlowObjectManager) + rvm<DWORD>(entityList + iGlowIndex) * 0x38 + 0x4, go); $$$;
 						wvm<DWORD>(entityList + 0x70, playercolor.dw); $$$;
 					}
@@ -688,6 +687,7 @@ void TriggerCheck() {
 
 		if (cheat.Triggered(AY_OBFUSCATE("Player Glow & Color")))
 		{
+			go.glowStyle = cheat(AY_OBFUSCATE("Player Glow & Color")).enabled - 1; $$$;
 			if (cheat(AY_OBFUSCATE("Player Glow & Color")) == 0) {
 				for (int i = 0; i < 64;  i++)
 					wvm<DWORD>(rvm<DWORD>(client_dll + dwEntityList + i * 0x10) + 0x70, 0xFFFFFFFF); $$$;
@@ -704,6 +704,64 @@ void TriggerCheck() {
 			else { SetValue(AY_OBFUSCATE("mat_postprocess_enable"), 1); $$$; }
 			cheat.Update(AY_OBFUSCATE("No Hands & Scope & Postproc")); $$$;
 		}
+
+
+		if (cheat.Triggered("Skybox Changer"))
+		{
+			if (cheat("Skybox Changer") != 0) {
+				SetValue("r_3dsky", 0); $$$;
+				char skyname[64] = ""; $$$;
+				switch (cheat(AY_OBFUSCATE("Skybox Changer")).enabled)
+				{
+				case 1:
+					strcat_s(skyname, AY_OBFUSCATE("vertigo")); $$$;
+					break;
+
+				case 2:
+					strcat_s(skyname, AY_OBFUSCATE("cs_tibet")); $$$;
+					break;
+
+				case 3:
+					strcat_s(skyname, AY_OBFUSCATE("jungle")); $$$;
+					break;
+
+				case 4:
+					strcat_s(skyname, AY_OBFUSCATE("embassy")); $$$;
+					break;
+
+				case 5:
+					strcat_s(skyname, AY_OBFUSCATE("cs_baggage_skybox_")); $$$;
+					break;
+
+				case 6:
+					strcat_s(skyname, AY_OBFUSCATE("italy")); $$$;
+					break;
+				}
+				
+				if (cheat(AY_OBFUSCATE("Skybox Changer")).trigger == 0) {
+					SCshellcode = SpyInjectAndJump(SkyChange, PVOID(skyFunc + 3), 1); $$$;
+					skyName = VirtualAllocEx(hProcess, NULL, sizeof(skyname) + 1, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE); $$$;
+					wvm((DWORD)SCshellcode + 1, skyName); $$$;
+				}
+				wvmb((DWORD)skyName, &skyname); $$$;
+				if (rvm<DWORD>(clientstate + dwClientState_State) == 6) { 
+					HANDLE thread = CreateRemoteThread(hProcess, NULL, NULL, (LPTHREAD_START_ROUTINE)skyFunc, NULL, NULL, NULL); $$$;
+					WaitForSingleObject(thread, INFINITE); $$$;
+					CloseHandle(thread); $$$;
+				}
+			}
+			else 
+			{
+				SetValue("r_3dsky", 1); $$$;
+				VirtualFreeEx(hProcess, SCshellcode, 256, MEM_RELEASE); $$$;
+				VirtualFreeEx(hProcess, skyName, 256, MEM_RELEASE); $$$;
+				wvm<long long>(skyFunc + 3, 0x575600000134EC81 ); $$$;
+			}
+			$$$;
+			cheat.Update("Skybox Changer"); $$$;
+		}
+		
+
 
 		if (rvm<DWORD>(clientstate + dwClientState_State) == 6) {
 			if (cheat(AY_OBFUSCATE("No Hands & Scope & Postproc")) == 1)
