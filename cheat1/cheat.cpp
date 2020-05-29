@@ -326,7 +326,7 @@ void Draw() {
 		{
 			mycoords = rvm<D3DXVECTOR3>(localplayer + vecOrigin); $$$;
 			yl_closest = 1000; $$$; xl_closest = 1000; $$$;
-			char charint[32]; $$$; int intbuf; $$$; WORD shintbuf; $$$; byte lifeState; $$$;
+			char charint[32]; $$$; int intbuf; $$$; $$$; byte lifeState; $$$;
 			byte speccount = 0; $$$;
 
 			for (i = 0; i < 64;  i++)
