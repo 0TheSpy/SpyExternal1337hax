@@ -706,10 +706,10 @@ void TriggerCheck() {
 		}
 
 
-		if (cheat.Triggered("Skybox Changer"))
+		if (cheat.Triggered(AY_OBFUSCATE("Skybox Changer")))
 		{
-			if (cheat("Skybox Changer") != 0) {
-				SetValue("r_3dsky", 0); $$$;
+			if (cheat(AY_OBFUSCATE("Skybox Changer")) != 0) {
+				SetValue(AY_OBFUSCATE("r_3dsky"), 0); $$$;
 				char skyname[64] = ""; $$$;
 				switch (cheat(AY_OBFUSCATE("Skybox Changer")).enabled)
 				{
@@ -752,13 +752,13 @@ void TriggerCheck() {
 			}
 			else 
 			{
-				SetValue("r_3dsky", 1); $$$;
+				SetValue(AY_OBFUSCATE("r_3dsky"), 1); $$$;
 				VirtualFreeEx(hProcess, SCshellcode, 256, MEM_RELEASE); $$$;
 				VirtualFreeEx(hProcess, skyName, 256, MEM_RELEASE); $$$;
 				wvm<long long>(skyFunc + 3, 0x575600000134EC81 ); $$$;
 			}
 			$$$;
-			cheat.Update("Skybox Changer"); $$$;
+			cheat.Update(AY_OBFUSCATE("Skybox Changer")); $$$;
 		}
 		
 
