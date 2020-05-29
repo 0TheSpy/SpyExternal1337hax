@@ -5,11 +5,11 @@
 {                      \
 	__asm _emit 0xEB      \
 	__asm _emit 0x05      \
-	__asm _emit 0xAA\
+	__asm _emit 0xFF\
 	__asm _emit 0xBB\
 	__asm _emit 0xDD\
 	__asm _emit 0xCC\
-	__asm _emit 0xEE\
+	__asm _emit 0xAA\
 } 
 
 /* JUNK CODE EXAMPLE TWO
@@ -24,7 +24,7 @@
     __asm popfd          \
 } */
 
-#define DEBUG
+//#define DEBUG
 #define STRING_OBFUSCATOR
 
 #define PI 3.14159265
