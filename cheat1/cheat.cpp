@@ -937,9 +937,9 @@ void FreeCam() {
 
 	wvm<__int64>(client_dll + freeCam, freeCamOrig1); $$$;
 	wvm(client_dll + freeCam + 0xC9, 0x07110FF3); $$$;
-	SetValue(AY_OBFUSCATE("cl_forwardspeed"), 450.0f);
-	SetValue(AY_OBFUSCATE("cl_sidespeed"), 450.0f);
-	SetValue(AY_OBFUSCATE("cl_backspeed"), 450.0f);
+	SetValue(AY_OBFUSCATE("cl_forwardspeed"), 450.0f); $$$;
+	SetValue(AY_OBFUSCATE("cl_sidespeed"), 450.0f); $$$;
+	SetValue(AY_OBFUSCATE("cl_backspeed"), 450.0f); $$$;
 	VirtualFreeEx(hProcess, Addr, sizeof(DWORD), MEM_RELEASE); $$$;
 }
 
