@@ -182,10 +182,10 @@ void Aimbot()
 			if (GetAsyncKeyState(VK_LBUTTON) < 0)
 			{
 				if (cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")).enabled > 0) {
-					if (closest_final != -2) {
+					if (closest_final) {
 						localpos = rvm<D3DXVECTOR3>(localplayer + vecOrigin); $$$;
 						localpos.z += rvm<float>(localplayer + vecViewOffset + 0x8); $$$;
-						enemycoords = getEntBonePos(rvm<DWORD>(client_dll + dwEntityList + closest_final * 0x10), head); $$$;
+						enemycoords = getEntBonePos(rvm<DWORD>(client_dll + dwEntityList + (closest_final-1) * 0x10), head); $$$;
 						newanglez = CalcAngle(localpos, enemycoords); $$$;
 						aiming = 1; $$$;
 						if (cheat(AY_OBFUSCATE("Recoil Control System")) == 0)
@@ -245,6 +245,49 @@ void Aimbot()
 				}
 			}
 
+			if (cheat(AY_OBFUSCATE("Blockbot")) != 0 && standing)
+			{
+				DWORD addrY = GetConVarAddress(AY_OBFUSCATE("cl_forwardspeed")); $$$;
+				DWORD addrX = GetConVarAddress(AY_OBFUSCATE("cl_sidespeed")); $$$;
+				DWORD addrBack = GetConVarAddress(AY_OBFUSCATE("cl_backspeed")); $$$;
+				float valX = 0, valY = 0; $$$;
+
+				DWORD entitystand = rvm<DWORD>(client_dll + dwEntityList + (standing-1) * 0x10);
+				while (standing && cheat(AY_OBFUSCATE("Blockbot")) != 0) {
+					wvm(client_dll + dwForceRight, 0); $$$; wvm(client_dll + dwForceLeft, 1); $$$; wvm(client_dll + dwForceForward, 1); $$$; wvm(client_dll + dwForceBackward, 0); $$$;
+					
+					valX = (bbdeltaX)* 20; $$$;  
+					valY = (1.0f - bbdeltaY) * 20; $$$; 
+
+					if (valX > 450.0f) valX = 450.0f; $$$; if (valX < -450.0f) valX = -450.0f; $$$; if (valY > 450.0f) valY = 450.0f; $$$; if (valY < -450.0f) valY = -450.0f; $$$;
+
+					wvm<int>(addrX + 0x2C, *(int*)&valX ^ addrX); $$$;
+					wvm<int>(addrY + 0x2C, *(int*)&valY ^ addrY); $$$;
+					wvm<int>(addrBack + 0x2C, 0 ^ addrBack); $$$;
+					Sleep(1); $$$;
+				}
+				wvm(client_dll + dwForceRight, 0); $$$; wvm(client_dll + dwForceLeft, 0); $$$; wvm(client_dll + dwForceForward, 0); $$$; wvm(client_dll + dwForceBackward, 0); $$$;
+				SetValue(AY_OBFUSCATE("cl_forwardspeed"),450.0f); SetValue(AY_OBFUSCATE("cl_sidespeed"), 450.0f); SetValue(AY_OBFUSCATE("cl_backspeed"), 450.0f);
+			}
+
+			if (cheat(AY_OBFUSCATE("Blockbot")) != 0 && GetAsyncKeyState(VK_MENU) < 0 && closest_final)
+			{
+				DWORD addr = GetConVarAddress(AY_OBFUSCATE("cl_sidespeed")); $$$;
+				float val = 0; $$$; 
+				
+				while (GetAsyncKeyState(VK_MENU) < 0 && closest_final) {
+					wvm(client_dll + dwForceRight, 0); $$$; wvm(client_dll + dwForceLeft, 1); $$$;
+					val = (1.0f - xl_closest_final) * 5; $$$; 
+					if (val > 450.0f) val = 450.0f; $$$; if (val < -450.0f) val = -450.0f; $$$;
+					wvm<int>(addr + 0x2C, *(int*)&val ^ addr); $$$;
+					Sleep(1); $$$; 
+				}
+
+				wvm(client_dll + dwForceRight, 0); $$$; wvm(client_dll + dwForceLeft, 0); $$$;
+				SetValue(AY_OBFUSCATE("cl_sidespeed"), 450.0f); $$$;
+			}
+
+			
 			if (cheat(AY_OBFUSCATE("Thirdperson; Free Cam")) == 2)
 				FreeCam(); $$$;
 		}
@@ -262,9 +305,12 @@ void Draw() {
 		myteam = rvm<byte>(localplayer + iTeamNum); $$$;
 
 		if (cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")).enabled > 0) {
-			aimfov = cheat(AY_OBFUSCATE("Aimbot FOV")).enabled * 5; $$$;
+				aimfov = cheat(AY_OBFUSCATE("Aimbot FOV")).enabled * 5; $$$;
 			DrawCircle((Width - rightR) / 2, (Height - bottomR) / 2, aimfov, 0, 360, D3DCOLOR_ARGB(50, 255, 255, 0)); $$$;
 		}
+
+		if (cheat(AY_OBFUSCATE("Blockbot")) != 0 && GetAsyncKeyState(VK_MENU) < 0)
+			aimfov = 1000; $$$;
 
 		if (cheat(AY_OBFUSCATE("Triggerbot")) == 1) {
 			who = rvm<byte>(localplayer + iCrosshairId); $$$;
@@ -322,14 +368,16 @@ void Draw() {
 		if (cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")) != 0 ||
 			cheat(AY_OBFUSCATE("ESP & HP Bar & C4timer")) == 1 ||
 			cheat(AY_OBFUSCATE("Player Glow & Color")) != 0 ||
-			cheat(AY_OBFUSCATE("Spectator List")) != 0)
+			cheat(AY_OBFUSCATE("Spectator List")) != 0 ||
+			cheat(AY_OBFUSCATE("Blockbot")) != 0)
 		{
 			mycoords = rvm<D3DXVECTOR3>(localplayer + vecOrigin); $$$;
 			yl_closest = 1000; $$$; xl_closest = 1000; $$$;
 			char charint[32]; $$$; int intbuf; $$$; $$$; byte lifeState; $$$;
 			byte speccount = 0; $$$;
 
-			for (i = 0; i < 64;  i++)
+			byte standingchanged = 0; $$$;
+			for (i = 0; i <= 64;  i++)
 			{
 				entityList = rvm<DWORD>(client_dll + dwEntityList + i * 0x10); $$$;
 
@@ -369,11 +417,26 @@ void Draw() {
 				coords.z += rvm<float>(localplayer + vecViewOffset + 0x8); $$$;
 				team = rvm<byte>(entityList + iTeamNum); $$$;
 				hp = rvm<DWORD>(entityList + iHealth); $$$;
+
+				if (cheat(AY_OBFUSCATE("Blockbot")) != 0 && !lifeState && hp && !bDormant) {
+					float myangY = rvm<float>(clientstate + dwClientState_ViewAngles + 4) - 90.0f;
+					delta = mycoords - coords;
+					deltaXold = delta[0]; deltaYold = delta[1];
+					delta[0] = deltaXold * cos(myangY * PI / 180) + deltaYold * sin(myangY* PI / 180);
+					delta[1] = -deltaXold * sin(myangY* PI / 180) + deltaYold * cos(myangY* PI / 180);
+					if (abs(delta[0]) <= 30.0f && abs(delta[1]) <= 30.0f)
+					{
+						bbdeltaX = delta[0];
+						bbdeltaY = delta[1];
+						standingchanged = i + 1;
+					}
+				}
+
 				if (entityList && !lifeState && hp && !bDormant && WorldToScreen(viewmatrix, coords, &xl, &yl, &wl))
 				{
-					deltaZ = mycoords[2] - coords[2]; $$$;
-					deltaXold = mycoords[0] - coords[0]; $$$; deltaYold = mycoords[1] - coords[1]; $$$;
-					enemyDistance = sqrtss(deltaXold*deltaXold + deltaYold * deltaYold + deltaZ * deltaZ); $$$;
+					delta[2] = mycoords[2] - coords[2]; $$$; deltaXold = mycoords[0] - coords[0]; $$$; deltaYold = mycoords[1] - coords[1]; $$$;
+					enemyDistance = sqrtss(deltaXold*deltaXold + deltaYold * deltaYold + delta[2] * delta[2]); $$$;
+
 					if ((int)team == (int)myteam)
 					{
 						color = D3DCOLOR_ARGB(255, 0, 255, 0); $$$;
@@ -386,6 +449,7 @@ void Draw() {
 						go.glowColor = { 255.0f,0,0 }; $$$;
 						playercolor.bytes[0] = 255; $$$; playercolor.bytes[1] = 0; $$$; playercolor.bytes[2] = 0; $$$;
 					}
+
 					if (cheat(AY_OBFUSCATE("ESP & HP Bar & C4timer")) == 1)
 					{
 						DrawBorderBox(xl - 10000 / enemyDistance, yl - 10, 20000 / enemyDistance, 40000 / enemyDistance, 3, color); $$$;
@@ -401,7 +465,9 @@ void Draw() {
 						wvm<GlowObject>(rvm<DWORD>(client_dll + dwGlowObjectManager) + rvm<DWORD>(entityList + iGlowIndex) * 0x38 + 0x4, go); $$$;
 						wvm<DWORD>(entityList + 0x70, playercolor.dw); $$$;
 					}
-					if (cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")) == 1 && (int)team != (int)myteam || cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")) == 2)
+					if (cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")) == 1 && (int)team != (int)myteam || 
+						cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")) == 2 ||
+						cheat(AY_OBFUSCATE("Blockbot")) != 0 && GetAsyncKeyState(VK_MENU) < 0)
 					{
 						hyp1 = sqrtss((xl - (Width - rightR) / 2) * (xl - (Width - rightR) / 2) + (yl - (Height - bottomR) / 2) * (yl - (Height - bottomR) / 2)); $$$;
 						hyp2 = sqrtss((xl_closest - (Width - rightR) / 2) * (xl_closest - (Width - rightR) / 2) + (yl_closest - (Height - bottomR) / 2) * (yl_closest - (Height - bottomR) / 2)); $$$;
@@ -416,14 +482,13 @@ void Draw() {
 				}
 			}
 
-			if (xl_closest != 1000)
-			{
-				closest_final = closest; $$$;
+			standing = standingchanged; $$$;
+
+			if (xl_closest != 1000) {
+				closest_final = closest + 1;
+				xl_closest_final = xl_closest - (Width - rightR) / 2;
 			}
-			else
-			{
-				closest_final = -2; $$$;
-			}
+			else closest_final = 0; $$$;
 		} //esp,radar,aim,speclist enabled?
 	} //we on server? 
 	else
