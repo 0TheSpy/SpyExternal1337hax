@@ -252,7 +252,6 @@ void Aimbot()
 				DWORD addrBack = GetConVarAddress(AY_OBFUSCATE("cl_backspeed")); $$$;
 				float valX = 0, valY = 0; $$$;
 
-				DWORD entitystand = rvm<DWORD>(client_dll + dwEntityList + (standing-1) * 0x10);
 				while (standing && cheat(AY_OBFUSCATE("Blockbot")) != 0) {
 					wvm(client_dll + dwForceRight, 0); $$$; wvm(client_dll + dwForceLeft, 1); $$$; wvm(client_dll + dwForceForward, 1); $$$; wvm(client_dll + dwForceBackward, 0); $$$;
 					
@@ -267,7 +266,7 @@ void Aimbot()
 					Sleep(1); $$$;
 				}
 				wvm(client_dll + dwForceRight, 0); $$$; wvm(client_dll + dwForceLeft, 0); $$$; wvm(client_dll + dwForceForward, 0); $$$; wvm(client_dll + dwForceBackward, 0); $$$;
-				SetValue(AY_OBFUSCATE("cl_forwardspeed"),450.0f); SetValue(AY_OBFUSCATE("cl_sidespeed"), 450.0f); SetValue(AY_OBFUSCATE("cl_backspeed"), 450.0f);
+				SetValue(AY_OBFUSCATE("cl_forwardspeed"),450.0f); $$$; SetValue(AY_OBFUSCATE("cl_sidespeed"), 450.0f); $$$; SetValue(AY_OBFUSCATE("cl_backspeed"), 450.0f); $$$;
 			}
 
 			if (cheat(AY_OBFUSCATE("Blockbot")) != 0 && GetAsyncKeyState(VK_MENU) < 0 && closest_final)
@@ -287,7 +286,6 @@ void Aimbot()
 				SetValue(AY_OBFUSCATE("cl_sidespeed"), 450.0f); $$$;
 			}
 
-			
 			if (cheat(AY_OBFUSCATE("Thirdperson; Free Cam")) == 2)
 				FreeCam(); $$$;
 		}
@@ -419,16 +417,16 @@ void Draw() {
 				hp = rvm<DWORD>(entityList + iHealth); $$$;
 
 				if (cheat(AY_OBFUSCATE("Blockbot")) != 0 && !lifeState && hp && !bDormant) {
-					float myangY = rvm<float>(clientstate + dwClientState_ViewAngles + 4) - 90.0f;
-					delta = mycoords - coords;
-					deltaXold = delta[0]; deltaYold = delta[1];
-					delta[0] = deltaXold * cos(myangY * PI / 180) + deltaYold * sin(myangY* PI / 180);
-					delta[1] = -deltaXold * sin(myangY* PI / 180) + deltaYold * cos(myangY* PI / 180);
+					float myangY = rvm<float>(clientstate + dwClientState_ViewAngles + 4) - 90.0f; $$$;
+					delta = mycoords - coords; $$$;
+					deltaXold = delta[0]; deltaYold = delta[1]; $$$;
+					delta[0] = deltaXold * cos(myangY * PI / 180) + deltaYold * sin(myangY* PI / 180); $$$;
+					delta[1] = -deltaXold * sin(myangY* PI / 180) + deltaYold * cos(myangY* PI / 180); $$$;
 					if (abs(delta[0]) <= 30.0f && abs(delta[1]) <= 30.0f)
 					{
-						bbdeltaX = delta[0];
-						bbdeltaY = delta[1];
-						standingchanged = i + 1;
+						bbdeltaX = delta[0]; $$$;
+						bbdeltaY = delta[1]; $$$;
+						standingchanged = i + 1; $$$;
 					}
 				}
 
