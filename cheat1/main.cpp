@@ -107,6 +107,8 @@ void myInit() {
 	DWORD dwForce = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("55 8B EC 51 53 8A 5D 08")); $$$;
 	dwForceRight = rvm<DWORD>(dwForce + 512) - client_dll; $$$;
 	dwForceLeft = rvm<DWORD>(dwForce + 465) - client_dll; $$$;
+	dwForceForward = rvm<DWORD>(dwForce + 245) - client_dll; $$$;
+	dwForceBackward = rvm<DWORD>(dwForce + 287) - client_dll; $$$;
 	interface_engine_cvar = rvm<DWORD>(FindSignature(vstdlib_dll, vstdlib_dll_size, AY_OBFUSCATE("\x8B\x0D\x00\x00\x00\x00\xC7\x05"), AY_OBFUSCATE("xx????xx")) + 0x2) - vstdlib_dll; $$$;
 	dwGlowObjectManager = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("A1 ? ? ? ? A8 01 75 4B"), AY_OBFUSCATE("dwGlowObjectManager")) + 0x1) - client_dll + 4; $$$;
 	fakePrime = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("83 F8 05 5E 0F 94 C0 C3")) + 0x2; $$$;
@@ -179,14 +181,15 @@ void myInit() {
 	cheat.New(AY_OBFUSCATE("Crosshair Recoil & Spread")); $$$;
 	cheat.New(AY_OBFUSCATE("Grenade Trajectory")); $$$;
 	cheat.New(AY_OBFUSCATE("Reduce Flash & Smoke"), 2); $$$;
-	cheat.New(AY_OBFUSCATE("Skybox Changer"),6);
+	cheat.New(AY_OBFUSCATE("Skybox Changer"), 6);
 	cheat.New(AY_OBFUSCATE("No Hands & Scope & Postproc"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Bunnyhop & Autostrafe")); $$$;
 	cheat.New(AY_OBFUSCATE("Hit Sound")); $$$;
 	cheat.New(AY_OBFUSCATE("Spectator List")); $$$;
-	cheat.New(AY_OBFUSCATE("Slide Walk & No Duck Delay"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Thirdperson; Free Cam"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Zoom; Field of View"), 2); $$$;
+	cheat.New(AY_OBFUSCATE("Slide Walk & No Duck Delay"), 2); $$$;
+	cheat.New(AY_OBFUSCATE("Blockbot")); $$$;
 	cheat.New(AY_OBFUSCATE("Name & ClanTag Stealer")); $$$;
 	cheat.New(AY_OBFUSCATE("Various Name Exploits"), 4); $$$;
 	cheat.New(AY_OBFUSCATE("Lobby Prime & Rank & lvl"), 2); $$$;
