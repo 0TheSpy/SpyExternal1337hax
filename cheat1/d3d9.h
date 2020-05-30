@@ -208,7 +208,7 @@ void menu()
 	DwmEnableBlurBehindWindow(hWnd, &bb); $$$;
 
 	float hb = Height - bottomR; $$$;
-	int fontsize = hb / 50; $$$; 
+	int fontsize = hb / 51; $$$; 
 	int menuheight = fontsize * 15; $$$; 
 
 	ID3DXFont* pFont; $$$;
