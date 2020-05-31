@@ -256,7 +256,7 @@ void Aimbot()
 					wvm(client_dll + dwForceRight, 0); $$$; wvm(client_dll + dwForceLeft, 1); $$$; wvm(client_dll + dwForceForward, 1); $$$; wvm(client_dll + dwForceBackward, 0); $$$;
 					
 					valX = (bbdeltaX)* 20; $$$;  
-					valY = (1.0f - bbdeltaY) * 20; $$$; 
+					valY = (-bbdeltaY) * 20; $$$; 
 
 					if (valX > 450.0f) valX = 450.0f; $$$; if (valX < -450.0f) valX = -450.0f; $$$; if (valY > 450.0f) valY = 450.0f; $$$; if (valY < -450.0f) valY = -450.0f; $$$;
 
@@ -276,7 +276,7 @@ void Aimbot()
 				
 				while (GetAsyncKeyState(VK_MENU) < 0 && closest_final) {
 					wvm(client_dll + dwForceRight, 0); $$$; wvm(client_dll + dwForceLeft, 1); $$$;
-					val = (1.0f - xl_closest_final) * 5; $$$; 
+					val = (-xl_closest_final) * 5; $$$; 
 					if (val > 450.0f) val = 450.0f; $$$; if (val < -450.0f) val = -450.0f; $$$;
 					wvm<int>(addr + 0x2C, *(int*)&val ^ addr); $$$;
 					Sleep(1); $$$; 
