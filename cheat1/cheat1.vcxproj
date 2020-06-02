@@ -168,6 +168,7 @@
     <ClInclude Include="asm.cpp" />
     <ClInclude Include="obfuscator.h" />
     <ClInclude Include="resource1.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
