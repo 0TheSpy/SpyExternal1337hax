@@ -58,7 +58,7 @@ using std::stringstream;
 #include "memory.h"
 #include "resource1.h"
 #include "obfuscator.h"
-#include "managers.h"
+#include "utils.h"
 
 HRSRC hResInfo = FindResource(NULL, MAKEINTRESOURCE(IDR_WAVE1), "WAVE");
 HANDLE hRes = LoadResource(NULL, hResInfo);
