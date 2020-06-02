@@ -195,6 +195,7 @@ DWORD FindSignatureLocal(byte* data, DWORD size, const char* sig, const char* ma
 
 extern char tWindowName[256]; 
 extern DWORD engine_dll, engine_dll_size, vstdlib_dll, vstdlib_dll_size, client_dll, client_dll_size; 
+DWORD PID = 0;
 
 HANDLE get_process_handle()
 {
@@ -219,6 +220,7 @@ HANDLE get_process_handle()
 #ifdef DEBUG
 	printf(AY_OBFUSCATE("pid = %d, process handle = %08X\n"), pid, h); $$$;
 #endif
+	PID = pid;
 	HMODULE hMods[1024]; $$$;
 	int i; $$$;
 	if (EnumProcessModules(h, hMods, sizeof(hMods), &pid) == FALSE) {
@@ -392,4 +394,51 @@ DWORD FindNetvar(DWORD dwClasses, const char* table, const char* var) {
 #endif
 	return 0; $$$;
 }
+
+#include <tlhelp32.h>
+void Suspend(bool b)
+{
+	HANDLE        hThreadSnap = NULL; $$$;
+	BOOL          bRet = FALSE; $$$;
+	THREADENTRY32 te32 = { 0 }; $$$;
+	hThreadSnap = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0); $$$;
+#ifdef DEBUG
+	if (hThreadSnap == INVALID_HANDLE_VALUE)
+		cout << AY_OBFUSCATE("INVALID_HANDLE_VALUE\n"); $$$;
+#endif
+	te32.dwSize = sizeof(THREADENTRY32); $$$;
+	if (Thread32First(hThreadSnap, &te32))
+	{
+		do
+		{
+			if (te32.th32OwnerProcessID == PID)
+			{
+				HANDLE hThread = OpenThread(THREAD_SUSPEND_RESUME, FALSE, te32.th32ThreadID); $$$;
+				if (!b)
+				{
+#ifdef DEBUG
+					cout << _T(AY_OBFUSCATE("Resuming Thread 0x")) << cout.setf(ios_base::hex) << te32.th32ThreadID << endl; $$$;
+#endif
+					ResumeThread(hThread); $$$;
+				}
+				else
+				{
+#ifdef DEBUG
+					cout << _T(AY_OBFUSCATE("Suspending Thread 0x")) << cout.setf(ios_base::hex) << te32.th32ThreadID << endl; $$$;
+#endif
+					SuspendThread(hThread); $$$;
+				}
+				CloseHandle(hThread); $$$;
+			}
+		} while (Thread32Next(hThreadSnap, &te32)); $$$;
+		bRet = TRUE; $$$;
+	}
+	else
+		bRet = FALSE; $$$;
+	CloseHandle(hThreadSnap); $$$;
+#ifdef DEBUG
+	cout << AY_OBFUSCATE("Suspend returned ") << bRet << endl; $$$;
+#endif
+}
+
 #endif
