@@ -811,10 +811,11 @@ void TriggerCheck() {
 				wvmb((DWORD)skyName, &skyname); $$$;
 				if (rvm<DWORD>(clientstate + dwClientState_State) == 6) {
 					Suspend(1); $$$;
+					Sleep(500); $$$;
 					HANDLE thread = CreateRemoteThread(hProcess, NULL, NULL, (LPTHREAD_START_ROUTINE)skyFunc, NULL, NULL, NULL); $$$;
 					WaitForSingleObject(thread, INFINITE); $$$;
 					CloseHandle(thread); $$$;
-					Sleep(1000); $$$;
+					Sleep(500); $$$;
 					Suspend(0); $$$;
 				}
 			}
