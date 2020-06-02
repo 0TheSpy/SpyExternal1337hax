@@ -255,8 +255,8 @@ void Aimbot()
 				while (standing && cheat(AY_OBFUSCATE("Blockbot")) != 0) {
 					wvm(client_dll + dwForceRight, 0); $$$; wvm(client_dll + dwForceLeft, 1); $$$; wvm(client_dll + dwForceForward, 1); $$$; wvm(client_dll + dwForceBackward, 0); $$$;
 					
-					valX = (bbdeltaX)* 20; $$$;  
-					valY = (-bbdeltaY) * 20; $$$; 
+					valX = (bbdeltaX)* 10; $$$;  
+					valY = (-bbdeltaY) * 10; $$$; 
 
 					if (valX > 450.0f) valX = 450.0f; $$$; if (valX < -450.0f) valX = -450.0f; $$$; if (valY > 450.0f) valY = 450.0f; $$$; if (valY < -450.0f) valY = -450.0f; $$$;
 
