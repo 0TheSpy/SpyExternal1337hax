@@ -164,7 +164,7 @@ void Bunnyhop()
 	}
 }
 
-void FreeCam(); 
+void FreeCam();
 void Aimbot()
 {
 	D3DXVECTOR3 newanglez; $$$;
@@ -185,7 +185,7 @@ void Aimbot()
 					if (closest_final) {
 						localpos = rvm<D3DXVECTOR3>(localplayer + vecOrigin); $$$;
 						localpos.z += rvm<float>(localplayer + vecViewOffset + 0x8); $$$;
-						enemycoords = getEntBonePos(rvm<DWORD>(client_dll + dwEntityList + (closest_final-1) * 0x10), head); $$$;
+						enemycoords = getEntBonePos(rvm<DWORD>(client_dll + dwEntityList + (closest_final - 1) * 0x10), head); $$$;
 						newanglez = CalcAngle(localpos, enemycoords); $$$;
 						aiming = 1; $$$;
 						if (cheat(AY_OBFUSCATE("Recoil Control System")) == 0)
@@ -231,8 +231,10 @@ void Aimbot()
 
 				if (cheat(AY_OBFUSCATE("Autopistol")) != 0)
 				{
-					wvm(client_dll + dwForceAttack, 6); $$$;
-					Sleep(14); $$$;
+					if (isActivePistol()) {
+						wvm(client_dll + dwForceAttack, 6); $$$;
+						Sleep(15); $$$;
+					}
 				}
 				aiming = 0; $$$;
 			}
@@ -254,9 +256,9 @@ void Aimbot()
 
 				while (standing && cheat(AY_OBFUSCATE("Blockbot")) != 0) {
 					wvm(client_dll + dwForceRight, 0); $$$; wvm(client_dll + dwForceLeft, 1); $$$; wvm(client_dll + dwForceForward, 1); $$$; wvm(client_dll + dwForceBackward, 0); $$$;
-					
-					valX = (bbdeltaX)* 10; $$$;  
-					valY = (-bbdeltaY) * 10; $$$; 
+
+					valX = (bbdeltaX) * 10; $$$;
+					valY = (-bbdeltaY) * 10; $$$;
 
 					if (valX > 450.0f) valX = 450.0f; $$$; if (valX < -450.0f) valX = -450.0f; $$$; if (valY > 450.0f) valY = 450.0f; $$$; if (valY < -450.0f) valY = -450.0f; $$$;
 
@@ -266,20 +268,20 @@ void Aimbot()
 					Sleep(1); $$$;
 				}
 				wvm(client_dll + dwForceRight, 0); $$$; wvm(client_dll + dwForceLeft, 0); $$$; wvm(client_dll + dwForceForward, 0); $$$; wvm(client_dll + dwForceBackward, 0); $$$;
-				SetValue(AY_OBFUSCATE("cl_forwardspeed"),450.0f); $$$; SetValue(AY_OBFUSCATE("cl_sidespeed"), 450.0f); $$$; SetValue(AY_OBFUSCATE("cl_backspeed"), 450.0f); $$$;
+				SetValue(AY_OBFUSCATE("cl_forwardspeed"), 450.0f); $$$; SetValue(AY_OBFUSCATE("cl_sidespeed"), 450.0f); $$$; SetValue(AY_OBFUSCATE("cl_backspeed"), 450.0f); $$$;
 			}
 
 			if (cheat(AY_OBFUSCATE("Blockbot")) != 0 && GetAsyncKeyState(VK_MENU) < 0 && closest_final)
 			{
 				DWORD addr = GetConVarAddress(AY_OBFUSCATE("cl_sidespeed")); $$$;
-				float val = 0; $$$; 
-				
+				float val = 0; $$$;
+
 				while (GetAsyncKeyState(VK_MENU) < 0 && closest_final) {
 					wvm(client_dll + dwForceRight, 0); $$$; wvm(client_dll + dwForceLeft, 1); $$$;
-					val = (-xl_closest_final) * 5; $$$; 
+					val = (-xl_closest_final) * 5; $$$;
 					if (val > 450.0f) val = 450.0f; $$$; if (val < -450.0f) val = -450.0f; $$$;
 					wvm<int>(addr + 0x2C, *(int*)&val ^ addr); $$$;
-					Sleep(1); $$$; 
+					Sleep(1); $$$;
 				}
 
 				wvm(client_dll + dwForceRight, 0); $$$; wvm(client_dll + dwForceLeft, 0); $$$;
@@ -303,7 +305,7 @@ void Draw() {
 		myteam = rvm<byte>(localplayer + iTeamNum); $$$;
 
 		if (cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")).enabled > 0) {
-				aimfov = cheat(AY_OBFUSCATE("Aimbot FOV")).enabled * 5; $$$;
+			aimfov = cheat(AY_OBFUSCATE("Aimbot FOV")).enabled * 5; $$$;
 			DrawCircle((Width - rightR) / 2, (Height - bottomR) / 2, aimfov, 0, 360, D3DCOLOR_ARGB(50, 255, 255, 0)); $$$;
 		}
 
@@ -375,7 +377,7 @@ void Draw() {
 			byte speccount = 0; $$$;
 
 			byte standingchanged = 0; $$$;
-			for (i = 0; i <= 64;  i++)
+			for (i = 0; i <= 64; i++)
 			{
 				entityList = rvm<DWORD>(client_dll + dwEntityList + i * 0x10); $$$;
 
@@ -463,7 +465,7 @@ void Draw() {
 						wvm<GlowObject>(rvm<DWORD>(client_dll + dwGlowObjectManager) + rvm<DWORD>(entityList + iGlowIndex) * 0x38 + 0x4, go); $$$;
 						wvm<DWORD>(entityList + 0x70, playercolor.dw); $$$;
 					}
-					if (cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")) == 1 && (int)team != (int)myteam || 
+					if (cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")) == 1 && (int)team != (int)myteam ||
 						cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")) == 2 ||
 						cheat(AY_OBFUSCATE("Blockbot")) != 0 && GetAsyncKeyState(VK_MENU) < 0)
 					{
@@ -509,9 +511,9 @@ void TriggerCheck() {
 			{
 				SetValue(AY_OBFUSCATE("r_drawparticles"), 0); $$$;
 			}
-			else 
-			{ 
-				SetValue(AY_OBFUSCATE("r_drawparticles"), 1); $$$; 
+			else
+			{
+				SetValue(AY_OBFUSCATE("r_drawparticles"), 1); $$$;
 			}
 
 			cheat.Update(AY_OBFUSCATE("Reduce Flash & Smoke")); $$$;
@@ -719,7 +721,7 @@ void TriggerCheck() {
 				byte shellCode1[] = { 0x90,0x90,0x90,0x90,punchExtraOrigBytes[4],punchExtraOrigBytes[5],punchExtraOrigBytes[6],punchExtraOrigBytes[7],
 				punchExtraOrigBytes[8],punchExtraOrigBytes[9],punchExtraOrigBytes[10],punchExtraOrigBytes[11],punchExtraOrigBytes[12],punchExtraOrigBytes[13],
 				punchExtraOrigBytes[14],punchExtraOrigBytes[4],punchExtraOrigBytes[4],0x90,0x90,0x90,0x90,0x90 }; $$$;
-				wvmb(aimPunch, &shellCode1); $$$; 
+				wvmb(aimPunch, &shellCode1); $$$;
 				SetValue(AY_OBFUSCATE("view_recoil_tracking"), 0.45f); $$$;
 				if (cheat(AY_OBFUSCATE("Crosshair Recoil & Spread")) != 0)
 					SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 1.0f); $$$;
@@ -752,7 +754,7 @@ void TriggerCheck() {
 		{
 			go.glowStyle = cheat(AY_OBFUSCATE("Player Glow & Color")).enabled - 1; $$$;
 			if (cheat(AY_OBFUSCATE("Player Glow & Color")) == 0) {
-				for (int i = 0; i < 64;  i++)
+				for (int i = 0; i < 64; i++)
 					wvm<DWORD>(rvm<DWORD>(client_dll + dwEntityList + i * 0x10) + 0x70, 0xFFFFFFFF); $$$;
 			}
 			cheat.Update(AY_OBFUSCATE("Player Glow & Color")); $$$;
@@ -800,31 +802,32 @@ void TriggerCheck() {
 					strcat_s(skyname, AY_OBFUSCATE("italy")); $$$;
 					break;
 				}
-				
+
 				if (cheat(AY_OBFUSCATE("Skybox Changer")).trigger == 0) {
 					SCshellcode = SpyInjectAndJump(SkyChange, PVOID(skyFunc + 3), 1); $$$;
 					skyName = VirtualAllocEx(hProcess, NULL, sizeof(skyname) + 1, MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE); $$$;
 					wvm((DWORD)SCshellcode + 1, skyName); $$$;
 				}
 				wvmb((DWORD)skyName, &skyname); $$$;
-				if (rvm<DWORD>(clientstate + dwClientState_State) == 6) { 
+				if (rvm<DWORD>(clientstate + dwClientState_State) == 6) {
+					Suspend(1); $$$;
 					HANDLE thread = CreateRemoteThread(hProcess, NULL, NULL, (LPTHREAD_START_ROUTINE)skyFunc, NULL, NULL, NULL); $$$;
 					WaitForSingleObject(thread, INFINITE); $$$;
 					CloseHandle(thread); $$$;
+					Sleep(1000); $$$;
+					Suspend(0); $$$;
 				}
 			}
-			else 
+			else
 			{
 				SetValue(AY_OBFUSCATE("r_3dsky"), 1); $$$;
 				VirtualFreeEx(hProcess, SCshellcode, 256, MEM_RELEASE); $$$;
 				VirtualFreeEx(hProcess, skyName, 256, MEM_RELEASE); $$$;
-				wvm<long long>(skyFunc + 3, 0x575600000134EC81 ); $$$;
+				wvm<long long>(skyFunc + 3, 0x575600000134EC81); $$$;
 			}
 			$$$;
 			cheat.Update(AY_OBFUSCATE("Skybox Changer")); $$$;
 		}
-		
-
 
 		if (rvm<DWORD>(clientstate + dwClientState_State) == 6) {
 			if (cheat(AY_OBFUSCATE("No Hands & Scope & Postproc")) == 1)
@@ -895,7 +898,7 @@ void FreeCam() {
 	cout << AY_OBFUSCATE("Free Cam activated, visual position address = 0x") << hex << visualOrigin << "\n"; $$$;
 #endif
 
-	while (cheat(AY_OBFUSCATE("Thirdperson; Free Cam")) == 2)  
+	while (cheat(AY_OBFUSCATE("Thirdperson; Free Cam")) == 2)
 	{
 		flyangX = rvm<float>(clientstate + dwClientState_ViewAngles); $$$;
 		flyangY = rvm<float>(clientstate + dwClientState_ViewAngles + 4); $$$;
