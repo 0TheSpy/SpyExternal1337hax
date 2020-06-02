@@ -1,6 +1,6 @@
 #pragma once
 
-///* JUNK CODE EXAMPLE ONE
+//* JUNK CODE EXAMPLE ONE
 #define $$$ __asm      \
 {                      \
 	__asm _emit 0xEB      \
@@ -24,6 +24,7 @@
     __asm popfd          \
 } */
 
+//#define $$$ {} //disable junk code
 //#define DEBUG
 #define STRING_OBFUSCATOR
 
@@ -90,8 +91,8 @@ float xl, yl, wl, xl_closest = 0, yl_closest = 0, xl_closest_final = 0, yl_close
 deltaXold, deltaYold, enemyDistance, bomb, xd = 0, defsens = 0;
 int closest, closest_final, aimfov, menutop = 340, i, hp, team, myteam, playerscount, intbuf, hits = 0, totalhits = 0;
 
-DWORD engine_dll, engine_dll_size, vstdlib_dll, vstdlib_dll_size, client_dll, client_dll_size,
-iGlowIndex, dwBoneMatrix, aimPunchAngle, iCrosshairId, hObserverTarget, vecOrigin, iTeamNum, iHealth, iObserverMode,
+DWORD engine_dll, engine_dll_size, vstdlib_dll, vstdlib_dll_size, client_dll, client_dll_size, iItemDefinitionIndex,
+iGlowIndex, dwBoneMatrix, aimPunchAngle, iCrosshairId, hObserverTarget, vecOrigin, iTeamNum, iHealth, iObserverMode, hActiveWeapon,
 m_lifeState, flFlashMaxAlpha, fFlags, vecViewOffset, dwGameRulesProxy, bBombPlanted, convar_name_hash_table, dwLocalPlayer,
 dwEntityList, dwViewMatrix, dwPlayerResource, dwClientState, totalHitsOnServer, dwClientState_ViewAngles, bDormantOffset,
 dwForceJump, dwForceLeft, dwForceRight, nModelIndex, interface_engine_cvar, dwClientState_PlayerInfo, dwGlowObjectManager,
