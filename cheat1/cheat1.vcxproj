@@ -163,7 +163,6 @@
     <ClInclude Include="cheat.cpp" />
     <ClInclude Include="main.h" />
     <ClInclude Include="d3d9.h" />
-    <ClInclude Include="managers.h" />
     <ClInclude Include="memory.h" />
     <ClInclude Include="asm.cpp" />
     <ClInclude Include="obfuscator.h" />
