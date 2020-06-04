@@ -238,7 +238,7 @@ HANDLE get_process_handle()
 					MODULEINFO lpmodinfo = { 0 }; $$$;
 					GetModuleInformation(h, hMods[i], &lpmodinfo, sizeof(lpmodinfo)); $$$;
 #ifdef DEBUG
-					printf(AY_OBFUSCATE("engine.dll base: %08X, its size %08X\n"), hMods[i], lpmodinfo.SizeOfImage); $$$;
+					printf(AY_OBFUSCATE("%s base: %08X, its size %08X\n"), szModName, hMods[i], lpmodinfo.SizeOfImage); $$$;
 #endif
 					engine_dll = (DWORD)hMods[i]; $$$;
 					engine_dll_size = lpmodinfo.SizeOfImage; $$$;
@@ -249,18 +249,18 @@ HANDLE get_process_handle()
 					MODULEINFO lpmodinfo = { 0 }; $$$;
 					GetModuleInformation(h, hMods[i], &lpmodinfo, sizeof(lpmodinfo)); $$$;
 #ifdef DEBUG
-					printf(AY_OBFUSCATE("vstdlib.dll base: %08X, its size %08X\n"), hMods[i], lpmodinfo.SizeOfImage); $$$;
+					printf(AY_OBFUSCATE("%s base: %08X, its size %08X\n"), szModName, hMods[i], lpmodinfo.SizeOfImage); $$$;
 #endif
 					vstdlib_dll = (DWORD)hMods[i]; $$$;
 					vstdlib_dll_size = lpmodinfo.SizeOfImage; $$$;
 				}
 
-				if (_tcsstr(szModName, _T(AY_OBFUSCATE("client_panorama.dll"))) != NULL)
+				if (_tcsstr(szModName, _T(AY_OBFUSCATE("\\client.dll"))) != NULL)
 				{
 					MODULEINFO lpmodinfo = { 0 }; $$$;
 					GetModuleInformation(h, hMods[i], &lpmodinfo, sizeof(lpmodinfo)); $$$;
 #ifdef DEBUG
-					printf(AY_OBFUSCATE("client.dll base: %08X, its size %08X\n"), hMods[i], lpmodinfo.SizeOfImage); $$$;
+					printf(AY_OBFUSCATE("%s base: %08X, its size %08X\n"), szModName, hMods[i], lpmodinfo.SizeOfImage); $$$;
 #endif
 					client_dll = (DWORD)hMods[i]; $$$;
 					client_dll_size = lpmodinfo.SizeOfImage; $$$;
