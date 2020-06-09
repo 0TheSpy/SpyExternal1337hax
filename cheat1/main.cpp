@@ -253,6 +253,15 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 		DwmExtendFrameIntoClientArea(hWnd, &Margin); $$$;
 
 		hProcess = get_process_handle(); $$$;
+			
+		if (!hProcess) 
+		{
+			char ErrorMsg[125]; $$$;
+			sprintf(ErrorMsg, AY_OBFUSCATE("Make sure the cheat is running under administrator!")); $$$;
+			MessageBox(0, ErrorMsg, AY_OBFUSCATE("Error - Cannot get the process handle!"), MB_OK | MB_ICONERROR); $$$;
+			exit(1); $$$;
+		}
+			
 		myInit(); $$$;
 
 		break; 
