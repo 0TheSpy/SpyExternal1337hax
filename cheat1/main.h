@@ -87,8 +87,8 @@ D3DXVECTOR3 position;
 
 LONG topR = 0, leftR = 0, rightR = 0, bottomR = 0;
 
-float xl, yl, wl, xl_closest = 0, yl_closest = 0, xl_closest_final = 0, yl_closest_final = 0, viewmatrix[4][4], hyp1, hyp2, 
-deltaXold, deltaYold, enemyDistance, bomb, xd = 0, defsens = 0;
+float xl, yl, wl, xl_closest = 0, yl_closest = 0, xl_closest_final = 0, yl_closest_final = 0, viewmatrix[4][4], hyp1, hyp2,
+deltaXold, deltaYold, enemyDistance, bomb, bombLine = 0;
 int closest, closest_final, aimfov, menutop = 340, i, hp, team, myteam, playerscount, intbuf, hits = 0, totalhits = 0;
 
 DWORD engine_dll, engine_dll_size, vstdlib_dll, vstdlib_dll_size, client_dll, client_dll_size, iItemDefinitionIndex,
