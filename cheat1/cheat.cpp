@@ -153,7 +153,7 @@ void Bunnyhop()
 		}
 
 		if (cheat(AY_OBFUSCATE("Zoom; Field of View")) == 1 && tWnd == GetForegroundWindow() && GetAsyncKeyState(VK_MENU) < 0) {
-			defsens = stof(getValue(AY_OBFUSCATE("sensitivity"))); $$$;
+			float defsens = stof(getValue(AY_OBFUSCATE("sensitivity"))); $$$;
 			SetValue(AY_OBFUSCATE("sensitivity"), defsens / 6); $$$;
 			wvm(localplayer + defaultFOV, 15); $$$;
 			while (GetAsyncKeyState(VK_MENU) < 0) { Sleep(1); $$$; }
@@ -339,7 +339,7 @@ void Draw() {
 			bombplanted = rvm<bool>(rvm<DWORD>(client_dll + dwGameRulesProxy) + bBombPlanted); $$$; //we have a bomb?
 			if (bombplanted)
 			{
-				if (!xd)
+				if (!bombLine)
 					CreateThread(0, 0, (LPTHREAD_START_ROUTINE)timer, 0, 0, 0); $$$;
 				if (bomb > 0)
 				{
@@ -354,7 +354,7 @@ void Draw() {
 					DrawFilledRectangle(
 						(Width - rightR) / 2 - 280,
 						(Height - bottomR) / 2 + (Height - bottomR) / 4,
-						(Width - rightR) / 2 - 280 + xd,
+						(Width - rightR) / 2 - 280 + bombLine,
 						(Height - bottomR) / 2 + (Height - bottomR) / 4 + 40, colorsec); $$$;
 					DrawString((char*)(std::to_string(bomb).c_str()),
 						(Width - rightR) / 2 - 5,
@@ -621,27 +621,27 @@ void TriggerCheck() {
 			cheat.Update(AY_OBFUSCATE("Crosshair Recoil & Spread")); $$$;
 		}
 
-		if (cheat.Triggered(AY_OBFUSCATE("Enemy Details & Radarhack")))
+		if (cheat.Triggered(AY_OBFUSCATE("Overhead Info & Radarhack")))
 		{
-			if (cheat(AY_OBFUSCATE("Enemy Details & Radarhack")) == 1)
+			if (cheat(AY_OBFUSCATE("Overhead Info & Radarhack")) == 1)
 			{
 				wvm<byte>(radarHax, 1); $$$;
 				wvm<WORD>(seeEnemyInfo, 0x9090); $$$;
 			}
 
-			if (cheat(AY_OBFUSCATE("Enemy Details & Radarhack")) == 2)
+			if (cheat(AY_OBFUSCATE("Overhead Info & Radarhack")) == 2)
 			{
 				wvm<byte>(radarHax, 1); $$$;
 				wvm<WORD>(seeEnemyInfo, 0xC63B); $$$;
 			}
 
-			if (cheat(AY_OBFUSCATE("Enemy Details & Radarhack")) == 0)
+			if (cheat(AY_OBFUSCATE("Overhead Info & Radarhack")) == 0)
 			{
 				wvm<byte>(radarHax, 0); $$$;
 				wvm<WORD>(seeEnemyInfo, 0xC63B); $$$;
 			}
 
-			cheat.Update(AY_OBFUSCATE("Enemy Details & Radarhack")); $$$;
+			cheat.Update(AY_OBFUSCATE("Overhead Info & Radarhack")); $$$;
 
 		}
 
