@@ -179,7 +179,7 @@ void myInit() {
 	cheat.New(AY_OBFUSCATE("Autopistol")); $$$;
 	cheat.New(AY_OBFUSCATE("ESP & HP Bar & C4timer"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Player Glow & Color"), 3); $$$;
-	cheat.New(AY_OBFUSCATE("Enemy Details & Radarhack"), 2); $$$;
+	cheat.New(AY_OBFUSCATE("Overhead Info & Radarhack"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Money; Rank Reveal"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("No Extra AimPunch"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Crosshair Recoil & Spread")); $$$;
