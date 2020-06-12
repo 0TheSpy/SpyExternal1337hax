@@ -234,7 +234,7 @@ HANDLE get_process_handle()
 		{
 			TCHAR szModName[MAX_PATH]; $$$;
 			if (GetModuleFileNameEx(h, hMods[i], szModName, sizeof(szModName) / sizeof(TCHAR))) {
-				if (_tcsstr(szModName, _T(AY_OBFUSCATE("engine.dll"))) != NULL) {
+				if (_tcsstr(szModName, _T(AY_OBFUSCATE("\\engine.dll"))) != NULL) {
 					MODULEINFO lpmodinfo = { 0 }; $$$;
 					GetModuleInformation(h, hMods[i], &lpmodinfo, sizeof(lpmodinfo)); $$$;
 #ifdef DEBUG
@@ -244,7 +244,7 @@ HANDLE get_process_handle()
 					engine_dll_size = lpmodinfo.SizeOfImage; $$$;
 				}
 
-				if (_tcsstr(szModName, _T(AY_OBFUSCATE("vstdlib.dll"))) != NULL)
+				if (_tcsstr(szModName, _T(AY_OBFUSCATE("\\vstdlib.dll"))) != NULL)
 				{
 					MODULEINFO lpmodinfo = { 0 }; $$$;
 					GetModuleInformation(h, hMods[i], &lpmodinfo, sizeof(lpmodinfo)); $$$;
