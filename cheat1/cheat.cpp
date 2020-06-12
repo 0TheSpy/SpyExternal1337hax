@@ -450,6 +450,12 @@ void Draw() {
 						playercolor.bytes[0] = 255; $$$; playercolor.bytes[1] = 0; $$$; playercolor.bytes[2] = 0; $$$;
 					}
 
+					if ((int)team == 3 && rvm<bool>(entityList+isDefusing))
+					{
+						color = D3DCOLOR_ARGB(255, 255, 255, 255); $$$;
+						go.glowColor = { 255.0f,255,255 }; $$$;
+					}
+
 					if (cheat(AY_OBFUSCATE("ESP & HP Bar & C4timer")) == 1)
 					{
 						DrawBorderBox(xl - 10000 / enemyDistance, yl - 10, 20000 / enemyDistance, 40000 / enemyDistance, 3, color); $$$;
