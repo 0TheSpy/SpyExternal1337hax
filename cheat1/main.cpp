@@ -202,6 +202,7 @@ void myInit() {
 	iItemDefinitionIndex = FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseAttributableItem"), AY_OBFUSCATE("ItemDefinitionIndex")); $$$;
 	iItemDefinitionIndex += FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseCombatWeapon"), AY_OBFUSCATE("AttributeManager")); $$$;
 	iItemDefinitionIndex += FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseCombatWeapon"), AY_OBFUSCATE("m_Item")); $$$;
+	isDefusing = FindNetvar(dwClasses, AY_OBFUSCATE("DT_CSPlayer"), AY_OBFUSCATE("bIsDefusing")); $$$;
 
 	delete engineBytes; $$$;
 	delete clientBytes; $$$;
