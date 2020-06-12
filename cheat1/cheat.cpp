@@ -550,7 +550,10 @@ void TriggerCheck() {
 		}
 
 		if (cheat.Triggered(AY_OBFUSCATE("Disable All & Close Cheat")))
+		{
+			cheat(AY_OBFUSCATE("Disable All & Close Cheat")) = 0; $$$;
 			CreateThread(0, 0, (LPTHREAD_START_ROUTINE)DisExit, 0, 0, 0); $$$;
+		}
 
 		if (cheat.Triggered(AY_OBFUSCATE("Slide Walk & No Duck Delay"))) {
 			if (cheat(AY_OBFUSCATE("Slide Walk & No Duck Delay")) == 1)
