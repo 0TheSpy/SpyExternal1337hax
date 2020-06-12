@@ -91,7 +91,7 @@ float xl, yl, wl, xl_closest = 0, yl_closest = 0, xl_closest_final = 0, yl_close
 deltaXold, deltaYold, enemyDistance, bomb, bombLine = 0;
 int closest, closest_final, aimfov, menutop = 340, i, hp, team, myteam, playerscount, intbuf, hits = 0, totalhits = 0;
 
-DWORD engine_dll, engine_dll_size, vstdlib_dll, vstdlib_dll_size, client_dll, client_dll_size, iItemDefinitionIndex,
+DWORD engine_dll, engine_dll_size, vstdlib_dll, vstdlib_dll_size, client_dll, client_dll_size, iItemDefinitionIndex, glowNoFlick,
 iGlowIndex, dwBoneMatrix, aimPunchAngle, iCrosshairId, hObserverTarget, vecOrigin, iTeamNum, iHealth, iObserverMode, hActiveWeapon,
 m_lifeState, flFlashMaxAlpha, fFlags, vecViewOffset, dwGameRulesProxy, bBombPlanted, convar_name_hash_table, dwLocalPlayer,
 dwEntityList, dwViewMatrix, dwPlayerResource, dwClientState, totalHitsOnServer, dwClientState_ViewAngles, bDormantOffset,
@@ -102,7 +102,7 @@ radarHax, monRev, aimPunch, seeEnemyInfo, noSmoke, reveal1, reveal2, revealOrig,
 
 float bbdeltaX, bbdeltaY; byte standing = 0;
 
-PVOID SWshellcode, SCshellcode, skyName;
+PVOID SWshellcode, SCshellcode, skyName, GLOWshellcode;
 D3DXVECTOR3 glowcolor, mycoords, coords, delta;
 byte head = 8, spec, who, myid, drawmenu, menuselect, bDormant, punchExtraOrigBytes[22];
 char charint[32];
