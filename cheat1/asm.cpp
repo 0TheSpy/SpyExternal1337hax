@@ -1,6 +1,19 @@
 #pragma once
 #define endfunc __asm _emit 0xCC __asm _emit 0xCC __asm _emit 0xCC __asm _emit 0xCC
 
+__declspec(naked) void GlowNoFlick(void)
+{
+	__asm {
+		pop edi
+		pop esi
+		pop ebx
+		mov esp, ebp
+		pop ebp
+		ret
+	}
+	endfunc
+}
+
 __declspec(naked) void SkyChange(void)
 {
 	__asm {
