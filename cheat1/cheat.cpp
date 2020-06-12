@@ -755,8 +755,14 @@ void TriggerCheck() {
 
 		if (cheat.Triggered(AY_OBFUSCATE("Player Glow & Color")))
 		{
+			if (cheat(AY_OBFUSCATE("Player Glow & Color")).trigger == 0 && cheat(AY_OBFUSCATE("Player Glow & Color")) != 0)
+				GLOWshellcode = SpyInjectAndJump(GlowNoFlick, PVOID(glowNoFlick), 1); $$$;
+			
 			go.glowStyle = cheat(AY_OBFUSCATE("Player Glow & Color")).enabled - 1; $$$;
 			if (cheat(AY_OBFUSCATE("Player Glow & Color")) == 0) {
+				wvm<short>(glowNoFlick, 0xB38B); $$$;
+				wvm<int>(glowNoFlick+2, iGlowIndex); $$$;
+				VirtualFreeEx(hProcess, GLOWshellcode, 256, MEM_RELEASE); $$$;
 				for (int i = 0; i < 64; i++)
 					wvm<DWORD>(rvm<DWORD>(client_dll + dwEntityList + i * 0x10) + 0x70, 0xFFFFFFFF); $$$;
 			}
