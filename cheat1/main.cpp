@@ -1,5 +1,41 @@
 #pragma once
 #include "main.h"
+#include <fstream>
+
+void LoadCfg()
+{
+	ifstream loadcfg(AY_OBFUSCATE("settings.txt")); $$$;
+	string line; $$$;
+	if (loadcfg.is_open())
+	{
+		while (getline(loadcfg, line))
+		{
+			size_t pos = line.find(": "); $$$;
+			string name = line.substr(0, pos); $$$;
+			string var = line.erase(0, pos + 2); $$$;
+			cheat(name.c_str()).enabled = stoi(var); $$$;
+		}
+#ifdef DEBUG
+		cout << AY_OBFUSCATE("Config loaded\n"); $$$;
+#endif
+		loadcfg.close();
+	}
+#ifdef DEBUG
+	else cout << AY_OBFUSCATE("Unable to open configuration file\n"); $$$;
+#endif
+}
+
+void SaveCfg()
+{
+	ofstream savecfg; $$$;
+	savecfg.open(AY_OBFUSCATE("settings.txt")); $$$;
+	for (int i = 0; i < cheat.Count() - 1; i++)
+		savecfg << cheat(i).name << ": " << cheat(i).enabled << endl; $$$;
+	savecfg.close(); $$$;
+#ifdef DEBUG
+	cout << AY_OBFUSCATE("Config saved\n"); $$$;
+#endif
+}
 
 void MenuSelect()
 {
@@ -64,6 +100,8 @@ void MenuSelect()
 }
 
 void DisExit() {
+	SaveCfg(); $$$;
+
 	for (i = 0; i < cheat.Count(); i++)
 	{
 		cheat(i) = 0; $$$;
@@ -206,6 +244,8 @@ void myInit() {
 	CreateThread(0, 0, (LPTHREAD_START_ROUTINE)NameStealer, 0, 0, 0); $$$;
 	CreateThread(0, 0, (LPTHREAD_START_ROUTINE)TriggerCheck, 0, 0, 0); $$$;
 
+	LoadCfg();
+
 #ifdef DEBUG
 	std::cout << AY_OBFUSCATE("initiated\n"); $$$;
 #endif
@@ -278,7 +318,6 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 	return 0; $$$;
 }
 
-#include <fstream>
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hSecInstance, LPSTR nCmdLine, INT nCmdShow)
 {
 #ifdef DEBUG
@@ -428,6 +467,7 @@ void SetWindowToTarget()
 		}
 		else
 		{
+			SaveCfg(); $$$;
 			exit(1); $$$;
 		}
 		Sleep(1); $$$;
