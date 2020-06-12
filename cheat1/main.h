@@ -25,7 +25,7 @@
 } */
 
 //#define $$$ {} //disable junk code
-//#define DEBUG
+#define DEBUG
 #define STRING_OBFUSCATOR
 
 #define PI 3.14159265
@@ -94,7 +94,7 @@ int closest, closest_final, aimfov, menutop = 340, i, hp, team, myteam, playersc
 DWORD engine_dll, engine_dll_size, vstdlib_dll, vstdlib_dll_size, client_dll, client_dll_size, iItemDefinitionIndex, glowNoFlick,
 iGlowIndex, dwBoneMatrix, aimPunchAngle, iCrosshairId, hObserverTarget, vecOrigin, iTeamNum, iHealth, iObserverMode, hActiveWeapon,
 m_lifeState, flFlashMaxAlpha, fFlags, vecViewOffset, dwGameRulesProxy, bBombPlanted, convar_name_hash_table, dwLocalPlayer,
-dwEntityList, dwViewMatrix, dwPlayerResource, dwClientState, totalHitsOnServer, dwClientState_ViewAngles, bDormantOffset,
+dwEntityList, dwViewMatrix, dwPlayerResource, dwClientState, totalHitsOnServer, dwClientState_ViewAngles, bDormantOffset, isDefusing,
 dwForceJump, dwForceLeft, dwForceRight, nModelIndex, interface_engine_cvar, dwClientState_PlayerInfo, dwGlowObjectManager,
 dwForceAttack, bIsScoped, dwClientState_GetLocalPlayer, dwClientState_State, m_szClan, defaultFOV, dwForceBackward, dwForceForward,
 localplayer, entityList, clientstate, ClientCMD, nameExploit, fnSetClanAddress, fakePrime, fakeRank, fakeLevel, fakeLobby[3],
