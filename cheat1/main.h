@@ -1,6 +1,6 @@
 #pragma once
 
-//* JUNK CODE EXAMPLE ONE
+///* JUNK CODE EXAMPLE ONE
 #define $$$ __asm      \
 {                      \
 	__asm _emit 0xEB      \
@@ -11,6 +11,7 @@
 	__asm _emit 0xCC\
 	__asm _emit 0xEE\
 } 
+
 
 /* JUNK CODE EXAMPLE TWO
 #define $$$ __asm      \
@@ -106,7 +107,7 @@ radarHax, monRev, aimPunch, seeEnemyInfo, noSmoke, reveal1, reveal2, revealOrig,
 float bbdeltaX, bbdeltaY; BYTE standing = 0;
 
 PVOID SWshellcode, SCshellcode, skyName, GLOWshellcode;
-D3DXVECTOR3 glowcolor, mycoords, coords, delta;
+D3DXVECTOR3 glowcolor, mycoords, coords, delta, myhead, enemyhead;
 BYTE head = 8, spec, who, myid, drawmenu, menuselect, bDormant, punchExtraOrigBytes[22];
 char charint[32];
 BOOL bombplanted = 0, wrongname = false;
