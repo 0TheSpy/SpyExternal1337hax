@@ -225,7 +225,7 @@ void myInit() {
 	cheat.New(AY_OBFUSCATE("Player Glow & Color"), 3); $$$;
 	cheat.New(AY_OBFUSCATE("Overhead Info & Radarhack"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Money; Rank Reveal"), 2); $$$;
-	cheat.New(AY_OBFUSCATE("No Extra AimPunch"), 2); $$$;
+	cheat.New(AY_OBFUSCATE("No Visual Recoil"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Crosshair Recoil & Spread")); $$$;
 	cheat.New(AY_OBFUSCATE("Grenade Trajectory")); $$$;
 	cheat.New(AY_OBFUSCATE("Reduce Flash & Smoke"), 2); $$$;
