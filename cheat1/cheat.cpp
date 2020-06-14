@@ -380,6 +380,7 @@ void Draw() {
 			cheat(AY_OBFUSCATE("Blockbot")) != 0)
 		{
 			mycoords = rvm<D3DXVECTOR3>(localplayer + vecOrigin); $$$;
+			mycoords.z += rvm<float>(localplayer + vecViewOffset + 0x8); $$$;
 			yl_closest = 1000; $$$; xl_closest = 1000; $$$;
 			char charint[32]; $$$; int intbuf; $$$; $$$; BYTE lifeState; $$$;
 			BYTE speccount = 0; $$$;
@@ -452,14 +453,12 @@ void Draw() {
 					}
 					else {
 #ifdef BSP_PARSER
-						
-						myhead = getEntBonePos(rvm<DWORD>(client_dll + dwEntityList + myid * 0x10), head); $$$;
 						enemyhead = getEntBonePos(rvm<DWORD>(client_dll + dwEntityList + i * 0x10), head); $$$;
 #endif
 						if ((int)team == (int)myteam)
 						{
 #ifdef BSP_PARSER
-							if (bspParser->is_visible(myhead, enemyhead)) {
+							if (bspParser->is_visible(mycoords, enemyhead)) {
 								color = D3DCOLOR_ARGB(255, 0, 255, 255); $$$;
 								go.glowColor = { 0,255.0f,255.0f }; $$$;
 								visible = true; $$$;
@@ -476,7 +475,7 @@ void Draw() {
 						else
 						{
 #ifdef BSP_PARSER
-							if (bspParser->is_visible(enemyhead, myhead)) {
+							if (bspParser->is_visible(enemyhead, mycoords)) {
 								color = D3DCOLOR_ARGB(255, 255, 0, 255); $$$;
 								go.glowColor = { 255.0f,0,255.0f }; $$$;
 								visible = true; $$$;
