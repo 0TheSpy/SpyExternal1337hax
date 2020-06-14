@@ -1,5 +1,12 @@
 #pragma once
 #include "asm.cpp"
+#include "bsp_parser.h"
+
+#ifdef BSP_PARSER
+using namespace rn; 
+bsp_parser *bspParser = new bsp_parser; 
+bool mapparsed = false; 
+#endif
 
 void NameStealer()
 {
@@ -19,7 +26,7 @@ void NameStealer()
 			while (cheat(AY_OBFUSCATE("Name & ClanTag Stealer")) == 1)
 			{
 				rando = rand() % maxplayers; $$$;
-				myid = rvm<byte>(clientstate + dwClientState_GetLocalPlayer); $$$;
+				myid = rvm<BYTE>(clientstate + dwClientState_GetLocalPlayer); $$$;
 				if (rando == (int)myid)
 					continue; $$$;
 				if (rando == old)
@@ -51,7 +58,7 @@ void NameStealer()
 		{
 			if (cheat(AY_OBFUSCATE("Various Name Exploits")).trigger == 0) {
 				wvm<DWORD>(GetConVarAddress(AY_OBFUSCATE("name")) + 0x50, 0); $$$;
-				myid = rvm<byte>(clientstate + dwClientState_GetLocalPlayer); $$$;
+				myid = rvm<BYTE>(clientstate + dwClientState_GetLocalPlayer); $$$;
 				rvm(rvm<DWORD>(rvm<DWORD>(rvm<DWORD>(rvm<DWORD>(rvm<DWORD>(engine_dll + dwClientState) + dwClientState_PlayerInfo) + 0x40) + 0xC) + 0x28 + (0x34 * myid)) + 0x10, &MYname); $$$;
 				rvm(rvm<DWORD>(client_dll + dwPlayerResource) + m_szClan + 0x10 * (myid + 1), &MYclan); $$$;
 				NameExploit(AY_OBFUSCATE("\x10\xAD\xAD\xAD")); $$$;
@@ -62,7 +69,8 @@ void NameStealer()
 			}
 
 			if (cheat(AY_OBFUSCATE("Various Name Exploits")) == 1) {
-				NameExploit(AY_OBFUSCATE("\x16\x02\x5A\x20\x02\x09\x0A\x02\x68\x61\x73\x20\x62\x65\x65\x6E\x20\x70\x65\x72\x6D\x61\x6E\x65\x6E\x74\x6C\x79\x20\x62\x61\x6E\x6E\x65\x64\x20\x66\x72\x6F\x6D\x20\x6F\x66\x66\x69\x63\x69\x61\x6c\x20\x43\x53\x3A\x47\x4F\x20\x73\x65\x72\x76\x65\x72\x73\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x00")); $$$;
+				NameExploit(AY_OBFUSCATE("\x16\x02ZL \x02\x09\x0A\x02has been permanently banned from official CS:GO servers\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x00")); $$$;
+
 				SetClanTag(""); $$$;
 			}
 			if (cheat(AY_OBFUSCATE("Various Name Exploits")) == 2) {
@@ -106,7 +114,7 @@ void Bunnyhop()
 
 	float VisY, VisYnew; $$$;
 	float VisYd; $$$;
-	byte onGround = 1; $$$;
+	BYTE onGround = 1; $$$;
 
 	while (true)
 	{
@@ -135,7 +143,7 @@ void Bunnyhop()
 				}
 
 				currJumpState = rvm<DWORD>(client_dll + dwForceJump); $$$;
-				onGround = rvm<byte>(localplayer + fFlags); $$$;
+				onGround = rvm<BYTE>(localplayer + fFlags); $$$;
 				if (onGround)
 				{
 					currJumpState |= FORCE_JUMP_BITMASK; $$$;
@@ -295,14 +303,14 @@ void Aimbot()
 	}
 }
 
-
+BOOL visible = true;
 void Draw() {
 	menu(); $$$;
 	clientstate = rvm<DWORD>(engine_dll + dwClientState); $$$;
 	if (rvm<DWORD>(clientstate + dwClientState_State) == 6) //in server? 
 	{
 		localplayer = rvm<DWORD>(client_dll + dwLocalPlayer); $$$;
-		myteam = rvm<byte>(localplayer + iTeamNum); $$$;
+		myteam = rvm<BYTE>(localplayer + iTeamNum); $$$;
 
 		if (cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")).enabled > 0) {
 			aimfov = cheat(AY_OBFUSCATE("Aimbot FOV")).enabled * 5; $$$;
@@ -313,10 +321,10 @@ void Draw() {
 			aimfov = 1000; $$$;
 
 		if (cheat(AY_OBFUSCATE("Triggerbot")) == 1) {
-			who = rvm<byte>(localplayer + iCrosshairId); $$$;
+			who = rvm<BYTE>(localplayer + iCrosshairId); $$$;
 			if (who && who < 64) {
 				entityList = rvm<DWORD>(client_dll + dwEntityList + (who - 1) * 0x10); $$$;
-				who = rvm<byte>(entityList + iTeamNum); $$$;
+				who = rvm<BYTE>(entityList + iTeamNum); $$$;
 
 				if (myteam != who)
 				{
@@ -373,10 +381,10 @@ void Draw() {
 		{
 			mycoords = rvm<D3DXVECTOR3>(localplayer + vecOrigin); $$$;
 			yl_closest = 1000; $$$; xl_closest = 1000; $$$;
-			char charint[32]; $$$; int intbuf; $$$; $$$; byte lifeState; $$$;
-			byte speccount = 0; $$$;
+			char charint[32]; $$$; int intbuf; $$$; $$$; BYTE lifeState; $$$;
+			BYTE speccount = 0; $$$;
 
-			byte standingchanged = 0; $$$;
+			BYTE standingchanged = 0; $$$;
 			for (i = 0; i <= 64; i++)
 			{
 				entityList = rvm<DWORD>(client_dll + dwEntityList + i * 0x10); $$$;
@@ -384,16 +392,16 @@ void Draw() {
 				if (!entityList)
 					continue; $$$;
 
-				myid = rvm<byte>(clientstate + dwClientState_GetLocalPlayer); $$$;
+				myid = rvm<BYTE>(clientstate + dwClientState_GetLocalPlayer); $$$;
 				if (i == (int)myid)
 					continue; $$$;
 
-				lifeState = rvm<byte>(entityList + m_lifeState); $$$;
-				bDormant = rvm<byte>(entityList + bDormantOffset); $$$;
+				lifeState = rvm<BYTE>(entityList + m_lifeState); $$$;
+				bDormant = rvm<BYTE>(entityList + bDormantOffset); $$$;
 
 				if (cheat(AY_OBFUSCATE("Spectator List")) == 1 && lifeState && !bDormant)
 				{
-					spec = rvm<byte>(entityList + hObserverTarget); $$$;
+					spec = rvm<BYTE>(entityList + hObserverTarget); $$$;
 					if ((int)spec - 1 == (int)myid)
 					{
 						speccount++; $$$;
@@ -415,7 +423,7 @@ void Draw() {
 				rvm(client_dll + dwViewMatrix, &viewmatrix); $$$;
 				coords = rvm<D3DXVECTOR3>(entityList + vecOrigin); $$$;
 				coords.z += rvm<float>(localplayer + vecViewOffset + 0x8); $$$;
-				team = rvm<byte>(entityList + iTeamNum); $$$;
+				team = rvm<BYTE>(entityList + iTeamNum); $$$;
 				hp = rvm<DWORD>(entityList + iHealth); $$$;
 
 				if (cheat(AY_OBFUSCATE("Blockbot")) != 0 && !lifeState && hp && !bDormant) {
@@ -437,25 +445,52 @@ void Draw() {
 					delta[2] = mycoords[2] - coords[2]; $$$; deltaXold = mycoords[0] - coords[0]; $$$; deltaYold = mycoords[1] - coords[1]; $$$;
 					enemyDistance = sqrtss(deltaXold*deltaXold + deltaYold * deltaYold + delta[2] * delta[2]); $$$;
 
-					if ((int)team == (int)myteam)
-					{
-						color = D3DCOLOR_ARGB(255, 0, 255, 0); $$$;
-						go.glowColor = { 0,255.0f,0 }; $$$;
-						playercolor.bytes[0] = 0; $$$; playercolor.bytes[1] = 255; $$$; playercolor.bytes[2] = 0; $$$;
-					}
-					else
-					{
-						color = D3DCOLOR_ARGB(255, 255, 0, 0); $$$;
-						go.glowColor = { 255.0f,0,0 }; $$$;
-						playercolor.bytes[0] = 255; $$$; playercolor.bytes[1] = 0; $$$; playercolor.bytes[2] = 0; $$$;
-					}
-
-					if ((int)team == 3 && rvm<bool>(entityList+isDefusing))
+					if ((int)team == 3 && rvm<bool>(entityList + isDefusing))
 					{
 						color = D3DCOLOR_ARGB(255, 255, 255, 255); $$$;
 						go.glowColor = { 255.0f,255,255 }; $$$;
 					}
-
+					else {
+#ifdef BSP_PARSER
+						mycoords = getEntBonePos(rvm<DWORD>(client_dll + dwEntityList + myid * 0x10), head); $$$;
+						coords = getEntBonePos(rvm<DWORD>(client_dll + dwEntityList + i * 0x10), head); $$$;
+#endif
+						if ((int)team == (int)myteam)
+						{
+#ifdef BSP_PARSER
+							if (bspParser->is_visible(mycoords, coords)) {
+								color = D3DCOLOR_ARGB(255, 0, 255, 255); $$$;
+								go.glowColor = { 0,255.0f,255.0f }; $$$;
+								visible = true; $$$;
+							} else {
+#endif
+								color = D3DCOLOR_ARGB(255, 0, 255, 0); $$$;
+								go.glowColor = { 0,255.0f,0 }; $$$;
+								visible = false; $$$;
+#ifdef BSP_PARSER
+							}
+#endif
+							playercolor.bytes[0] = 0; $$$; playercolor.bytes[1] = 255; $$$; playercolor.bytes[2] = 255; $$$;
+						}
+						else
+						{
+#ifdef BSP_PARSER
+							if (bspParser->is_visible(coords, mycoords)) {
+								color = D3DCOLOR_ARGB(255, 255, 0, 255); $$$;
+								go.glowColor = { 255.0f,0,255.0f }; $$$;
+								visible = true; $$$;
+							}  else {
+#endif
+								color = D3DCOLOR_ARGB(255, 255, 0, 0); $$$;
+								go.glowColor = { 255.0f,0,0 }; $$$;
+								visible = false; $$$;
+#ifdef BSP_PARSER
+							}
+#endif
+							playercolor.bytes[0] = 255; $$$; playercolor.bytes[1] = 0; $$$; playercolor.bytes[2] = 255; $$$;
+						}
+					}
+					
 					if (cheat(AY_OBFUSCATE("ESP & HP Bar & C4timer")) == 1)
 					{
 						DrawBorderBox(xl - 10000 / enemyDistance, yl - 10, 20000 / enemyDistance, 40000 / enemyDistance, 3, color); $$$;
@@ -471,8 +506,8 @@ void Draw() {
 						wvm<GlowObject>(rvm<DWORD>(client_dll + dwGlowObjectManager) + rvm<DWORD>(entityList + iGlowIndex) * 0x38 + 0x4, go); $$$;
 						wvm<DWORD>(entityList + 0x70, playercolor.dw); $$$;
 					}
-					if (cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")) == 1 && (int)team != (int)myteam ||
-						cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")) == 2 ||
+					if (cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")) == 1 && (int)team != (int)myteam && visible ||
+						cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")) == 2 && visible ||
 						cheat(AY_OBFUSCATE("Blockbot")) != 0 && GetAsyncKeyState(VK_MENU) < 0)
 					{
 						hyp1 = sqrtss((xl - (Width - rightR) / 2) * (xl - (Width - rightR) / 2) + (yl - (Height - bottomR) / 2) * (yl - (Height - bottomR) / 2)); $$$;
@@ -530,7 +565,7 @@ void TriggerCheck() {
 		{
 			if (cheat(AY_OBFUSCATE("Lobby Prime & Rank & lvl")) == 1)
 			{
-				wvm<byte>(fakePrime, 0); $$$;
+				wvm<BYTE>(fakePrime, 0); $$$;
 				fakeLobby[0] = rvm<DWORD>(rvm<DWORD>(client_dll + fakeRank) + 0x20); $$$;
 				fakeLobby[1] = rvm<DWORD>(client_dll + fakeLevel); $$$;
 				fakeLobby[2] = rvm<DWORD>(client_dll + fakeLevel + 4); $$$;
@@ -547,10 +582,10 @@ void TriggerCheck() {
 			}
 
 			if (cheat(AY_OBFUSCATE("Lobby Prime & Rank & lvl")) == 2)
-				wvm<byte>(fakePrime, 0); $$$;
+				wvm<BYTE>(fakePrime, 0); $$$;
 
 			if (cheat(AY_OBFUSCATE("Lobby Prime & Rank & lvl")) == 0)
-				wvm<byte>(fakePrime, 5); $$$;
+				wvm<BYTE>(fakePrime, 5); $$$;
 
 			cheat.Update(AY_OBFUSCATE("Lobby Prime & Rank & lvl")); $$$;
 		}
@@ -561,35 +596,35 @@ void TriggerCheck() {
 			CreateThread(0, 0, (LPTHREAD_START_ROUTINE)DisExit, 0, 0, 0); $$$;
 		}
 
-		if (cheat.Triggered(AY_OBFUSCATE("Slide Walk & No Duck Delay"))) {
-			if (cheat(AY_OBFUSCATE("Slide Walk & No Duck Delay")) == 1)
+		if (cheat.Triggered(AY_OBFUSCATE("Slide Walk & No Duck Stamina"))) {
+			if (cheat(AY_OBFUSCATE("Slide Walk & No Duck Stamina")) == 1)
 			{
-				if (cheat(AY_OBFUSCATE("Slide Walk & No Duck Delay")).trigger == 0)
+				if (cheat(AY_OBFUSCATE("Slide Walk & No Duck Stamina")).trigger == 0)
 				{
 					SWshellcode = SpyInjectAndJump(SlideWalkFastCrouch, PVOID(createMove), 3); $$$;
 				}
 				else
 				{
-					byte bytes[] = { 0x35, 0x18, 0x06, 0x00, 0x00 }; $$$;
+					BYTE bytes[] = { 0x35, 0x18, 0x06, 0x00, 0x00 }; $$$;
 					wvmb((DWORD)SWshellcode + 8, &bytes); $$$;
 				}
 			}
 
-			if (cheat(AY_OBFUSCATE("Slide Walk & No Duck Delay")) == 2)
+			if (cheat(AY_OBFUSCATE("Slide Walk & No Duck Stamina")) == 2)
 			{
-				if (cheat(AY_OBFUSCATE("Slide Walk & No Duck Delay")).trigger == 0)
+				if (cheat(AY_OBFUSCATE("Slide Walk & No Duck Stamina")).trigger == 0)
 					SWshellcode = SpyInjectAndJump(SlideWalkFastCrouch, PVOID(createMove), 3); $$$;
-				byte bytes[] = { 0x90, 0x90, 0x90, 0x90, 0x90 }; $$$;
+				BYTE bytes[] = { 0x90, 0x90, 0x90, 0x90, 0x90 }; $$$;
 				wvmb((DWORD)SWshellcode + 8, &bytes); $$$;
 			}
 
-			if (cheat(AY_OBFUSCATE("Slide Walk & No Duck Delay")) == 0)
+			if (cheat(AY_OBFUSCATE("Slide Walk & No Duck Stamina")) == 0)
 			{
-				byte bytes[] = { 0xFF,0x75,0x0C,0xF3,0x0F,0x10,0x45,0x08 }; $$$;
+				BYTE bytes[] = { 0xFF,0x75,0x0C,0xF3,0x0F,0x10,0x45,0x08 }; $$$;
 				wvmb(createMove, &bytes); $$$;
 				VirtualFreeEx(hProcess, SWshellcode, 256, MEM_RELEASE); $$$;
 			}
-			cheat.Update(AY_OBFUSCATE("Slide Walk & No Duck Delay")); $$$;
+			cheat.Update(AY_OBFUSCATE("Slide Walk & No Duck Stamina")); $$$;
 		}
 
 		if (cheat.Triggered(AY_OBFUSCATE("Grenade Trajectory")))
@@ -634,19 +669,19 @@ void TriggerCheck() {
 		{
 			if (cheat(AY_OBFUSCATE("Overhead Info & Radarhack")) == 1)
 			{
-				wvm<byte>(radarHax, 1); $$$;
+				wvm<BYTE>(radarHax, 1); $$$;
 				wvm<WORD>(seeEnemyInfo, 0x9090); $$$;
 			}
 
 			if (cheat(AY_OBFUSCATE("Overhead Info & Radarhack")) == 2)
 			{
-				wvm<byte>(radarHax, 1); $$$;
+				wvm<BYTE>(radarHax, 1); $$$;
 				wvm<WORD>(seeEnemyInfo, 0xC63B); $$$;
 			}
 
 			if (cheat(AY_OBFUSCATE("Overhead Info & Radarhack")) == 0)
 			{
-				wvm<byte>(radarHax, 0); $$$;
+				wvm<BYTE>(radarHax, 0); $$$;
 				wvm<WORD>(seeEnemyInfo, 0xC63B); $$$;
 			}
 
@@ -669,7 +704,7 @@ void TriggerCheck() {
 					revealOrig = rvm<DWORD>(reveal1); $$$;
 
 				LPVOID shellCodeAddress, memeAddress; $$$;
-				byte asm_stub[] =
+				BYTE asm_stub[] =
 				{
 					0x68, 0x00, 0x00, 0x00, 0x00,   // push float* (1)
 					0x55, 0x89, 0xE5,               // cdecl call frame
@@ -715,7 +750,7 @@ void TriggerCheck() {
 
 			if (cheat(AY_OBFUSCATE("No Extra AimPunch")) == 2)
 			{
-				byte shellCode1[] = { 0x90,0x90,0x90,0x90,punchExtraOrigBytes[4],punchExtraOrigBytes[5],punchExtraOrigBytes[6],punchExtraOrigBytes[7],
+				BYTE shellCode1[] = { 0x90,0x90,0x90,0x90,punchExtraOrigBytes[4],punchExtraOrigBytes[5],punchExtraOrigBytes[6],punchExtraOrigBytes[7],
 				punchExtraOrigBytes[8],punchExtraOrigBytes[9],punchExtraOrigBytes[10],punchExtraOrigBytes[11],punchExtraOrigBytes[12],punchExtraOrigBytes[13],
 				punchExtraOrigBytes[14],punchExtraOrigBytes[4],punchExtraOrigBytes[4],0x90,0x90,0x90,0x90,0x90 }; $$$;
 				wvmb(aimPunch, &shellCode1); $$$;
@@ -727,7 +762,7 @@ void TriggerCheck() {
 
 			if (cheat(AY_OBFUSCATE("No Extra AimPunch")) == 1)
 			{
-				byte shellCode1[] = { 0x90,0x90,0x90,0x90,punchExtraOrigBytes[4],punchExtraOrigBytes[5],punchExtraOrigBytes[6],punchExtraOrigBytes[7],
+				BYTE shellCode1[] = { 0x90,0x90,0x90,0x90,punchExtraOrigBytes[4],punchExtraOrigBytes[5],punchExtraOrigBytes[6],punchExtraOrigBytes[7],
 				punchExtraOrigBytes[8],punchExtraOrigBytes[9],punchExtraOrigBytes[10],punchExtraOrigBytes[11],punchExtraOrigBytes[12],punchExtraOrigBytes[13],
 				punchExtraOrigBytes[14],punchExtraOrigBytes[4],punchExtraOrigBytes[4],0x90,0x90,0x90,0x90,0x90 }; $$$;
 				wvmb(aimPunch, &shellCode1); $$$;
@@ -846,6 +881,20 @@ void TriggerCheck() {
 		}
 
 		if (rvm<DWORD>(clientstate + dwClientState_State) == 6) {
+
+#ifdef BSP_PARSER
+			if (!mapparsed)
+			{
+				char map[64]; $$$;
+				rvm(clientstate + dwClientState_Map, &map); $$$;
+				strcat_s(map, AY_OBFUSCATE(".bsp")); $$$;
+				if (bspParser->load_map(folder.c_str(), map))
+				{ cout << AY_OBFUSCATE("Map parsed!\n"); $$$; }
+				else cout << AY_OBFUSCATE("Can't parse map\n"); $$$;
+				mapparsed = true; $$$;
+			}
+#endif
+
 			if (cheat(AY_OBFUSCATE("No Hands & Scope & Postproc")) == 1)
 			{
 				wvm<BYTE>(localplayer + nModelIndex, 0); $$$; //arms
@@ -880,6 +929,13 @@ void TriggerCheck() {
 					wvm(localplayer + defaultFOV, 120); $$$;
 			}
 		}
+#ifdef BSP_PARSER
+		else {
+			if (mapparsed)
+				mapparsed = false; $$$;
+		}
+#endif
+
 		Sleep(1); $$$;
 	}
 }
@@ -900,7 +956,7 @@ void FreeCam() {
 	); $$$;
 
 	dword2bytes addr = { (DWORD)Addr }; $$$;
-	byte shellcode[] = { 0x89, 0x3D, addr.bytes[0], addr.bytes[1], addr.bytes[2], addr.bytes[3], 0xEB, 0x0C }; $$$;
+	BYTE shellcode[] = { 0x89, 0x3D, addr.bytes[0], addr.bytes[1], addr.bytes[2], addr.bytes[3], 0xEB, 0x0C }; $$$;
 
 	wvmb(client_dll + freeCam, &shellcode); $$$;
 	wvm(client_dll + freeCam + 0xC9, 0x909022EB); $$$;
