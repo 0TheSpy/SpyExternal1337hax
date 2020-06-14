@@ -2,4 +2,4 @@
 CSGO Cheat
 
 https://www.unknowncheats.me/forum/cs-go-releases/396989-spy-external-1337hax.html
-![Screenshot](https://i.imgur.com/NIgT4xn.png)
+![Screenshot](https://i.imgur.com/4bT7TPR.png)
