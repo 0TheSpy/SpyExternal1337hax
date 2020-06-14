@@ -16,7 +16,7 @@ int border = 4; //CHEAT BORDER
 extern IDirect3DDevice9Ex* p_Device;
 #define PI 3.14159265 
 extern LONG leftR, topR, bottomR;
-extern int border; extern D3DCOLOR color; extern byte drawmenu, menuselect;
+extern int border; extern D3DCOLOR color; extern BYTE drawmenu, menuselect;
 
 void DrawFilledRectangle(float x, float y, float w, float h, int a, int r, int g, int b)
 {
@@ -235,7 +235,7 @@ void menu()
 		pFont->DrawTextA(0, (char*)AY_OBFUSCATE("Spy External 1337hax"), 21, &FontPos, DT_CENTER, colorsec); $$$;
 
 		int menutop = (Height - bottomR) / 3 + border * 2 + 1.5*fontsize; $$$;
-		for (byte i = 0; i < cheat.Count(); i++)
+		for (BYTE i = 0; i < cheat.Count(); i++)
 		{
 			if (menuselect == i)
 			{
