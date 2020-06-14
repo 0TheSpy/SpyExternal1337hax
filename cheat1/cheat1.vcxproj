@@ -131,6 +131,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalOptions>/std:c++latest %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -160,6 +161,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="bsp_parser.h" />
     <ClInclude Include="cheat.cpp" />
     <ClInclude Include="main.h" />
     <ClInclude Include="d3d9.h" />
@@ -168,7 +170,6 @@
     <ClInclude Include="obfuscator.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="utils.h" />
-    <ClInclude Include="bsp_parser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
