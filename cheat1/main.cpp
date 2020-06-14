@@ -2,6 +2,7 @@
 #include "main.h"
 #include <fstream>
 
+#ifdef SUPPORT_CFG
 void LoadCfg()
 {
 	ifstream loadcfg(AY_OBFUSCATE("settings.txt")); $$$;
@@ -36,6 +37,7 @@ void SaveCfg()
 	cout << AY_OBFUSCATE("Config saved\n"); $$$;
 #endif
 }
+#endif
 
 void MenuSelect()
 {
@@ -100,8 +102,9 @@ void MenuSelect()
 }
 
 void DisExit() {
+#ifdef SUPPORT_CFG
 	SaveCfg(); $$$;
-
+#endif
 	for (i = 0; i < cheat.Count(); i++)
 	{
 		cheat(i) = 0; $$$;
@@ -118,10 +121,10 @@ void myInit() {
 	position.x = 20; $$$;
 	position.y = 20; $$$;
 
-	auto clientBytes = new byte[client_dll_size + 1]; $$$;
+	auto clientBytes = new BYTE[client_dll_size + 1]; $$$;
 	memset(clientBytes, 0, client_dll_size + 1); $$$;
 	ReadProcessMemory(hProcess, PVOID(client_dll), clientBytes, client_dll_size, 0); $$$;
-	auto engineBytes = new byte[engine_dll_size + 1]; $$$;
+	auto engineBytes = new BYTE[engine_dll_size + 1]; $$$;
 	memset(engineBytes, 0, engine_dll_size + 1); $$$;
 	ReadProcessMemory(hProcess, PVOID(engine_dll), engineBytes, engine_dll_size, 0); $$$;
 
@@ -175,6 +178,8 @@ void myInit() {
 		AY_OBFUSCATE("rankOffset")); $$$;
 	skyFunc = engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("55 8B EC 81 EC ? ? ? ? 56 57 8B F9 C7 45"), AY_OBFUSCATE("skyFunc")); $$$;
 	glowNoFlick = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("8B B3 ? ? ? ? E8 ? ? ? ? 8A")); $$$;
+	dwClientState_Map = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("05 ? ? ? ? C3 CC CC CC CC CC CC CC A1"), AY_OBFUSCATE("dwClientState_Map")) + 1); $$$;
+	
 	DWORD dwWorld = client_dll + FindSignatureLocal(clientBytes, client_dll_size, AY_OBFUSCATE("DT_TEWorldDecal"), AY_OBFUSCATE("xxxxxxxxxxxxxxx")); $$$;
 	DWORD dwClasses = rvm<DWORD>(client_dll + FindSignatureLocal(clientBytes, client_dll_size, (char*)&dwWorld, AY_OBFUSCATE("xxxx")) + 0x2B); $$$;
 #ifdef DEBUG
@@ -232,7 +237,7 @@ void myInit() {
 	cheat.New(AY_OBFUSCATE("Spectator List")); $$$;
 	cheat.New(AY_OBFUSCATE("Thirdperson; Free Cam"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Zoom; Field of View"), 2); $$$;
-	cheat.New(AY_OBFUSCATE("Slide Walk & No Duck Delay"), 2); $$$;
+	cheat.New(AY_OBFUSCATE("Slide Walk & No Duck Stamina"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Blockbot")); $$$;
 	cheat.New(AY_OBFUSCATE("Name & ClanTag Stealer")); $$$;
 	cheat.New(AY_OBFUSCATE("Various Name Exploits"), 4); $$$;
@@ -245,7 +250,9 @@ void myInit() {
 	CreateThread(0, 0, (LPTHREAD_START_ROUTINE)NameStealer, 0, 0, 0); $$$;
 	CreateThread(0, 0, (LPTHREAD_START_ROUTINE)TriggerCheck, 0, 0, 0); $$$;
 
+#ifdef SUPPORT_CFG
 	LoadCfg();
+#endif
 
 #ifdef DEBUG
 	std::cout << AY_OBFUSCATE("initiated\n"); $$$;
@@ -468,7 +475,9 @@ void SetWindowToTarget()
 		}
 		else
 		{
+#ifdef SUPPORT_CFG
 			SaveCfg(); $$$;
+#endif
 			exit(1); $$$;
 		}
 		Sleep(1); $$$;
