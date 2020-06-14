@@ -893,6 +893,7 @@ void TriggerCheck() {
 				if (rvm<DWORD>(clientstate + dwClientState_State) == 6) {
 					
 					HANDLE thread = CreateRemoteThread(hProcess, NULL, NULL, (LPTHREAD_START_ROUTINE)skyFunc, NULL, NULL, NULL); $$$;
+					Sleep(1); $$$;
 					Suspend(1); $$$;
 					Sleep(500); $$$;
 
