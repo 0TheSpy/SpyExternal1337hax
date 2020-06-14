@@ -168,6 +168,7 @@
     <ClInclude Include="obfuscator.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="utils.h" />
+    <ClInclude Include="bsp_parser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
