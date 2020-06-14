@@ -109,7 +109,7 @@ bool MemoryCompare(const BYTE* bData, const BYTE* bMask, const char* szMask) {
 	return (*szMask == NULL); $$$;
 }
 
-DWORD SpyPatternScan(byte* data, DWORD size, const char* pattern, const char* name = "")
+DWORD SpyPatternScan(BYTE* data, DWORD size, const char* pattern, const char* name = "")
 {
 	BYTE *patternbytes = new BYTE[255]; $$$;
 	char* maskbytes = new char[255]; $$$;
@@ -144,7 +144,7 @@ DWORD SpyPatternScan(byte* data, DWORD size, const char* pattern, const char* na
 		}
 	}
 #ifdef DEBUG
-	printf(AY_OBFUSCATE("Nothing found\n")); $$$;
+	printf(AY_OBFUSCATE("SpyPatternScan: Nothing found (%s)\n"), name); $$$;
 #endif
 	return NULL; $$$;
 }
@@ -169,13 +169,13 @@ DWORD FindSignature(DWORD start, DWORD size, const char* sig, const char* mask)
 	}
 	delete[] data; $$$;
 #ifdef DEBUG
-	printf(AY_OBFUSCATE("Nothing found\n")); $$$;
+	printf(AY_OBFUSCATE("FindSignature: Nothing found\n")); $$$;
 #endif
 	return NULL; $$$;
 }
 
 
-DWORD FindSignatureLocal(byte* data, DWORD size, const char* sig, const char* mask, const char* name = "")
+DWORD FindSignatureLocal(BYTE* data, DWORD size, const char* sig, const char* mask, const char* name = "")
 {
 	for (DWORD i = 0;  i < size; i++)
 	{
@@ -188,12 +188,12 @@ DWORD FindSignatureLocal(byte* data, DWORD size, const char* sig, const char* ma
 		}
 	}
 #ifdef DEBUG
-	printf(AY_OBFUSCATE("Nothing found\n")); $$$;
+	printf(AY_OBFUSCATE("FindSignatureLocal: Nothing found (%s)\n"),name); $$$;
 #endif
 	return NULL; $$$;
 }
 
-extern char tWindowName[256]; 
+extern char tWindowName[256]; extern string folder;
 extern DWORD engine_dll, engine_dll_size, vstdlib_dll, vstdlib_dll_size, client_dll, client_dll_size; 
 DWORD PID = 0;
 
@@ -264,6 +264,10 @@ HANDLE get_process_handle()
 #endif
 					client_dll = (DWORD)hMods[i]; $$$;
 					client_dll_size = lpmodinfo.SizeOfImage; $$$;
+
+					folder = szModName; $$$;
+					folder = folder.substr(0, folder.length() - 14); $$$;
+					folder += AY_OBFUSCATE("maps"); $$$;
 				}
 
 			}
@@ -336,6 +340,7 @@ public:
 	}
 }; 
 
+
 DWORD FindNetvar(DWORD dwClasses, const char* table, const char* var) {
 	CRecvProp* pProp[3]; $$$;
 	for (ClientClass* pClass = (ClientClass*)dwClasses;  pClass;  pClass = pClass->GetNextClass())
@@ -351,7 +356,7 @@ DWORD FindNetvar(DWORD dwClasses, const char* table, const char* var) {
 			if (_tcsstr(pProp[0]->GetVarName(), _T(var)) != NULL)
 			{
 #ifdef DEBUG
-				cout << var << AY_OBFUSCATE(" offset = ") << hex << pProp[0]->GetOffset() << AY_OBFUSCATE(" at 1 ") << tableName << endl; $$$;
+				cout << var << AY_OBFUSCATE(" offset = ") << hex << pProp[0]->GetOffset() << AY_OBFUSCATE(" at 1 ") << table << endl; $$$;
 #endif
 				return pProp[0]->GetOffset(); $$$;
 			}
@@ -366,7 +371,7 @@ DWORD FindNetvar(DWORD dwClasses, const char* table, const char* var) {
 				if (_tcsstr(pProp[1]->GetVarName(), _T(var)) != NULL)
 				{
 #ifdef DEBUG
-					cout << var << AY_OBFUSCATE(" offset = ") << hex << pProp[1]->GetOffset() << AY_OBFUSCATE(" at 2 ") << tableName << endl; $$$;
+					cout << var << AY_OBFUSCATE(" offset = ") << hex << pProp[1]->GetOffset() << AY_OBFUSCATE(" at 2 ") << table << endl; $$$;
 #endif
 					return pProp[1]->GetOffset(); $$$;
 				}
@@ -381,7 +386,7 @@ DWORD FindNetvar(DWORD dwClasses, const char* table, const char* var) {
 					if (_tcsstr(pProp[2]->GetVarName(), _T(var)) != NULL) 
 					{
 #ifdef DEBUG
-						cout << var << AY_OBFUSCATE(" offset = ") << hex << pProp[2]->GetOffset() << AY_OBFUSCATE(" at 3 ") << tableName << endl; $$$;
+						cout << var << AY_OBFUSCATE(" offset = ") << hex << pProp[2]->GetOffset() << AY_OBFUSCATE(" at 3 ") << table << endl; $$$;
 #endif
 						return pProp[2]->GetOffset(); $$$;
 					}
@@ -390,7 +395,7 @@ DWORD FindNetvar(DWORD dwClasses, const char* table, const char* var) {
 		}
 	}
 #ifdef DEBUG
-	cout << var << AY_OBFUSCATE(" scan returned no result ") << endl; $$$;
+	cout << var << AY_OBFUSCATE(" NetVar scan returned no result ") << endl; $$$;
 #endif
 	return 0; $$$;
 }
