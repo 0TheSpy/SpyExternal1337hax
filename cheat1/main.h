@@ -107,7 +107,7 @@ radarHax, monRev, aimPunch, seeEnemyInfo, noSmoke, reveal1, reveal2, revealOrig,
 float bbdeltaX, bbdeltaY; BYTE standing = 0;
 
 PVOID SWshellcode, SCshellcode, skyName, GLOWshellcode;
-D3DXVECTOR3 glowcolor, mycoords, coords, delta, myhead, enemyhead;
+D3DXVECTOR3 glowcolor, mycoords, coords, delta, enemyhead;
 BYTE head = 8, spec, who, myid, drawmenu, menuselect, bDormant, punchExtraOrigBytes[22];
 char charint[32];
 BOOL bombplanted = 0, wrongname = false;
