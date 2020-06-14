@@ -641,13 +641,39 @@ void TriggerCheck() {
 			cheat.Update(AY_OBFUSCATE("Grenade Trajectory")); $$$;
 		}
 
+		if (cheat.Triggered(AY_OBFUSCATE("Recoil Control System")))
+		{
+			if (cheat(AY_OBFUSCATE("Recoil Control System")) == 1)
+			{ $$$;
+				if (cheat(AY_OBFUSCATE("Crosshair Recoil & Spread")) == 1)
+					SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 0.0f); $$$;
+
+				if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 2)
+					SetValue(AY_OBFUSCATE("view_recoil_tracking"), 0.9f); $$$;
+			}
+			else
+			{ $$$;
+				if (cheat(AY_OBFUSCATE("Crosshair Recoil & Spread")) == 1)
+					if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 2)
+						SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 2.0f); 
+					else SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 1.0f); $$$;
+
+				if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 2)
+					SetValue(AY_OBFUSCATE("view_recoil_tracking"), 0.0f); $$$;
+			}
+
+			cheat.Update(AY_OBFUSCATE("Recoil Control System")); $$$;
+		}
+
 		if (cheat.Triggered(AY_OBFUSCATE("Crosshair Recoil & Spread")))
 		{
 			if (cheat(AY_OBFUSCATE("Crosshair Recoil & Spread")) != 0)
 			{
-				if (cheat(AY_OBFUSCATE("No Extra AimPunch")) == 2)
+				if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 2)
 				{
-					SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 2.0f); $$$;
+					if (cheat(AY_OBFUSCATE("Recoil Control System")) == 0)
+						SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 2.0f);
+					else SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 0.0f); $$$;
 				}
 				else
 				{
@@ -745,22 +771,27 @@ void TriggerCheck() {
 			cheat.Update(AY_OBFUSCATE("Money; Rank Reveal")); $$$;
 		}
 
-		if (cheat.Triggered(AY_OBFUSCATE("No Extra AimPunch")))
+		if (cheat.Triggered(AY_OBFUSCATE("No Visual Recoil")))
 		{
 
-			if (cheat(AY_OBFUSCATE("No Extra AimPunch")) == 2)
+			if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 2)
 			{
 				BYTE shellCode1[] = { 0x90,0x90,0x90,0x90,punchExtraOrigBytes[4],punchExtraOrigBytes[5],punchExtraOrigBytes[6],punchExtraOrigBytes[7],
 				punchExtraOrigBytes[8],punchExtraOrigBytes[9],punchExtraOrigBytes[10],punchExtraOrigBytes[11],punchExtraOrigBytes[12],punchExtraOrigBytes[13],
 				punchExtraOrigBytes[14],punchExtraOrigBytes[4],punchExtraOrigBytes[4],0x90,0x90,0x90,0x90,0x90 }; $$$;
 				wvmb(aimPunch, &shellCode1); $$$;
-				SetValue(AY_OBFUSCATE("view_recoil_tracking"), 0.0f); $$$;
+				if (cheat(AY_OBFUSCATE("Recoil Control System")) == 0)
+					SetValue(AY_OBFUSCATE("view_recoil_tracking"), 0.0f); 
+				else SetValue(AY_OBFUSCATE("view_recoil_tracking"), 0.9f); $$$;
 
-				if (cheat(AY_OBFUSCATE("Crosshair Recoil & Spread")) != 0)
-					SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 2.0f); $$$;
+				if (cheat(AY_OBFUSCATE("Crosshair Recoil & Spread")) != 0) {
+					if (cheat(AY_OBFUSCATE("Recoil Control System")) == 0)
+						SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 2.0f); 
+					else SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 0.0f); $$$;
+				}
 			}
 
-			if (cheat(AY_OBFUSCATE("No Extra AimPunch")) == 1)
+			if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 1)
 			{
 				BYTE shellCode1[] = { 0x90,0x90,0x90,0x90,punchExtraOrigBytes[4],punchExtraOrigBytes[5],punchExtraOrigBytes[6],punchExtraOrigBytes[7],
 				punchExtraOrigBytes[8],punchExtraOrigBytes[9],punchExtraOrigBytes[10],punchExtraOrigBytes[11],punchExtraOrigBytes[12],punchExtraOrigBytes[13],
@@ -771,7 +802,7 @@ void TriggerCheck() {
 					SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 1.0f); $$$;
 			}
 
-			if (cheat(AY_OBFUSCATE("No Extra AimPunch")) == 0)
+			if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 0)
 			{
 				wvmb(aimPunch, &punchExtraOrigBytes); $$$;
 				SetValue(AY_OBFUSCATE("view_recoil_tracking"), 0.45f); $$$;
@@ -780,7 +811,7 @@ void TriggerCheck() {
 					SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 1.0f); $$$;
 			}
 
-			cheat.Update(AY_OBFUSCATE("No Extra AimPunch")); $$$;
+			cheat.Update(AY_OBFUSCATE("No Visual Recoil")); $$$;
 		}
 
 		if (cheat.Triggered(AY_OBFUSCATE("Thirdperson; Free Cam")))
