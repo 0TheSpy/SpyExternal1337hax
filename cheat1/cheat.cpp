@@ -452,13 +452,14 @@ void Draw() {
 					}
 					else {
 #ifdef BSP_PARSER
-						mycoords = getEntBonePos(rvm<DWORD>(client_dll + dwEntityList + myid * 0x10), head); $$$;
-						coords = getEntBonePos(rvm<DWORD>(client_dll + dwEntityList + i * 0x10), head); $$$;
+						
+						myhead = getEntBonePos(rvm<DWORD>(client_dll + dwEntityList + myid * 0x10), head); $$$;
+						enemyhead = getEntBonePos(rvm<DWORD>(client_dll + dwEntityList + i * 0x10), head); $$$;
 #endif
 						if ((int)team == (int)myteam)
 						{
 #ifdef BSP_PARSER
-							if (bspParser->is_visible(mycoords, coords)) {
+							if (bspParser->is_visible(myhead, enemyhead)) {
 								color = D3DCOLOR_ARGB(255, 0, 255, 255); $$$;
 								go.glowColor = { 0,255.0f,255.0f }; $$$;
 								visible = true; $$$;
@@ -475,7 +476,7 @@ void Draw() {
 						else
 						{
 #ifdef BSP_PARSER
-							if (bspParser->is_visible(coords, mycoords)) {
+							if (bspParser->is_visible(enemyhead, myhead)) {
 								color = D3DCOLOR_ARGB(255, 255, 0, 255); $$$;
 								go.glowColor = { 255.0f,0,255.0f }; $$$;
 								visible = true; $$$;
@@ -891,9 +892,11 @@ void TriggerCheck() {
 				}
 				wvmb((DWORD)skyName, &skyname); $$$;
 				if (rvm<DWORD>(clientstate + dwClientState_State) == 6) {
+					
+					HANDLE thread = CreateRemoteThread(hProcess, NULL, NULL, (LPTHREAD_START_ROUTINE)skyFunc, NULL, NULL, NULL); $$$;
 					Suspend(1); $$$;
 					Sleep(500); $$$;
-					HANDLE thread = CreateRemoteThread(hProcess, NULL, NULL, (LPTHREAD_START_ROUTINE)skyFunc, NULL, NULL, NULL); $$$;
+
 					WaitForSingleObject(thread, INFINITE); $$$;
 					CloseHandle(thread); $$$;
 					Sleep(500); $$$;
