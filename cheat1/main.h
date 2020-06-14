@@ -25,8 +25,10 @@
 } */
 
 //#define $$$ {} //disable junk code
-#define DEBUG
+//#define DEBUG
 #define STRING_OBFUSCATOR
+#define BSP_PARSER
+#define SUPPORT_CFG
 
 #define PI 3.14159265
 #include <Windows.h>
@@ -59,6 +61,7 @@ using std::stringstream;
 #include "resource1.h"
 #include "obfuscator.h"
 #include "utils.h"
+
 
 HRSRC hResInfo = FindResource(NULL, MAKEINTRESOURCE(IDR_WAVE1), "WAVE");
 HANDLE hRes = LoadResource(NULL, hResInfo);
@@ -95,18 +98,20 @@ DWORD engine_dll, engine_dll_size, vstdlib_dll, vstdlib_dll_size, client_dll, cl
 iGlowIndex, dwBoneMatrix, aimPunchAngle, iCrosshairId, hObserverTarget, vecOrigin, iTeamNum, iHealth, iObserverMode, hActiveWeapon,
 m_lifeState, flFlashMaxAlpha, fFlags, vecViewOffset, dwGameRulesProxy, bBombPlanted, convar_name_hash_table, dwLocalPlayer,
 dwEntityList, dwViewMatrix, dwPlayerResource, dwClientState, totalHitsOnServer, dwClientState_ViewAngles, bDormantOffset, isDefusing,
-dwForceJump, dwForceLeft, dwForceRight, nModelIndex, interface_engine_cvar, dwClientState_PlayerInfo, dwGlowObjectManager,
+dwForceJump, dwForceLeft, dwForceRight, nModelIndex, interface_engine_cvar, dwClientState_PlayerInfo, dwGlowObjectManager, dwClientState_Map,
 dwForceAttack, bIsScoped, dwClientState_GetLocalPlayer, dwClientState_State, m_szClan, defaultFOV, dwForceBackward, dwForceForward,
 localplayer, entityList, clientstate, ClientCMD, nameExploit, fnSetClanAddress, fakePrime, fakeRank, fakeLevel, fakeLobby[3],
 radarHax, monRev, aimPunch, seeEnemyInfo, noSmoke, reveal1, reveal2, revealOrig, freeCam, createMove, rankOffsetThing, skyFunc;
 
-float bbdeltaX, bbdeltaY; byte standing = 0;
+float bbdeltaX, bbdeltaY; BYTE standing = 0;
 
 PVOID SWshellcode, SCshellcode, skyName, GLOWshellcode;
 D3DXVECTOR3 glowcolor, mycoords, coords, delta;
-byte head = 8, spec, who, myid, drawmenu, menuselect, bDormant, punchExtraOrigBytes[22];
+BYTE head = 8, spec, who, myid, drawmenu, menuselect, bDormant, punchExtraOrigBytes[22];
 char charint[32];
-BOOL bombplanted = 0;
+BOOL bombplanted = 0, wrongname = false;
+
+string folder;
 
 #pragma comment(lib, "winmm.lib")
 dword2bytes playercolor = { 0xFFFFFFFF };
@@ -133,16 +138,14 @@ public:
 			$$$;
 			if (cheats[i].name == name)
 			{
-				$$$;
-				return cheats[i];
-				$$$;
-				break;
+				return cheats[i]; $$$;
+				break; $$$;
 			}
 		}
-#ifdef DEBUG
-		cout << AY_OBFUSCATE("ERROR: Can't find ") << name << endl; $$$;
-#endif
-		system("pause"); $$$;
+		char ErrorMsg[125]; $$$;
+		sprintf(ErrorMsg, AY_OBFUSCATE("Can't find %s feature!"), name); $$$;
+		MessageBox(0, ErrorMsg, AY_OBFUSCATE("Critical Error"), MB_OK | MB_ICONERROR); $$$;
+		_Exit(1); $$$;
 	}
 
 	Feature& operator()(int i) {
@@ -174,10 +177,10 @@ public:
 		for (int i = 0; i < cheats.size(); i++)
 			if (cheats[i].name == name)
 				return cheats[i].trigger != cheats[i].enabled ? true : false;
-#ifdef DEBUG
-		cout << AY_OBFUSCATE("Trigger ERROR: Can't find ") << name << endl; $$$;
-		system("pause"); $$$;
-#endif
+		char ErrorMsg[125]; $$$;
+		sprintf(ErrorMsg, AY_OBFUSCATE("Can't find %s feature!"), name); $$$;
+		MessageBox(0, ErrorMsg, AY_OBFUSCATE("Trigger Error"), MB_OK | MB_ICONERROR); $$$;
+		_Exit(1); $$$;
 	}
 
 	BOOL Update(const char* name) {
@@ -190,10 +193,10 @@ public:
 				return 1;
 			}
 		}
-#ifdef DEBUG
-		cout << AY_OBFUSCATE("Update ERROR: Can't find ") << name << endl; $$$;
-		system("pause"); $$$;
-#endif
+		char ErrorMsg[125]; $$$;
+		sprintf(ErrorMsg, AY_OBFUSCATE("Can't find %s feature!"), name); $$$;
+		MessageBox(0, ErrorMsg, AY_OBFUSCATE("Update Error"), MB_OK | MB_ICONERROR); $$$;
+		_Exit(1); $$$;
 	}
 
 };
