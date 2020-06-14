@@ -18,7 +18,7 @@ void SendCMD(const char *cmd)
 	); $$$;
 
 	WriteProcessMemory(hProcess, PVOID(Address), static_cast<void*>(newcmd), size, 0); $$$;
-	wvm<byte>((DWORD)Address + size, 0); $$$;
+	wvm<BYTE>((DWORD)Address + size, 0); $$$;
 	HANDLE Thread = CreateRemoteThread(hProcess, NULL, 0, LPTHREAD_START_ROUTINE(ClientCMD), LPVOID(Address), 0, NULL); $$$;
 	CloseHandle(Thread); $$$;
 	WaitForSingleObject(Thread, 0xFFFFFFFF); $$$;
@@ -57,7 +57,7 @@ DWORD GetConVarAddress(const char *name) {
 	cout << AY_OBFUSCATE("hash of ") << name << AY_OBFUSCATE(" is ") << hash << AY_OBFUSCATE(" / 0x") << hex << (int)((BYTE)hash) << endl; $$$;
 #endif
 	DWORD CvarEngine = rvm<DWORD>(vstdlib_dll + interface_engine_cvar); $$$;
-	DWORD Pointer = rvm<DWORD>(rvm<DWORD>(CvarEngine + 0x34) + ((byte)hash * 4)); $$$;
+	DWORD Pointer = rvm<DWORD>(rvm<DWORD>(CvarEngine + 0x34) + ((BYTE)hash * 4)); $$$;
 	while (Pointer)
 	{
 		if (rvm<DWORD>(Pointer) == hash)
@@ -155,11 +155,11 @@ void NameExploit(const char *name) {
 	char* newname = (char*)name; $$$;
 	size_t size = strlen(name); $$$;
 	WriteProcessMemory(hProcess, PVOID(FreeMem), static_cast<void*>(newname), size, 0); $$$;
-	wvm<byte>((DWORD)FreeMem + size, 0); $$$;
+	wvm<BYTE>((DWORD)FreeMem + size, 0); $$$;
 	dword2bytes dw2b = { (DWORD)FreeMem }; $$$;
-	byte origBytes[10]; $$$;
+	BYTE origBytes[10]; $$$;
 	rvm(nameExploit, &origBytes); $$$;
-	byte shellCode[] = { 0xC7,0x44,0x24,0x10,dw2b.bytes[0],dw2b.bytes[1],dw2b.bytes[2],dw2b.bytes[3],0xEB,0x0E }; $$$;
+	BYTE shellCode[] = { 0xC7,0x44,0x24,0x10,dw2b.bytes[0],dw2b.bytes[1],dw2b.bytes[2],dw2b.bytes[3],0xEB,0x0E }; $$$;
 	wvmb(nameExploit, &shellCode); $$$;
 	SendCMD(AY_OBFUSCATE("setinfo name bug")); $$$;
 	Sleep(100); $$$;
@@ -254,7 +254,7 @@ extern DWORD localplayer, dwEntityList, hActiveWeapon, iItemDefinitionIndex;
 bool isActivePistol()
 {
 	short mywepID = rvm<short>(localplayer + hActiveWeapon) & 0xFFF; $$$;
-	byte mywep = rvm<byte>(rvm<DWORD>(client_dll + dwEntityList + (mywepID - 1) * 0x10) + iItemDefinitionIndex); $$$;
+	BYTE mywep = rvm<BYTE>(rvm<DWORD>(client_dll + dwEntityList + (mywepID - 1) * 0x10) + iItemDefinitionIndex); $$$;
 #ifdef DEBUG
 	cout << AY_OBFUSCATE("ACTIVE WEP ID = ") << dec << (int)mywep << endl; $$$;
 #endif
