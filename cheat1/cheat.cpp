@@ -649,7 +649,7 @@ void TriggerCheck() {
 					SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 0.0f); $$$;
 
 				if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 2)
-					SetValue(AY_OBFUSCATE("view_recoil_tracking"), 0.9f); $$$;
+					SetValue(AY_OBFUSCATE("view_recoil_tracking"), 1.0f); $$$;
 			}
 			else
 			{ $$$;
@@ -782,7 +782,7 @@ void TriggerCheck() {
 				wvmb(aimPunch, &shellCode1); $$$;
 				if (cheat(AY_OBFUSCATE("Recoil Control System")) == 0)
 					SetValue(AY_OBFUSCATE("view_recoil_tracking"), 0.0f); 
-				else SetValue(AY_OBFUSCATE("view_recoil_tracking"), 0.9f); $$$;
+				else SetValue(AY_OBFUSCATE("view_recoil_tracking"), 1.0f); $$$;
 
 				if (cheat(AY_OBFUSCATE("Crosshair Recoil & Spread")) != 0) {
 					if (cheat(AY_OBFUSCATE("Recoil Control System")) == 0)
