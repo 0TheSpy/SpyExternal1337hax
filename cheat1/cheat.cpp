@@ -450,6 +450,7 @@ void Draw() {
 					{
 						color = D3DCOLOR_ARGB(255, 255, 255, 255); $$$;
 						go.glowColor = { 255.0f,255,255 }; $$$;
+						visible = true; $$$;
 					}
 					else {
 #ifdef BSP_PARSER
