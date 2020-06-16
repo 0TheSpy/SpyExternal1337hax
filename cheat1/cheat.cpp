@@ -455,6 +455,8 @@ void Draw() {
 					else {
 #ifdef BSP_PARSER
 						enemyhead = getEntBonePos(rvm<DWORD>(client_dll + dwEntityList + i * 0x10), head); $$$;
+#else
+						visible = true; $$$;
 #endif
 						if ((int)team == (int)myteam)
 						{
@@ -467,8 +469,8 @@ void Draw() {
 #endif
 								color = D3DCOLOR_ARGB(255, 0, 255, 0); $$$;
 								go.glowColor = { 0,255.0f,0 }; $$$;
-								visible = false; $$$;
 #ifdef BSP_PARSER
+								visible = false; $$$;
 							}
 #endif
 							playercolor.bytes[0] = 0; $$$; playercolor.bytes[1] = 255; $$$; playercolor.bytes[2] = 255; $$$;
