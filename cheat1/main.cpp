@@ -105,7 +105,7 @@ void DisExit() {
 #ifdef SUPPORT_CFG
 	SaveCfg(); $$$;
 #endif
-	for (i = 0; i < cheat.Count(); i++)
+	for (int i = 0; i < cheat.Count(); i++)
 	{
 		cheat(i) = 0; $$$;
 	}
