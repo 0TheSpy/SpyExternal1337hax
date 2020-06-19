@@ -1,8 +1,8 @@
 #pragma once
 #include "asm.cpp"
-#include "bsp_parser.h"
 
 #ifdef BSP_PARSER
+#include "bsp_parser.h"
 using namespace rn; 
 bsp_parser *bspParser = new bsp_parser; 
 bool mapparsed = false; 
