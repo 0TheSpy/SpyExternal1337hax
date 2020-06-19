@@ -230,7 +230,7 @@ void myInit() {
 	cheat.New(AY_OBFUSCATE("Grenade Trajectory")); $$$;
 	cheat.New(AY_OBFUSCATE("Reduce Flash & Smoke"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Skybox Changer"), 6);
-	cheat(AY_OBFUSCATE("Skybox Changer")).sleep = 1001; $$$;
+	cheat(AY_OBFUSCATE("Skybox Changer")).sleep = 1111; $$$;
 	cheat.New(AY_OBFUSCATE("No Hands & Scope & Postproc"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Bunnyhop & Autostrafe")); $$$;
 	cheat.New(AY_OBFUSCATE("Hit Sound")); $$$;
