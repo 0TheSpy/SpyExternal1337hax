@@ -455,8 +455,6 @@ void Draw() {
 					else {
 #ifdef BSP_PARSER
 						enemyhead = getEntBonePos(rvm<DWORD>(client_dll + dwEntityList + i * 0x10), head); $$$;
-#else
-						visible = true; $$$;
 #endif
 						if ((int)team == (int)myteam)
 						{
