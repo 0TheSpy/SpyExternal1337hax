@@ -484,8 +484,8 @@ void Draw() {
 #endif
 								color = D3DCOLOR_ARGB(255, 255, 0, 0); $$$;
 								go.glowColor = { 255.0f,0,0 }; $$$;
-								visible = false; $$$;
 #ifdef BSP_PARSER
+								visible = false; $$$;
 							}
 #endif
 							playercolor.bytes[0] = 255; $$$; playercolor.bytes[1] = 0; $$$; playercolor.bytes[2] = 255; $$$;
