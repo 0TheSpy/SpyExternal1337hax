@@ -261,7 +261,7 @@ void menu()
 				DrawString((char*)(std::to_string(cheat(i).enabled).c_str()), menuheight - 2 * border - 1.5*(fontsize / 2), menutop, color, pFont); $$$;
 			}
 
-			menutop += fontsize * 1.2; $$$; //25
+			menutop += fontsize * 1.2; $$$; 
 		}
 	}
 	pFont->Release(); $$$;
