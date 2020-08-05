@@ -26,7 +26,7 @@
 } */
 
 //#define $$$ {} //disable junk code
-//#define DEBUG
+#define DEBUG
 #define STRING_OBFUSCATOR
 #define BSP_PARSER
 #define SUPPORT_CFG
@@ -101,7 +101,7 @@ m_lifeState, flFlashMaxAlpha, fFlags, vecViewOffset, dwGameRulesProxy, bBombPlan
 dwEntityList, dwViewMatrix, dwPlayerResource, dwClientState, totalHitsOnServer, dwClientState_ViewAngles, bDormantOffset, isDefusing,
 dwForceJump, dwForceLeft, dwForceRight, nModelIndex, interface_engine_cvar, dwClientState_PlayerInfo, dwGlowObjectManager, dwClientState_Map,
 dwForceAttack, bIsScoped, dwClientState_GetLocalPlayer, dwClientState_State, m_szClan, defaultFOV, dwForceBackward, dwForceForward,
-localplayer, entityList, clientstate, ClientCMD, nameExploit, fnSetClanAddress, fakePrime, fakeRank, fakeLevel, fakeLobby[3],
+localplayer, entityList, clientstate, ClientCMD, nameExploit, fnSetClanAddress, fakePrime, fakeRank, fakeLevel, fakeLobby[4],
 radarHax, monRev, aimPunch, seeEnemyInfo, noSmoke, reveal1, reveal2, revealOrig, freeCam, createMove, rankOffsetThing, skyFunc;
 
 float bbdeltaX, bbdeltaY; BYTE standing = 0;
