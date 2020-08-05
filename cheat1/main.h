@@ -11,8 +11,8 @@
 	__asm _emit 0xBB\
 	__asm _emit 0xDD\
 	__asm _emit 0xCC\
-	
 } 
+
 
 /* JUNK CODE EXAMPLE TWO
 #define $$$ __asm      \
