@@ -394,6 +394,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hSecInstance, LPSTR nCmdLine, 
 	if (tWnd)
 	{
 		GetWindowRect(tWnd, &tSize); $$$;
+		if (tSize.right - tSize.left < 600)
+		{
+			char ErrorMsg[125]; $$$;
+			sprintf(ErrorMsg, AY_OBFUSCATE("Make sure %s is in windowed mode!"), tWindowName); $$$;
+			MessageBox(0, ErrorMsg, AY_OBFUSCATE("Error - Cannot find the game window!"), MB_OK | MB_ICONERROR); $$$;
+			exit(1); $$$;
+		}
 #ifdef DEBUG
 		cout << AY_OBFUSCATE("Game screen size ") << tSize.right - tSize.left << AY_OBFUSCATE(" x ") << tSize.bottom - tSize.top << endl; $$$;
 		cout << AY_OBFUSCATE("Added left ") << leftR << AY_OBFUSCATE("px, right ") << rightR << AY_OBFUSCATE("px, top ") << topR << AY_OBFUSCATE("px, bottom ") << bottomR << AY_OBFUSCATE("px") << endl; $$$;
