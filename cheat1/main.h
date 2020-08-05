@@ -4,7 +4,7 @@
 #define $$$ __asm      \
 {                      \
 	__asm _emit 0xEB      \
-	__asm _emit 0x05      \
+	__asm _emit 0x06      \
 	__asm _emit 0xAA\
 	__asm _emit 0xEE\
 	__asm _emit 0xFF\
@@ -27,7 +27,7 @@
 } */
 
 //#define $$$ {} //disable junk code
-#define DEBUG
+//#define DEBUG
 #define STRING_OBFUSCATOR
 #define BSP_PARSER
 #define SUPPORT_CFG
