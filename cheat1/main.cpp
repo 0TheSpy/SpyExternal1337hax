@@ -158,7 +158,7 @@ void myInit() {
 	radarHax = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("80 B9 ? ? ? ? ? 74 12 8B 41 08")) + 6; $$$;
 	aimPunch = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("03 F3 0F 10 86 ? ? ? ? F3 0F 58 43")) - 3; $$$;
 	rvm(aimPunch, &punchExtraOrigBytes); $$$;
-	seeEnemyInfo = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("E8 ? ? ? ? 3B C6 5E 5F 0F 95")); $$$;
+	seeEnemyInfo = client_dll + 5 + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("E8 ? ? ? ? 3B C6 5E 5F")); $$$;
 	noSmoke = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size,
 		AY_OBFUSCATE("55 8B EC 83 EC 08 8B 15 ? ? ? ? 0F 57 C0")) + 8); $$$;
 	dwForceAttack = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size,
