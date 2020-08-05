@@ -144,7 +144,7 @@ void Bunnyhop()
 
 				currJumpState = rvm<DWORD>(client_dll + dwForceJump); $$$;
 				onGround = rvm<BYTE>(localplayer + fFlags); $$$;
-				if (onGround)
+				if (onGround & (1 << 0) )
 				{
 					currJumpState |= FORCE_JUMP_BITMASK; $$$;
 					wvm(client_dll + dwForceJump, currJumpState); $$$;
