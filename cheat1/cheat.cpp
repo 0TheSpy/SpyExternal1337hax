@@ -146,6 +146,9 @@ void Bunnyhop()
 				onGround = rvm<BYTE>(localplayer + fFlags); $$$;
 				if (onGround & (1 << 0) )
 				{
+#ifdef DEBUG
+					cout << AY_OBFUSCATE("Jumpin'\n");
+#endif
 					currJumpState |= FORCE_JUMP_BITMASK; $$$;
 					wvm(client_dll + dwForceJump, currJumpState); $$$;
 				}
@@ -568,9 +571,11 @@ void TriggerCheck() {
 			{
 				wvm<BYTE>(fakePrime, 0); $$$;
 				fakeLobby[0] = rvm<DWORD>(rvm<DWORD>(client_dll + fakeRank) + 0x20); $$$;
+				fakeLobby[3] = rvm<DWORD>(rvm<DWORD>(client_dll + fakeRank) + 0x24); $$$;
 				fakeLobby[1] = rvm<DWORD>(client_dll + fakeLevel); $$$;
 				fakeLobby[2] = rvm<DWORD>(client_dll + fakeLevel + 4); $$$;
 				wvm(rvm<DWORD>(client_dll + fakeRank) + 0x20, 18); $$$;
+				wvm(rvm<DWORD>(client_dll + fakeRank) + 0x24, 1337); $$$;
 				wvm(client_dll + fakeLevel, 1337); $$$;
 				wvm(client_dll + fakeLevel + 4, 427680390); $$$;
 			}
@@ -578,6 +583,7 @@ void TriggerCheck() {
 			if (cheat(AY_OBFUSCATE("Lobby Prime & Rank & lvl")) != 1 && cheat(AY_OBFUSCATE("Lobby Prime & Rank & lvl")).trigger == 1)
 			{
 				wvm(rvm<DWORD>(client_dll + fakeRank) + 0x20, fakeLobby[0]); $$$;
+				wvm(rvm<DWORD>(client_dll + fakeRank) + 0x24, fakeLobby[3]); $$$;
 				wvm(client_dll + fakeLevel, fakeLobby[1]); $$$;
 				wvm(client_dll + fakeLevel + 4, fakeLobby[2]); $$$;
 			}
