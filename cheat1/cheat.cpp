@@ -930,8 +930,19 @@ void TriggerCheck() {
 				rvm(clientstate + dwClientState_Map, &map); $$$;
 				strcat_s(map, AY_OBFUSCATE(".bsp")); $$$;
 				if (bspParser->load_map(folder.c_str(), map))
-				{ cout << AY_OBFUSCATE("Map parsed!\n"); $$$; }
-				else cout << AY_OBFUSCATE("Can't parse map\n"); $$$;
+				{ 
+#ifdef DEBUG
+					cout << AY_OBFUSCATE("Map parsed!\n"); 
+#endif
+				 	$$$; 
+				}
+				else 
+				{
+#ifdef DEBUG
+					cout << AY_OBFUSCATE("Can't parse map\n"); 
+#endif
+				$$$;
+				}
 				mapparsed = true; $$$;
 			}
 #endif
