@@ -174,7 +174,7 @@ void myInit() {
 	aimPunchAngle = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("00 F3 0F 7E 82 ? ? 00 00 8B"), AY_OBFUSCATE("aimPunchAngle")) + 5); $$$;
 	createMove = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("C2 08 00 8B 01 FF 75"), AY_OBFUSCATE("CreateMove")) + 5; $$$;
 	rankOffsetThing = client_dll + SpyPatternScan(clientBytes, client_dll_size,
-		AY_OBFUSCATE("55 8B EC 8B 0D ? ? ? ? 85 C9 75 28 A1 ? ? ? ? 68 ? ? ? ? 8B 08 8B 01 FF 50 04 85 C0 74 0B 8B C8 E8 ? ? ? ? 8B C8 EB 02 33 C9 89 0D ? ? ? ? 8B 45 08"),
+		AY_OBFUSCATE("55 8B EC 51 A1 ? ? ? ? 85 C0 75 37"),
 		AY_OBFUSCATE("rankOffset")); $$$;
 	skyFunc = engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("55 8B EC 81 EC ? ? ? ? 56 57 8B F9 C7 45"), AY_OBFUSCATE("skyFunc")); $$$;
 	glowNoFlick = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("8B B3 ? ? ? ? E8 ? ? ? ? 8A")); $$$;
