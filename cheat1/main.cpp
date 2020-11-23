@@ -56,7 +56,7 @@ void MenuSelect()
 					menuselect++; $$$;
 				}
 				else menuselect = 0; $$$;
-				
+
 				Sleep(100); $$$;
 			}
 
@@ -66,7 +66,7 @@ void MenuSelect()
 					menuselect--; $$$;
 				}
 				else menuselect = cheat.Count() - 1; $$$;
-				
+
 				Sleep(100); $$$;
 			}
 
@@ -152,9 +152,9 @@ void myInit() {
 	dwForceBackward = rvm<DWORD>(dwForce + 287) - client_dll; $$$;
 	interface_engine_cvar = rvm<DWORD>(FindSignature(vstdlib_dll, vstdlib_dll_size, AY_OBFUSCATE("\x8B\x0D\x00\x00\x00\x00\xC7\x05"), AY_OBFUSCATE("xx????xx")) + 0x2) - vstdlib_dll; $$$;
 	dwGlowObjectManager = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("A1 ? ? ? ? A8 01 75 4B"), AY_OBFUSCATE("dwGlowObjectManager")) + 0x1) - client_dll + 4; $$$;
-	fakePrime = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("83 F8 05 5E 0F 94 C0 C3")) + 0x2; $$$;
-	fakeLevel = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("0F 45 05 ? ? ? ? F6 05")) + 0x3) - client_dll; $$$;
-	fakeRank = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("A1 ? ? ? ? 8b 44 d0 ? 89 07")) + 0x1) - client_dll; $$$;
+	fakePrime = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("83 F8 05 5E 0F 94 C0 C3"), AY_OBFUSCATE("fake prime")) + 0x2; $$$;
+	fakeLevel = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("0F 45 05 ? ? ? ? F6 05"), AY_OBFUSCATE("fake level")) + 0x3) - client_dll; $$$;
+	fakeRank = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("A1 ? ? ? ? 8b 44 ? ? 89 07 E8"), AY_OBFUSCATE("fake rank")) + 0x1) - client_dll; $$$;
 	radarHax = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("80 B9 ? ? ? ? ? 74 12 8B 41 08")) + 6; $$$;
 	aimPunch = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("03 F3 0F 10 86 ? ? ? ? F3 0F 58 43")) - 3; $$$;
 	rvm(aimPunch, &punchExtraOrigBytes); $$$;
@@ -179,7 +179,7 @@ void myInit() {
 	skyFunc = engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("55 8B EC 81 EC ? ? ? ? 56 57 8B F9 C7 45"), AY_OBFUSCATE("skyFunc")); $$$;
 	glowNoFlick = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("8B B3 ? ? ? ? E8 ? ? ? ? 8A")); $$$;
 	dwClientState_Map = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("05 ? ? ? ? C3 CC CC CC CC CC CC CC A1"), AY_OBFUSCATE("dwClientState_Map")) + 1); $$$;
-	
+
 	DWORD dwWorld = client_dll + FindSignatureLocal(clientBytes, client_dll_size, AY_OBFUSCATE("DT_TEWorldDecal"), AY_OBFUSCATE("xxxxxxxxxxxxxxx")); $$$;
 	DWORD dwClasses = rvm<DWORD>(client_dll + FindSignatureLocal(clientBytes, client_dll_size, (char*)&dwWorld, AY_OBFUSCATE("xxxx")) + 0x2B); $$$;
 #ifdef DEBUG
@@ -295,33 +295,33 @@ LRESULT CALLBACK WinProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 			p_Device->PresentEx(0, 0, 0, 0, 0); $$$;
 		}
 
-		break; 
+		break;
 
 	case WM_CREATE:
 		DwmExtendFrameIntoClientArea(hWnd, &Margin); $$$;
 
 		hProcess = get_process_handle(); $$$;
-			
-		if (!hProcess) 
+
+		if (!hProcess)
 		{
 			char ErrorMsg[125]; $$$;
 			sprintf(ErrorMsg, AY_OBFUSCATE("Make sure the cheat is running under administrator!")); $$$;
 			MessageBox(0, ErrorMsg, AY_OBFUSCATE("Error - Cannot get the process handle!"), MB_OK | MB_ICONERROR); $$$;
 			exit(1); $$$;
 		}
-			
+
 		myInit(); $$$;
 
-		break; 
+		break;
 
 	case WM_DESTROY:
 		CloseHandle(hProcess); $$$;
 		PostQuitMessage(1); $$$;
-		return 0; 
+		return 0;
 
 	default:
 		return DefWindowProc(hWnd, Message, wParam, lParam); $$$;
-		break; 
+		break;
 	}
 	return 0; $$$;
 }
@@ -352,7 +352,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hSecInstance, LPSTR nCmdLine, 
 	char newname[17]; $$$;
 
 	int z = rand() % 5 + 5; $$$;
-	for (int i = 0;  i < z;  i++)
+	for (int i = 0; i < z; i++)
 	{
 		char x = letters[rand() % 36]; $$$;
 		newname[i] = x; $$$;
