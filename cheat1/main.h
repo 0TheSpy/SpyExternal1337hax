@@ -232,7 +232,7 @@ void DisExit();
 
 struct GlowObject {
 	D3DXVECTOR3 glowColor = { 0,0,0 };
-	float glowAlpha = 255.0f;
+	float glowAlpha = 0.5f;
 	bool glowAlphaCappedByRenderAlpha = 0;
 	float glowAlphaFunctionOfMaxVelocity = 0;
 	float glowAlphaMax = 255.0f;
