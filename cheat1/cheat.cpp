@@ -651,7 +651,7 @@ void SkinChanger() {
 					continue;
 					break;
 				case 7: //AK47
-					PaintKit = 316; $$$;
+					PaintKit = 316; $$$;//JAGUAR
 					break;
 				case 9: //AWP
 					PaintKit = 344; $$$;//DRAGON LORE
@@ -662,7 +662,7 @@ void SkinChanger() {
 					wvm<WORD>(Weapon + iItemDefinitionIndex, knifeIndex); $$$;
 					break;
 				default:
-					PaintKit = 180; $$$;
+					PaintKit = 180; $$$;//FIRE SERPENT
 					Seed = 321; $$$;
 					break;
 				}
