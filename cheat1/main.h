@@ -13,7 +13,6 @@
 	__asm _emit 0xCC\
 } 
 
-
 /* JUNK CODE EXAMPLE TWO
 #define $$$ __asm      \
 {                      \
@@ -27,7 +26,7 @@
 } */
 
 //#define $$$ {} //disable junk code
-//#define DEBUG
+#define DEBUG
 #define STRING_OBFUSCATOR
 #define BSP_PARSER
 #define SUPPORT_CFG
@@ -94,7 +93,7 @@ LONG topR = 0, leftR = 0, rightR = 0, bottomR = 0;
 
 float xl, yl, wl, xl_closest = 0, yl_closest = 0, xl_closest_final = 0, yl_closest_final = 0, viewmatrix[4][4], hyp1, hyp2,
 deltaXold, deltaYold, enemyDistance, bomb, bombLine = 0;
-int closest, closest_final, aimfov, menutop = 340, i, hp, team, myteam, playerscount, intbuf, hits = 0, totalhits = 0;
+int closest, closest_final, aimfov, menutop = 340, i, hp, team, myteam, playerscount, intbuf, hits = 0, totalhits = 0, c4id;
 
 DWORD engine_dll, engine_dll_size, vstdlib_dll, vstdlib_dll_size, client_dll, client_dll_size, iItemDefinitionIndex, glowNoFlick,
 iGlowIndex, dwBoneMatrix, aimPunchAngle, iCrosshairId, hObserverTarget, vecOrigin, iTeamNum, iHealth, iObserverMode, hActiveWeapon,
@@ -103,7 +102,9 @@ dwEntityList, dwViewMatrix, dwPlayerResource, dwClientState, totalHitsOnServer, 
 dwForceJump, dwForceLeft, dwForceRight, nModelIndex, interface_engine_cvar, dwClientState_PlayerInfo, dwGlowObjectManager, dwClientState_Map,
 dwForceAttack, bIsScoped, dwClientState_GetLocalPlayer, dwClientState_State, m_szClan, defaultFOV, dwForceBackward, dwForceForward,
 localplayer, entityList, clientstate, ClientCMD, nameExploit, fnSetClanAddress, fakePrime, fakeRank, fakeLevel, fakeLobby[4],
-radarHax, monRev, aimPunch, seeEnemyInfo, noSmoke, reveal1, reveal2, revealOrig, freeCam, createMove, rankOffsetThing, skyFunc;
+radarHax, monRev, aimPunch, seeEnemyInfo, noSmoke, reveal1, reveal2, revealOrig, freeCam, createMove, rankOffsetThing, skyFunc,
+m_hMyWeapons, m_iItemIDHigh, m_OriginalOwnerXuidHigh, m_OriginalOwnerXuidLow, m_nFallbackPaintKit, m_nFallbackSeed, m_nFallbackStatTrak,
+m_flFallbackWear, m_iEntityQuality, m_szCustomName, m_Item, delta_ticks, m_iViewModelIndex, m_dwModelPrecache, m_hViewModel, armorVal;
 
 float bbdeltaX, bbdeltaY; BYTE standing = 0;
 
@@ -235,7 +236,7 @@ struct GlowObject {
 	float glowAlpha = 0.5f;
 	bool glowAlphaCappedByRenderAlpha = 0;
 	float glowAlphaFunctionOfMaxVelocity = 0;
-	float glowAlphaMax = 255.0f;
+	float glowAlphaMax = 0.5f;
 	float glowPulseOverdrive = 0;
 	bool renderWhenOccluded = 1;
 	bool renderWhenUnoccluded = 0;
