@@ -179,7 +179,9 @@ void myInit() {
 	skyFunc = engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("55 8B EC 81 EC ? ? ? ? 56 57 8B F9 C7 45"), AY_OBFUSCATE("skyFunc")); $$$;
 	glowNoFlick = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("8B B3 ? ? ? ? E8 ? ? ? ? 8A")); $$$;
 	dwClientState_Map = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("05 ? ? ? ? C3 CC CC CC CC CC CC CC A1"), AY_OBFUSCATE("dwClientState_Map")) + 1); $$$;
-
+	delta_ticks = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("C7 87 ? ? ? ? ? ? ? ? FF 15 ? ? ? ? 83 C4 08"), AY_OBFUSCATE("delta ticks"))+2); $$$;
+	m_dwModelPrecache = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("0C 3B 81 ? ? ? ? 75 11 8B 45 10 83 F8 01 7C 09 50 83"), AY_OBFUSCATE("delta ticks")) + 3); $$$;
+	
 	DWORD dwWorld = client_dll + FindSignatureLocal(clientBytes, client_dll_size, AY_OBFUSCATE("DT_TEWorldDecal"), AY_OBFUSCATE("xxxxxxxxxxxxxxx")); $$$;
 	DWORD dwClasses = rvm<DWORD>(client_dll + FindSignatureLocal(clientBytes, client_dll_size, (char*)&dwWorld, AY_OBFUSCATE("xxxx")) + 0x2B); $$$;
 #ifdef DEBUG
@@ -204,10 +206,23 @@ void myInit() {
 	iGlowIndex = FindNetvar(dwClasses, AY_OBFUSCATE("DT_CSPlayer"), AY_OBFUSCATE("m_flFlashDuration")) + 24; $$$;
 	iCrosshairId = FindNetvar(dwClasses, AY_OBFUSCATE("DT_CSPlayer"), AY_OBFUSCATE("m_bHasDefuser")) + 92; $$$;
 	hActiveWeapon = FindNetvar(dwClasses, AY_OBFUSCATE("DT_CSPlayer"), AY_OBFUSCATE("m_hActiveWeapon")); $$$;
-	iItemDefinitionIndex = FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseAttributableItem"), AY_OBFUSCATE("ItemDefinitionIndex")); $$$;
-	iItemDefinitionIndex += FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseCombatWeapon"), AY_OBFUSCATE("AttributeManager")); $$$;
-	iItemDefinitionIndex += FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseCombatWeapon"), AY_OBFUSCATE("m_Item")); $$$;
 	isDefusing = FindNetvar(dwClasses, AY_OBFUSCATE("DT_CSPlayer"), AY_OBFUSCATE("bIsDefusing")); $$$;
+	m_Item = FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseCombatWeapon"), AY_OBFUSCATE("m_Item")); $$$;
+	m_Item += FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseCombatWeapon"), AY_OBFUSCATE("AttributeManager")); $$$;
+	iItemDefinitionIndex = m_Item + FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseAttributableItem"), AY_OBFUSCATE("ItemDefinitionIndex")); $$$;
+	m_iItemIDHigh = m_Item + FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseAttributableItem"), AY_OBFUSCATE("m_iItemIDHigh")); $$$; 
+	m_iEntityQuality = m_Item + FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseAttributableItem"), AY_OBFUSCATE("m_iEntityQuality")); $$$;
+	m_szCustomName = m_Item + FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseAttributableItem"), AY_OBFUSCATE("m_szCustomName")); $$$; 
+	m_hMyWeapons = hActiveWeapon - 256; $$$;
+	m_OriginalOwnerXuidHigh = FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseAttributableItem"), AY_OBFUSCATE("m_OriginalOwnerXuidHigh")); $$$; 
+	m_OriginalOwnerXuidLow = FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseAttributableItem"), AY_OBFUSCATE("m_OriginalOwnerXuidLow")); $$$; 
+	m_nFallbackPaintKit = FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseAttributableItem"), AY_OBFUSCATE("m_nFallbackPaintKit")); $$$; 
+	m_nFallbackSeed = FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseAttributableItem"), AY_OBFUSCATE("m_nFallbackSeed")); $$$; 
+	m_nFallbackStatTrak = FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseAttributableItem"), AY_OBFUSCATE("m_nFallbackStatTrak")); $$$;
+	m_flFallbackWear = FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseAttributableItem"), AY_OBFUSCATE("m_flFallbackWear")); $$$; 
+	m_iViewModelIndex = FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseCombatWeapon"), AY_OBFUSCATE("ViewModelIndex")); $$$;
+	m_hViewModel = FindNetvar(dwClasses, AY_OBFUSCATE("DT_BasePlayer"), AY_OBFUSCATE("m_hViewModel[0]")); $$$; //unused
+	armorVal = FindNetvar(dwClasses, AY_OBFUSCATE("DT_CSPlayer"), AY_OBFUSCATE("armorValue")); $$$; 
 
 	delete engineBytes; $$$;
 	delete clientBytes; $$$;
@@ -231,6 +246,7 @@ void myInit() {
 	cheat.New(AY_OBFUSCATE("Reduce Flash & Smoke"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Skybox Changer"), 6);
 	cheat(AY_OBFUSCATE("Skybox Changer")).sleep = 1111; $$$;
+	cheat.New(AY_OBFUSCATE("Skin Changer")); $$$;
 	cheat.New(AY_OBFUSCATE("No Hands & Scope & Postproc"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Bunnyhop & Autostrafe")); $$$;
 	cheat.New(AY_OBFUSCATE("Hit Sound")); $$$;
@@ -239,9 +255,9 @@ void myInit() {
 	cheat.New(AY_OBFUSCATE("Zoom; Field of View"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Slide Walk & No Duck Stamina"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Blockbot")); $$$;
-	cheat.New(AY_OBFUSCATE("Name & ClanTag Stealer")); $$$;
-	cheat.New(AY_OBFUSCATE("Various Name Exploits"), 4); $$$;
+	cheat.New(AY_OBFUSCATE("Name Stealer & Exploits"),5); $$$;
 	cheat.New(AY_OBFUSCATE("Lobby Prime & Rank & lvl"), 2); $$$;
+	
 	cheat.New(AY_OBFUSCATE("Disable All & Close Cheat")); $$$;
 
 	CreateThread(0, 0, (LPTHREAD_START_ROUTINE)MenuSelect, 0, 0, 0); $$$;
@@ -249,6 +265,7 @@ void myInit() {
 	CreateThread(0, 0, (LPTHREAD_START_ROUTINE)Bunnyhop, 0, 0, 0); $$$;
 	CreateThread(0, 0, (LPTHREAD_START_ROUTINE)NameStealer, 0, 0, 0); $$$;
 	CreateThread(0, 0, (LPTHREAD_START_ROUTINE)TriggerCheck, 0, 0, 0); $$$;
+	CreateThread(0, 0, (LPTHREAD_START_ROUTINE)SkinChanger, 0, 0, 0); $$$;
 
 #ifdef SUPPORT_CFG
 	LoadCfg();
