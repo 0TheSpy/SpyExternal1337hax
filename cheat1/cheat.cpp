@@ -621,8 +621,8 @@ void SkinChanger() {
 		{ 
 			gmibncounter++; $$$;
 			if (gmibncounter >= 5000) {
-				knifeID = GetModelIndexByName("models/weapons/v_knife_ghost.mdl"); $$$;
-				handsID = GetModelIndexByName("models/player/custom_player/legacy/ctm_st6_variantj.mdl"); $$$;
+				knifeID = GetModelIndexByName(AY_OBFUSCATE("models/weapons/v_knife_ghost.mdl")); $$$;
+				handsID = GetModelIndexByName(AY_OBFUSCATE("models/player/custom_player/legacy/ctm_st6_variantj.mdl")); $$$;
 #ifdef DEBUG
 				printf(AY_OBFUSCATE("knifeID %d handsID %d\n"), knifeID, handsID); $$$;
 #endif
