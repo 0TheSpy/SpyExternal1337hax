@@ -26,7 +26,7 @@
 } */
 
 //#define $$$ {} //disable junk code
-#define DEBUG
+//#define DEBUG
 #define STRING_OBFUSCATOR
 #define BSP_PARSER
 #define SUPPORT_CFG
