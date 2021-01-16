@@ -256,7 +256,7 @@ bool isActivePistol()
 	short mywepID = rvm<short>(localplayer + hActiveWeapon) & 0xFFF; $$$;
 	BYTE mywep = rvm<BYTE>(rvm<DWORD>(client_dll + dwEntityList + (mywepID - 1) * 0x10) + iItemDefinitionIndex); $$$;
 #ifdef DEBUG
-	cout << AY_OBFUSCATE("ACTIVE WEP ID = ") << dec << (int)mywep << endl; $$$;
+	cout << AY_OBFUSCATE("ACTIVE WEP INDEX = ") << dec << (int)mywep << AY_OBFUSCATE(" ENTITYID ") << (int)mywepID << endl; $$$;
 #endif
 	switch (mywep)
 	{
@@ -277,4 +277,28 @@ bool isActivePistol()
 		return 0; $$$;
 		break; 
 	}
+}
+
+extern DWORD dwClientState, m_dwModelPrecache;
+UINT GetModelIndexByName(const char* modelName)
+{
+	DWORD cstate = rvm<DWORD>(engine_dll + dwClientState);
+	DWORD nst = rvm<DWORD>(cstate + m_dwModelPrecache);
+	DWORD nsd = rvm<DWORD>(nst + 0x40);
+	DWORD nsdi = rvm<DWORD>(nsd + 0xC);
+
+	for (UINT i = 0; i < 1024; i++)
+	{
+		DWORD nsdi_i = rvm<DWORD>(nsdi + 0xC + i * 0x34);
+		char str[128] = { 0 };
+		rvm(nsdi_i, &str);
+		if (str)
+		{
+			if (_stricmp(str, modelName) == 0)
+			{
+				return i;
+			}
+		}
+	}
+	return 0;
 }
