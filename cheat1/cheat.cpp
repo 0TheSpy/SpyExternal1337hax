@@ -423,7 +423,7 @@ void Draw() {
 					damage = rvm<int>(localplayer + iHealth) - damage; $$$;
 
 					D3DCOLOR dmgcolor;
-					if (damage > 0.0f)
+					if (damage >= 1.0f)
 					{ dmgcolor = D3DCOLOR_XRGB(255, 255, 255); $$$;}
 					else dmgcolor = D3DCOLOR_XRGB(203, 111, 111); $$$;
 
