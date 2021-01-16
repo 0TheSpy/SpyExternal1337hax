@@ -8,22 +8,47 @@ bsp_parser *bspParser = new bsp_parser;
 bool mapparsed = false; 
 #endif
 
+TCHAR MYname[32]; 
+TCHAR MYclan[32]; 
+void Prepare()
+{
+	if (cheat(AY_OBFUSCATE("Name Stealer & Exploits")).trigger == 0) {
+		wvm<DWORD>(GetConVarAddress(AY_OBFUSCATE("name")) + 0x50, 0); $$$; //Clear Callback
+		myid = rvm<BYTE>(clientstate + dwClientState_GetLocalPlayer); $$$;
+		rvm(rvm<DWORD>(rvm<DWORD>(rvm<DWORD>(rvm<DWORD>(rvm<DWORD>(engine_dll + dwClientState) + dwClientState_PlayerInfo) + 0x40) + 0xC) + 0x28 + (0x34 * myid)) + 0x10, &MYname); $$$;
+		rvm(rvm<DWORD>(client_dll + dwPlayerResource) + m_szClan + 0x10 * (myid + 1), &MYclan); $$$;
+		NameExploit(AY_OBFUSCATE("\x10\xAD\xAD\xAD")); $$$;
+#ifdef DEBUG
+		std::cout << AY_OBFUSCATE("Original ") << MYname << AY_OBFUSCATE(" ") << MYclan << AY_OBFUSCATE("saved\n"); $$$;
+#endif
+		Sleep(100); $$$;
+	}
+}
+
+void Finalize()
+{
+	if (cheat(AY_OBFUSCATE("Name Stealer & Exploits")) == 0)
+	{
+		NameExploit(MYname); $$$;
+		SetClanTag(MYclan); $$$;
+#ifdef DEBUG
+		printf(AY_OBFUSCATE("set %s %s back\n"), MYname, MYclan);
+#endif
+	}
+}
+
 void NameStealer()
 {
 	int maxplayers = 64; $$$;
 	TCHAR name[32], clan[32]; $$$;
 	int rando, old = 65; $$$;
-	TCHAR MYname[32]; $$$;
-	TCHAR MYclan[32]; $$$;
+	
 	while (true)
 	{
-		if (cheat(AY_OBFUSCATE("Name & ClanTag Stealer")) == 1)
+		if (cheat(AY_OBFUSCATE("Name Stealer & Exploits")) == 1)
 		{
-			wvm<DWORD>(GetConVarAddress(AY_OBFUSCATE("name")) + 0x50, 0); $$$; //Clear CallBack
-			NameExploit(AY_OBFUSCATE("\x10\xAD\xAD\xAD")); $$$;
-			Sleep(100); $$$;
-
-			while (cheat(AY_OBFUSCATE("Name & ClanTag Stealer")) == 1)
+			Prepare();
+			while (cheat(AY_OBFUSCATE("Name Stealer & Exploits")) == 1)
 			{
 				rando = rand() % maxplayers; $$$;
 				myid = rvm<BYTE>(clientstate + dwClientState_GetLocalPlayer); $$$;
@@ -52,28 +77,18 @@ void NameStealer()
 				}
 				Sleep(1); $$$;
 			}
+			Finalize();
 		}
 
-		if (cheat.Triggered(AY_OBFUSCATE("Various Name Exploits")))
+		if (cheat.Triggered(AY_OBFUSCATE("Name Stealer & Exploits")))
 		{
-			if (cheat(AY_OBFUSCATE("Various Name Exploits")).trigger == 0) {
-				wvm<DWORD>(GetConVarAddress(AY_OBFUSCATE("name")) + 0x50, 0); $$$;
-				myid = rvm<BYTE>(clientstate + dwClientState_GetLocalPlayer); $$$;
-				rvm(rvm<DWORD>(rvm<DWORD>(rvm<DWORD>(rvm<DWORD>(rvm<DWORD>(engine_dll + dwClientState) + dwClientState_PlayerInfo) + 0x40) + 0xC) + 0x28 + (0x34 * myid)) + 0x10, &MYname); $$$;
-				rvm(rvm<DWORD>(client_dll + dwPlayerResource) + m_szClan + 0x10 * (myid + 1), &MYclan); $$$;
-				NameExploit(AY_OBFUSCATE("\x10\xAD\xAD\xAD")); $$$;
-#ifdef DEBUG
-				std::cout << AY_OBFUSCATE("Original ") << MYname << AY_OBFUSCATE(" ") << MYclan << AY_OBFUSCATE("saved\n"); $$$;
-#endif
-				Sleep(100); $$$;
-			}
-
-			if (cheat(AY_OBFUSCATE("Various Name Exploits")) == 1) {
+			Prepare();
+			if (cheat(AY_OBFUSCATE("Name Stealer & Exploits")) == 2) {
 				NameExploit(AY_OBFUSCATE("\x16\x02ZL \x02\x09\x0A\x02has been permanently banned from official CS:GO servers\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x00")); $$$;
 
 				SetClanTag(""); $$$;
 			}
-			if (cheat(AY_OBFUSCATE("Various Name Exploits")) == 2) {
+			if (cheat(AY_OBFUSCATE("Name Stealer & Exploits")) == 3) {
 				if ((int)myteam == 2) {
 					NameExploit(AY_OBFUSCATE("\x02\x09\x0A\x19\x09\x01\x68\x61\x73\x20\x6F\x70\x65\x6E\x65\x64\x20\x61\x20\x63\x6F\x6E\x74\x61\x69\x6E\x65\x72\x20\x61\x6E\x64\x20\x66\x6F\x75\x6E\x64\x3A\x20\x07\x41\x57\x50\x20\x7C\x20\x41\x73\x69\x69\x6D\x6F\x76\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02\x02")); $$$;
 					SetClanTag(AY_OBFUSCATE("	 	Cheater")); $$$;
@@ -84,23 +99,18 @@ void NameStealer()
 					SetClanTag(AY_OBFUSCATE(" Cheater")); $$$;
 				}
 			}
-			if (cheat(AY_OBFUSCATE("Various Name Exploits")) == 3)
+			if (cheat(AY_OBFUSCATE("Name Stealer & Exploits")) == 4)
 			{
 				NameExploit(AY_OBFUSCATE("\x02\x09\x0A\x16\x09\x0A\x02\x09\x0A\x02\x09\x0A\x02\x09\x0A\x02\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x09\x0A\x00")); $$$;
 				SetClanTag(""); $$$;
 			}
-			if (cheat(AY_OBFUSCATE("Various Name Exploits")) == 4)
+			if (cheat(AY_OBFUSCATE("Name Stealer & Exploits")) == 5)
 			{
 				NameExploit(AY_OBFUSCATE("\x08\x08\x08\x08Gray Lord                                              \x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x08\x00")); $$$;
 				SetClanTag("x"); $$$;
 			}
-
-			if (cheat(AY_OBFUSCATE("Various Name Exploits")) == 0)
-			{
-				NameExploit(MYname); $$$;
-				SetClanTag(MYclan); $$$;
-			}
-			cheat.Update(AY_OBFUSCATE("Various Name Exploits")); $$$;
+			Finalize();
+			cheat.Update(AY_OBFUSCATE("Name Stealer & Exploits")); $$$;
 		}
 		Sleep(1); $$$;
 	}
@@ -350,8 +360,24 @@ void Draw() {
 			bombplanted = rvm<bool>(rvm<DWORD>(client_dll + dwGameRulesProxy) + bBombPlanted); $$$; //we have a bomb?
 			if (bombplanted)
 			{
-				if (!bombLine)
+				if (!bombLine) {
 					CreateThread(0, 0, (LPTHREAD_START_ROUTINE)timer, 0, 0, 0); $$$;
+					for (i = 0; i <= 4096; i++)
+					{
+						entityList = rvm<DWORD>(client_dll + dwEntityList + i * 0x10); $$$;
+						char ClassName[32]; $$$;
+						rvm(rvm<DWORD>(rvm<DWORD>(rvm<DWORD>(rvm<DWORD>(entityList + 0x8) + 0x8) + 0x1) + 0x8) + 0x0, &ClassName); $$$;
+
+						if (_tcsstr(ClassName, _T("PlantedC4")) != NULL)
+						{
+#ifdef DEBUG
+							printf(AY_OBFUSCATE("PlantedC4 entity %d found\n"), i); $$$;
+#endif
+							c4id = i; $$$;
+							break; $$$;
+						}
+					}
+				}
 				if (bomb > 0)
 				{
 					ID3DXFont* pFont; $$$;
@@ -368,8 +394,42 @@ void Draw() {
 						(Width - rightR) / 2 - 280 + bombLine,
 						(Height - bottomR) / 2 + (Height - bottomR) / 4 + 40, colorsec); $$$;
 					DrawString((char*)(std::to_string(bomb).c_str()),
-						(Width - rightR) / 2 - 5,
+						(Width - rightR) / 2 - 20,
 						(Height - bottomR) / 2 + (Height - bottomR) / 4 + 10, 4, D3DCOLOR_XRGB(255, 255, 255), pFont); $$$;
+
+					mycoords = rvm<D3DXVECTOR3>(localplayer + vecOrigin); $$$;
+					mycoords.z += rvm<float>(localplayer + vecViewOffset + 0x8); $$$;
+					entityList = rvm<DWORD>(client_dll + dwEntityList + c4id * 0x10); $$$;
+					coords = rvm<D3DXVECTOR3>(entityList + vecOrigin); $$$;
+					delta[2] = mycoords[2] - coords[2]; $$$; deltaXold = mycoords[0] - coords[0]; $$$; deltaYold = mycoords[1] - coords[1]; $$$;
+					enemyDistance = sqrtss(deltaXold * deltaXold + deltaYold * deltaYold + delta[2] * delta[2]); $$$;
+
+					float factor = ((enemyDistance - 75.68f) / 789.2f); $$$;
+					float rawDamage = 450.7f * (float)exp(factor * -factor); $$$;
+					float damage = 0; $$$;
+
+					int ArmorValue = rvm<int>(localplayer + armorVal); $$$;
+					if (ArmorValue > 0) {
+						float flNew = rawDamage * 0.5f; $$$;
+						float flArmor = (rawDamage - flNew) * 0.5f; $$$;
+
+						if (flArmor > static_cast<float>(ArmorValue)) { $$$;
+							flArmor = static_cast<float>(ArmorValue) * (1.f / 0.5f); $$$;
+							flNew = rawDamage - flArmor; $$$;
+						}
+						damage = flNew; $$$;
+					}
+
+					damage = rvm<int>(localplayer + iHealth) - damage; $$$;
+
+					D3DCOLOR dmgcolor;
+					if (damage > 0.0f)
+					{ dmgcolor = D3DCOLOR_XRGB(255, 255, 255); $$$;}
+					else dmgcolor = D3DCOLOR_XRGB(203, 111, 111); $$$;
+
+					DrawString((char*)(std::to_string(damage).c_str()),
+						(Width - rightR) / 2 + 20,
+						(Height - bottomR) / 2 + (Height - bottomR) / 4 + 10, 4, dmgcolor, pFont); $$$;
 
 					pFont->Release(); $$$;
 				}
@@ -538,11 +598,114 @@ void Draw() {
 	} //we on server? 
 	else
 	{
-		cheat(AY_OBFUSCATE("Name & ClanTag Stealer")) = 0; $$$;
-		cheat(AY_OBFUSCATE("Various Name Exploits")) = 0; $$$;
+		cheat(AY_OBFUSCATE("Name Stealer & Exploits")) = 0; $$$;
 	}
 }
 
+void SkinChanger() {
+	int PaintKit = 0; $$$;
+	int EntityQuality = 5; $$$;
+	float Wear = 0.0001f; $$$;
+	int Seed = 0; $$$;
+	int StatTrack = 1337; $$$;
+	char CustomName[64] = ""; $$$;
+	strcat_s(CustomName, AY_OBFUSCATE("Spy1337Hax")); $$$;
+	WORD equipment[8] = { 0,0,0,0,0,0,0,0 }; $$$;
+	bool equipchanged = true; $$$;
+	int gmibncounter = 5000; $$$;
+	int knifeID, handsID, knifeIndex = 507; $$$; //karambit
+
+	while (1)
+	{
+		if (cheat(AY_OBFUSCATE("Skin Changer")) != 0 && rvm<DWORD>(clientstate + dwClientState_State) == 6)
+		{ 
+			gmibncounter++; $$$;
+			if (gmibncounter >= 5000) {
+				knifeID = GetModelIndexByName("models/weapons/v_knife_ghost.mdl"); $$$;
+				handsID = GetModelIndexByName("models/player/custom_player/legacy/ctm_st6_variantj.mdl"); $$$;
+#ifdef DEBUG
+				printf(AY_OBFUSCATE("knifeID %d handsID %d\n"), knifeID, handsID); $$$;
+#endif
+				gmibncounter = 0; $$$;
+			}
+
+			wvm<WORD>(localplayer + nModelIndex, handsID); $$$; 
+
+			for (int i = 0; i < 8; i++)
+			{
+				WORD WeaponEnt = rvm<int>(localplayer + m_hMyWeapons + i * 0x4) & 0xFFF; $$$;
+				int Weapon = rvm<int>((int)client_dll + dwEntityList + (WeaponEnt - 1) * 0x10); $$$;
+				if (Weapon == 0) {
+					continue; $$$;
+				}
+				short WeaponID = rvm<short>(Weapon + iItemDefinitionIndex); $$$;
+
+				if (equipment[i] != WeaponEnt) {
+					equipment[i] = WeaponEnt; $$$;
+					if (!(WeaponID > 42 && WeaponID < 50)) //not grenade or C4
+						equipchanged = true; $$$;
+				}
+
+				switch (WeaponID) {
+				case 0:
+					continue;
+					break;
+				case 7: //AK47
+					PaintKit = 316; $$$;
+					break;
+				case 9: //AWP
+					PaintKit = 344; $$$;//DRAGON LORE
+					break;
+				case 42: //KNIFE CT 
+				case 59: //KNIFE T 
+					PaintKit = 0; $$$;
+					wvm<WORD>(Weapon + iItemDefinitionIndex, knifeIndex); $$$;
+					break;
+				default:
+					PaintKit = 180; $$$;
+					Seed = 321; $$$;
+					break;
+				}
+
+				if (PaintKit != 0)
+				{
+					if (rvm<int>(Weapon + m_iItemIDHigh) != -1)
+						wvm<int>(Weapon + m_iItemIDHigh, -1); $$$;
+					wvm<int>(Weapon + m_OriginalOwnerXuidLow, 0); $$$;
+					wvm<int>(Weapon + m_OriginalOwnerXuidHigh, 0); $$$; 
+					wvm<int>(Weapon + m_nFallbackPaintKit, PaintKit); $$$;
+					wvm<int>(Weapon + m_nFallbackSeed, Seed); $$$;
+					wvm<int>(Weapon + m_nFallbackStatTrak, StatTrack); $$$;
+					wvm<float>(Weapon + m_flFallbackWear, Wear); $$$;
+					WriteProcessMemory(hProcess, (LPVOID)(Weapon + m_szCustomName), CustomName, sizeof(CustomName), NULL); $$$;
+					if (StatTrack >= 0)
+						wvm<int>(Weapon + m_iEntityQuality, 9); 
+					else
+						wvm<int>(Weapon + m_iEntityQuality, EntityQuality); $$$;
+				}
+			}
+
+			// KNIFECHANGER
+			short mywepID = rvm<short>(localplayer + hActiveWeapon) & 0xFFF; $$$;
+			short weaponIndex = rvm<short>(rvm<DWORD>(client_dll + dwEntityList + (mywepID - 1) * 0x10) + iItemDefinitionIndex); $$$;
+			if (weaponIndex == knifeIndex) {
+				short activeViewModel = rvm<short>(localplayer + m_hViewModel) & 0xfff; $$$;
+				DWORD activeViewModelBase = rvm<DWORD>(client_dll + dwEntityList + (activeViewModel - 1) * 0x10); $$$;
+				wvm<UINT>(activeViewModelBase + nModelIndex, knifeID); $$$;  
+			}
+
+			if (equipchanged) {
+				wvm<DWORD>(rvm<DWORD>(engine_dll + dwClientState) + delta_ticks, -1); $$$;
+				equipchanged = false; $$$;
+#ifdef DEBUG
+				cout << AY_OBFUSCATE("Force full update\n"); $$$;
+#endif
+			}
+		}
+		Sleep(1);
+	}
+
+}
 void TriggerCheck() {
 	while (1) {
 		if (cheat.Triggered(AY_OBFUSCATE("Reduce Flash & Smoke")))
@@ -949,7 +1112,8 @@ void TriggerCheck() {
 
 			if (cheat(AY_OBFUSCATE("No Hands & Scope & Postproc")) == 1)
 			{
-				wvm<BYTE>(localplayer + nModelIndex, 0); $$$; //arms
+				if (cheat(AY_OBFUSCATE("Skin Changer")) == 0)
+					wvm<BYTE>(localplayer + nModelIndex, 0); $$$; //arms
 				wvm<BYTE>(localplayer + bIsScoped, 0); $$$;
 			}
 
