@@ -406,7 +406,7 @@ void Draw() {
 
 					float factor = ((enemyDistance - 75.68f) / 789.2f); $$$;
 					float rawDamage = 450.7f * (float)exp(factor * -factor); $$$;
-					float damage = 0; $$$;
+					float damage = rawDamage; $$$;
 
 					int ArmorValue = rvm<int>(localplayer + armorVal); $$$;
 					if (ArmorValue > 0) {
