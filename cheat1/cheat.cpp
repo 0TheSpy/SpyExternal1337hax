@@ -646,12 +646,21 @@ void SkinChanger() {
 						equipchanged = true; $$$;
 				}
 
+				//weapon IDs: https://tf2b.com/itemlist.php?gid=730
+				//skin IDs: https://github.com/adamb70/CSGO-skin-ID-dumper/blob/master/item_index.txt
+
 				switch (WeaponID) {
 				case 0:
 					continue;
 					break;
 				case 7: //AK47
-					PaintKit = 316; $$$;//JAGUAR
+					PaintKit = 433; $$$;//NEON RIDER
+					break;
+				case 16: //M4A4
+					PaintKit = 844; $$$;//EMPEROR
+					break;
+				case 60: //M4A1-S
+					PaintKit = 801; $$$;//ASIIMOV
 					break;
 				case 9: //AWP
 					PaintKit = 344; $$$;//DRAGON LORE
@@ -661,7 +670,7 @@ void SkinChanger() {
 					PaintKit = 0; $$$;
 					wvm<WORD>(Weapon + iItemDefinitionIndex, knifeIndex); $$$;
 					break;
-				default:
+				default: //OTHER
 					PaintKit = 180; $$$;//FIRE SERPENT
 					Seed = 321; $$$;
 					break;
