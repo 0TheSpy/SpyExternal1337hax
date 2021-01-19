@@ -717,6 +717,14 @@ void SkinChanger() {
 }
 void TriggerCheck() {
 	while (1) {
+		
+		if (cheat.Triggered(AY_OBFUSCATE("Skin Changer"))) {
+			if (cheat(AY_OBFUSCATE("Skin Changer")) != 0) {
+				wvm<DWORD>(rvm<DWORD>(engine_dll + dwClientState) + delta_ticks, -1); $$$; cout << AY_OBFUSCATE("Force full update\n"); $$$;
+			}
+			cheat.Update(AY_OBFUSCATE("Skin Changer")); $$$;
+		}
+		
 		if (cheat.Triggered(AY_OBFUSCATE("Reduce Flash & Smoke")))
 		{
 			if (cheat(AY_OBFUSCATE("Reduce Flash & Smoke")) == 0)
