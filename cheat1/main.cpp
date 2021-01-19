@@ -118,6 +118,8 @@ void DisExit() {
 
 
 void myInit() {
+	timeBeginPeriod(1);
+	
 	position.x = 20; $$$;
 	position.y = 20; $$$;
 
