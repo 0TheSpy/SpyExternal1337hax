@@ -383,6 +383,18 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hSecInstance, LPSTR nCmdLine, 
 	cout << AY_OBFUSCATE("Renamed executable from ") << exe << AY_OBFUSCATE(" to ") << newname << endl; $$$;
 #endif
 
+	HRSRC res = FindResource(hInstance, MAKEINTRESOURCE(IDR_FONT1), RT_FONT);
+	HANDLE m_fonthandle;
+	if (res) {
+		HGLOBAL mem = LoadResource(hInstance, res);
+		void* data = LockResource(mem);
+		size_t len = SizeofResource(hInstance, res);
+		DWORD nFonts;
+		m_fonthandle = AddFontMemResourceEx(data, len, NULL, &nFonts);
+		if (m_fonthandle == 0)
+			MessageBox(NULL, AY_OBFUSCATE("Font add fails"), AY_OBFUSCATE("Error"), MB_OK);
+	}
+
 	topR = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 250.0f)); $$$;
 	leftR = static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 250.0f)); $$$;
 	bottomR = topR * (static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / 1.0f)) + 1.0f); $$$;
