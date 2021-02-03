@@ -225,6 +225,7 @@ void myInit() {
 	m_iViewModelIndex = FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseCombatWeapon"), AY_OBFUSCATE("ViewModelIndex")); $$$;
 	m_hViewModel = FindNetvar(dwClasses, AY_OBFUSCATE("DT_BasePlayer"), AY_OBFUSCATE("m_hViewModel[0]")); $$$; //unused
 	armorVal = FindNetvar(dwClasses, AY_OBFUSCATE("DT_CSPlayer"), AY_OBFUSCATE("ArmorValue")); $$$; 
+	clrRender = FindNetvar(dwClasses, AY_OBFUSCATE("DT_BaseEntity"), AY_OBFUSCATE("m_clrRender")); $$$;
 
 	delete engineBytes; $$$;
 	delete clientBytes; $$$;
