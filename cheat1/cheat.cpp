@@ -568,7 +568,7 @@ void Draw() {
 
 					if (cheat(AY_OBFUSCATE("Player Glow & Color")) != 0) {
 						wvm<GlowObject>(rvm<DWORD>(client_dll + dwGlowObjectManager) + rvm<DWORD>(entityList + iGlowIndex) * 0x38 + 0x4, go); $$$;
-						wvm<DWORD>(entityList + 0x70, playercolor.dw); $$$;
+						wvm<DWORD>(entityList + clrRender, playercolor.dw); $$$;
 					}
 					if (cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")) == 1 && (int)team != (int)myteam && visible ||
 						cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")) == 2 && visible ||
@@ -1023,7 +1023,7 @@ void TriggerCheck() {
 				wvm<int>(glowNoFlick+2, iGlowIndex); $$$;
 				VirtualFreeEx(hProcess, GLOWshellcode, 256, MEM_RELEASE); $$$;
 				for (int i = 0; i < 64; i++)
-					wvm<DWORD>(rvm<DWORD>(client_dll + dwEntityList + i * 0x10) + 0x70, 0xFFFFFFFF); $$$;
+					wvm<DWORD>(rvm<DWORD>(client_dll + dwEntityList + i * 0x10) + clrRender, 0xFFFFFFFF); $$$;
 			}
 			cheat.Update(AY_OBFUSCATE("Player Glow & Color")); $$$;
 		}
