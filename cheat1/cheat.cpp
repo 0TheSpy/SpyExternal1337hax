@@ -3,13 +3,13 @@
 
 #ifdef BSP_PARSER
 #include "bsp_parser.h"
-using namespace rn; 
-bsp_parser *bspParser = new bsp_parser; 
-bool mapparsed = false; 
+using namespace rn;
+bsp_parser* bspParser = new bsp_parser;
+bool mapparsed = false;
 #endif
 
-TCHAR MYname[32]; 
-TCHAR MYclan[32]; 
+TCHAR MYname[32];
+TCHAR MYclan[32];
 void Prepare()
 {
 	if (cheat(AY_OBFUSCATE("Name Stealer & Exploits")).trigger == 0) {
@@ -42,7 +42,7 @@ void NameStealer()
 	int maxplayers = 64; $$$;
 	TCHAR name[32], clan[32]; $$$;
 	int rando, old = 65; $$$;
-	
+
 	while (true)
 	{
 		if (cheat(AY_OBFUSCATE("Name Stealer & Exploits")) == 1)
@@ -154,7 +154,7 @@ void Bunnyhop()
 
 				currJumpState = rvm<DWORD>(client_dll + dwForceJump); $$$;
 				onGround = rvm<BYTE>(localplayer + fFlags); $$$;
-				if (onGround & (1 << 0) )
+				if (onGround & (1 << 0))
 				{
 #ifdef DEBUG
 					cout << AY_OBFUSCATE("Jumpin'\n");
@@ -413,7 +413,8 @@ void Draw() {
 						float flNew = rawDamage * 0.5f; $$$;
 						float flArmor = (rawDamage - flNew) * 0.5f; $$$;
 
-						if (flArmor > static_cast<float>(ArmorValue)) { $$$;
+						if (flArmor > static_cast<float>(ArmorValue)) {
+							$$$;
 							flArmor = static_cast<float>(ArmorValue) * (1.f / 0.5f); $$$;
 							flNew = rawDamage - flArmor; $$$;
 						}
@@ -424,7 +425,9 @@ void Draw() {
 
 					D3DCOLOR dmgcolor;
 					if (damage >= 1.0f)
-					{ dmgcolor = D3DCOLOR_XRGB(255, 255, 255); $$$;}
+					{
+						dmgcolor = D3DCOLOR_XRGB(255, 255, 255); $$$;
+					}
 					else dmgcolor = D3DCOLOR_XRGB(203, 111, 111); $$$;
 
 					DrawString((char*)(std::to_string(damage).c_str()),
@@ -494,8 +497,8 @@ void Draw() {
 					float myangY = rvm<float>(clientstate + dwClientState_ViewAngles + 4) - 90.0f; $$$;
 					delta = mycoords - coords; $$$;
 					deltaXold = delta[0]; deltaYold = delta[1]; $$$;
-					delta[0] = deltaXold * cos(myangY * PI / 180) + deltaYold * sin(myangY* PI / 180); $$$;
-					delta[1] = -deltaXold * sin(myangY* PI / 180) + deltaYold * cos(myangY* PI / 180); $$$;
+					delta[0] = deltaXold * cos(myangY * PI / 180) + deltaYold * sin(myangY * PI / 180); $$$;
+					delta[1] = -deltaXold * sin(myangY * PI / 180) + deltaYold * cos(myangY * PI / 180); $$$;
 					if (abs(delta[0]) <= 30.0f && abs(delta[1]) <= 30.0f)
 					{
 						bbdeltaX = delta[0]; $$$;
@@ -507,7 +510,7 @@ void Draw() {
 				if (entityList && !lifeState && hp && !bDormant && WorldToScreen(viewmatrix, coords, &xl, &yl, &wl))
 				{
 					delta[2] = mycoords[2] - coords[2]; $$$; deltaXold = mycoords[0] - coords[0]; $$$; deltaYold = mycoords[1] - coords[1]; $$$;
-					enemyDistance = sqrtss(deltaXold*deltaXold + deltaYold * deltaYold + delta[2] * delta[2]); $$$;
+					enemyDistance = sqrtss(deltaXold * deltaXold + deltaYold * deltaYold + delta[2] * delta[2]); $$$;
 
 					if ((int)team == 3 && rvm<bool>(entityList + isDefusing))
 					{
@@ -526,7 +529,8 @@ void Draw() {
 								color = D3DCOLOR_ARGB(255, 0, 255, 255); $$$;
 								go.glowColor = { 0,255.0f,255.0f }; $$$;
 								visible = true; $$$;
-							} else {
+							}
+							else {
 #endif
 								color = D3DCOLOR_ARGB(255, 0, 255, 0); $$$;
 								go.glowColor = { 0,255.0f,0 }; $$$;
@@ -543,7 +547,8 @@ void Draw() {
 								color = D3DCOLOR_ARGB(255, 255, 150, 0); $$$;
 								go.glowColor = { 3.0f,1.0f,0.0f }; $$$;
 								visible = true; $$$;
-							}  else {
+							}
+							else {
 #endif
 								color = D3DCOLOR_ARGB(255, 255, 0, 0); $$$;
 								go.glowColor = { 255.0f,0,0 }; $$$;
@@ -554,7 +559,7 @@ void Draw() {
 							playercolor.bytes[0] = 255; $$$; playercolor.bytes[1] = 150; $$$; playercolor.bytes[2] = 0; $$$;
 						}
 					}
-					
+
 					if (cheat(AY_OBFUSCATE("ESP & HP Bar & C4timer")) == 1)
 					{
 						DrawBorderBox(xl - 10000 / enemyDistance, yl - 10, 20000 / enemyDistance, 40000 / enemyDistance, 3, color); $$$;
@@ -618,7 +623,7 @@ void SkinChanger() {
 	while (1)
 	{
 		if (cheat(AY_OBFUSCATE("Skin Changer")) != 0 && rvm<DWORD>(clientstate + dwClientState_State) == 6)
-		{ 
+		{
 			gmibncounter++; $$$;
 			if (gmibncounter >= 5000) {
 				knifeID = GetModelIndexByName(AY_OBFUSCATE("models/weapons/v_knife_ghost.mdl")); $$$;
@@ -629,7 +634,7 @@ void SkinChanger() {
 				gmibncounter = 0; $$$;
 			}
 
-			wvm<WORD>(localplayer + nModelIndex, handsID); $$$; 
+			wvm<WORD>(localplayer + nModelIndex, handsID); $$$;
 
 			for (int i = 0; i < 8; i++)
 			{
@@ -681,14 +686,14 @@ void SkinChanger() {
 					if (rvm<int>(Weapon + m_iItemIDHigh) != -1)
 						wvm<int>(Weapon + m_iItemIDHigh, -1); $$$;
 					wvm<int>(Weapon + m_OriginalOwnerXuidLow, 0); $$$;
-					wvm<int>(Weapon + m_OriginalOwnerXuidHigh, 0); $$$; 
+					wvm<int>(Weapon + m_OriginalOwnerXuidHigh, 0); $$$;
 					wvm<int>(Weapon + m_nFallbackPaintKit, PaintKit); $$$;
 					wvm<int>(Weapon + m_nFallbackSeed, Seed); $$$;
 					wvm<int>(Weapon + m_nFallbackStatTrak, StatTrack); $$$;
 					wvm<float>(Weapon + m_flFallbackWear, Wear); $$$;
 					WriteProcessMemory(hProcess, (LPVOID)(Weapon + m_szCustomName), CustomName, sizeof(CustomName), NULL); $$$;
 					if (StatTrack >= 0)
-						wvm<int>(Weapon + m_iEntityQuality, 9); 
+						wvm<int>(Weapon + m_iEntityQuality, 9);
 					else
 						wvm<int>(Weapon + m_iEntityQuality, EntityQuality); $$$;
 				}
@@ -700,7 +705,7 @@ void SkinChanger() {
 			if (weaponIndex == knifeIndex) {
 				short activeViewModel = rvm<short>(localplayer + m_hViewModel) & 0xfff; $$$;
 				DWORD activeViewModelBase = rvm<DWORD>(client_dll + dwEntityList + (activeViewModel - 1) * 0x10); $$$;
-				wvm<UINT>(activeViewModelBase + nModelIndex, knifeID); $$$;  
+				wvm<UINT>(activeViewModelBase + nModelIndex, knifeID); $$$;
 			}
 
 			if (equipchanged) {
@@ -717,14 +722,14 @@ void SkinChanger() {
 }
 void TriggerCheck() {
 	while (1) {
-		
+
 		if (cheat.Triggered(AY_OBFUSCATE("Skin Changer"))) {
 			if (cheat(AY_OBFUSCATE("Skin Changer")) != 0) {
 				wvm<DWORD>(rvm<DWORD>(engine_dll + dwClientState) + delta_ticks, -1); $$$; cout << AY_OBFUSCATE("Force full update\n"); $$$;
 			}
 			cheat.Update(AY_OBFUSCATE("Skin Changer")); $$$;
 		}
-		
+
 		if (cheat.Triggered(AY_OBFUSCATE("Reduce Flash & Smoke")))
 		{
 			if (cheat(AY_OBFUSCATE("Reduce Flash & Smoke")) == 0)
@@ -831,21 +836,23 @@ void TriggerCheck() {
 		if (cheat.Triggered(AY_OBFUSCATE("Recoil Control System")))
 		{
 			if (cheat(AY_OBFUSCATE("Recoil Control System")) == 1)
-			{ $$$;
+			{
+				$$$;
 				if (cheat(AY_OBFUSCATE("Crosshair Recoil & Spread")) == 1)
 					SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 0.0f); $$$;
 
-				if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 2)
+				if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 1) 
 					SetValue(AY_OBFUSCATE("view_recoil_tracking"), 1.0f); $$$;
 			}
 			else
-			{ $$$;
+			{
+				$$$;
 				if (cheat(AY_OBFUSCATE("Crosshair Recoil & Spread")) == 1)
-					if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 2)
-						SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 2.0f); 
+					if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 1) 
+						SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 2.0f);
 					else SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 1.0f); $$$;
 
-				if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 2)
+				if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 1) 
 					SetValue(AY_OBFUSCATE("view_recoil_tracking"), 0.0f); $$$;
 			}
 
@@ -856,7 +863,7 @@ void TriggerCheck() {
 		{
 			if (cheat(AY_OBFUSCATE("Crosshair Recoil & Spread")) != 0)
 			{
-				if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 2)
+				if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 1)
 				{
 					if (cheat(AY_OBFUSCATE("Recoil Control System")) == 0)
 						SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 2.0f);
@@ -961,24 +968,24 @@ void TriggerCheck() {
 		if (cheat.Triggered(AY_OBFUSCATE("No Visual Recoil")))
 		{
 
-			if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 2)
+			if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 1)
 			{
 				BYTE shellCode1[] = { 0x90,0x90,0x90,0x90,punchExtraOrigBytes[4],punchExtraOrigBytes[5],punchExtraOrigBytes[6],punchExtraOrigBytes[7],
 				punchExtraOrigBytes[8],punchExtraOrigBytes[9],punchExtraOrigBytes[10],punchExtraOrigBytes[11],punchExtraOrigBytes[12],punchExtraOrigBytes[13],
 				punchExtraOrigBytes[14],punchExtraOrigBytes[4],punchExtraOrigBytes[4],0x90,0x90,0x90,0x90,0x90 }; $$$;
 				wvmb(aimPunch, &shellCode1); $$$;
 				if (cheat(AY_OBFUSCATE("Recoil Control System")) == 0)
-					SetValue(AY_OBFUSCATE("view_recoil_tracking"), 0.0f); 
+					SetValue(AY_OBFUSCATE("view_recoil_tracking"), 0.0f);
 				else SetValue(AY_OBFUSCATE("view_recoil_tracking"), 1.0f); $$$;
 
 				if (cheat(AY_OBFUSCATE("Crosshair Recoil & Spread")) != 0) {
 					if (cheat(AY_OBFUSCATE("Recoil Control System")) == 0)
-						SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 2.0f); 
+						SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 2.0f);
 					else SetValue(AY_OBFUSCATE("cl_crosshair_recoil"), 0.0f); $$$;
 				}
 			}
 
-			if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 1)
+			if (cheat(AY_OBFUSCATE("No Visual Recoil")) == 2)
 			{
 				BYTE shellCode1[] = { 0x90,0x90,0x90,0x90,punchExtraOrigBytes[4],punchExtraOrigBytes[5],punchExtraOrigBytes[6],punchExtraOrigBytes[7],
 				punchExtraOrigBytes[8],punchExtraOrigBytes[9],punchExtraOrigBytes[10],punchExtraOrigBytes[11],punchExtraOrigBytes[12],punchExtraOrigBytes[13],
@@ -1016,11 +1023,11 @@ void TriggerCheck() {
 		{
 			if (cheat(AY_OBFUSCATE("Player Glow & Color")).trigger == 0 && cheat(AY_OBFUSCATE("Player Glow & Color")) != 0)
 				GLOWshellcode = SpyInjectAndJump(GlowNoFlick, PVOID(glowNoFlick), 1); $$$;
-			
+
 			go.glowStyle = cheat(AY_OBFUSCATE("Player Glow & Color")).enabled - 1; $$$;
 			if (cheat(AY_OBFUSCATE("Player Glow & Color")) == 0) {
 				wvm<short>(glowNoFlick, 0xB38B); $$$;
-				wvm<int>(glowNoFlick+2, iGlowIndex); $$$;
+				wvm<int>(glowNoFlick + 2, iGlowIndex); $$$;
 				VirtualFreeEx(hProcess, GLOWshellcode, 256, MEM_RELEASE); $$$;
 				for (int i = 0; i < 64; i++)
 					wvm<DWORD>(rvm<DWORD>(client_dll + dwEntityList + i * 0x10) + clrRender, 0xFFFFFFFF); $$$;
@@ -1078,7 +1085,7 @@ void TriggerCheck() {
 				}
 				wvmb((DWORD)skyName, &skyname); $$$;
 				if (rvm<DWORD>(clientstate + dwClientState_State) == 6) {
-					
+
 					HANDLE thread = CreateRemoteThread(hProcess, NULL, NULL, (LPTHREAD_START_ROUTINE)skyFunc, NULL, NULL, NULL); $$$;
 					Sleep(1); $$$;
 					Suspend(1); $$$;
@@ -1110,18 +1117,18 @@ void TriggerCheck() {
 				rvm(clientstate + dwClientState_Map, &map); $$$;
 				strcat_s(map, AY_OBFUSCATE(".bsp")); $$$;
 				if (bspParser->load_map(folder.c_str(), map))
-				{ 
-#ifdef DEBUG
-					cout << AY_OBFUSCATE("Map parsed!\n"); 
-#endif
-				 	$$$; 
-				}
-				else 
 				{
 #ifdef DEBUG
-					cout << AY_OBFUSCATE("Can't parse map\n"); 
+					cout << AY_OBFUSCATE("Map parsed!\n");
 #endif
-				$$$;
+					$$$;
+				}
+				else
+				{
+#ifdef DEBUG
+					cout << AY_OBFUSCATE("Can't parse map\n");
+#endif
+					$$$;
 				}
 				mapparsed = true; $$$;
 			}
