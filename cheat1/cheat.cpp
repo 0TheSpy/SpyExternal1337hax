@@ -540,8 +540,8 @@ void Draw() {
 						{
 #ifdef BSP_PARSER
 							if (bspParser->is_visible(enemyhead, mycoords)) {
-								color = D3DCOLOR_ARGB(255, 255, 0, 255); $$$;
-								go.glowColor = { 255.0f,0,255.0f }; $$$;
+								color = D3DCOLOR_ARGB(255, 255, 150, 0); $$$;
+								go.glowColor = { 3.0f,1.0f,0.0f }; $$$;
 								visible = true; $$$;
 							}  else {
 #endif
@@ -551,7 +551,7 @@ void Draw() {
 								visible = false; $$$;
 							}
 #endif
-							playercolor.bytes[0] = 255; $$$; playercolor.bytes[1] = 0; $$$; playercolor.bytes[2] = 255; $$$;
+							playercolor.bytes[0] = 255; $$$; playercolor.bytes[1] = 150; $$$; playercolor.bytes[2] = 0; $$$;
 						}
 					}
 					
