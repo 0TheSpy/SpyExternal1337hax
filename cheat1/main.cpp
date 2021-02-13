@@ -258,7 +258,7 @@ void myInit() {
 	cheat.New(AY_OBFUSCATE("Zoom; Field of View"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Slide Walk & No Duck Stamina"), 2); $$$;
 	cheat.New(AY_OBFUSCATE("Blockbot")); $$$;
-	cheat.New(AY_OBFUSCATE("Name Stealer & Exploits"),5); $$$;
+	cheat.New(AY_OBFUSCATE("Name Stealer & Exploits"),6); $$$;
 	cheat.New(AY_OBFUSCATE("Lobby Prime & Rank & lvl"), 2); $$$;
 	
 	cheat.New(AY_OBFUSCATE("Disable All & Close Cheat")); $$$;
