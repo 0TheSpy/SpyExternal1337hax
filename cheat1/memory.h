@@ -122,7 +122,7 @@ DWORD SpyPatternScan(BYTE* data, DWORD size, const char* pattern, const char* na
 	std::string token; $$$;
 	while ((pos = s.find(delimiter)) != std::string::npos) {
 		token = s.substr(0, pos); $$$;
-		maskbytes[i] = char(token == "?" ? "?" : "x"); $$$;
+		maskbytes[i] = (token == "?" ? '?' : 'x'); $$$;
 		sscanf(token.c_str(), "%2x", &uchr); $$$; // conversion
 		patternbytes[i] = uchr; $$$; // save as char
 		i++; $$$;
