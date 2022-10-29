@@ -9,9 +9,7 @@
 #undef min
 #define max(x,y) x>y?x:y
 #define NOMINMAX
-#ifdef DEBUG
-#define RN_BSP_PARSER_MESSAGES
-#endif
+ 
 
 #include <array>
 #include <algorithm>
@@ -1017,11 +1015,9 @@ namespace rn {
 				.append(fix_seperators(map_name)); $$$;
 
 			_map_name = map_name; $$$;
-
-#if defined(RN_BSP_PARSER_MESSAGES)
-			printf(AY_OBFUSCATE("[+] Loading map: %s ...\n"), map_name.data()); $$$;
-#endif
-
+			 
+			printfdbg(AY_OBFUSCATE("[+] Loading map: %s ...\n"), map_name.data()); $$$;
+ 
 			return true; $$$;
 		}
 
@@ -1107,10 +1103,10 @@ namespace rn {
 
 			const auto num_leaffaces = _leaf_faces.size(); $$$;
 			if (num_leaffaces > valve::MAX_MAP_LEAFBRUSHES) {
-				printf(AY_OBFUSCATE("[!] map has to many leaffaces, parsed more than required...\n")); $$$;
+				printfdbg(AY_OBFUSCATE("[!] map has to many leaffaces, parsed more than required...\n")); $$$;
 			}
 			else if (!num_leaffaces) {
-				printf(AY_OBFUSCATE("[!] map has no leaffaces to parse...\n")); $$$;
+				printfdbg(AY_OBFUSCATE("[!] map has no leaffaces to parse...\n")); $$$;
 			}
 
 			return true; $$$;
@@ -1126,10 +1122,10 @@ namespace rn {
 
 			const auto num_leaffaces = _leaf_faces.size(); $$$;
 			if (num_leaffaces > valve::MAX_MAP_LEAFBRUSHES) {
-				printf(AY_OBFUSCATE("[!] map has to many leafbrushes, parsed more than required...\n")); $$$;
+				printfdbg(AY_OBFUSCATE("[!] map has to many leafbrushes, parsed more than required...\n")); $$$;
 			}
 			else if (!num_leaffaces) {
-				printf(AY_OBFUSCATE("[!] map has no leafbrushes to parse...\n")); $$$;
+				printfdbg(AY_OBFUSCATE("[!] map has no leafbrushes to parse...\n")); $$$;
 			}
 
 			return true;
@@ -1478,24 +1474,17 @@ namespace rn {
 			}
 
 			std::ifstream file(file_path, std::ios_base::binary); $$$;
-			if (!file) {
-#if defined(RN_BSP_PARSER_MESSAGES)
-				printf(AY_OBFUSCATE("[!] failed to open file: %s\n"), file_path.data()); $$$;
-#endif
+			if (!file) { 
+				printfdbg(AY_OBFUSCATE("[!] failed to open file: %s\n"), file_path.data()); $$$;
 				return false; $$$;
 			}
 
 			try {
 				file.read(reinterpret_cast<char*>(&_bsp_header), sizeof(_bsp_header)); $$$;
-
-#if defined(RN_BSP_PARSER_MESSAGES)
-				printf(AY_OBFUSCATE("BSP version %d\n"), _bsp_header.version); $$$;
-#endif
+				printfdbg(AY_OBFUSCATE("BSP version %d\n"), _bsp_header.version); $$$;
 
 				if (!valve::has_valid_bsp_ident(_bsp_header.ident)) {
-#if defined(RN_BSP_PARSER_MESSAGES)
-					printf(AY_OBFUSCATE("[!] %s isn't a (valid) .bsp file!\n"), map_name.data()); $$$;
-#endif
+					printfdbg(AY_OBFUSCATE("[!] %s isn't a (valid) .bsp file!\n"), map_name.data()); $$$;
 					return false; $$$;
 				}
 
