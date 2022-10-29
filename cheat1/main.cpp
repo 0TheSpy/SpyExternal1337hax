@@ -16,14 +16,10 @@ void LoadCfg()
 			string var = line.erase(0, pos + 2); $$$;
 			cheat(name.c_str()).enabled = stoi(var); $$$;
 		}
-#ifdef DEBUG
-		cout << AY_OBFUSCATE("Config loaded\n"); $$$;
-#endif
+		printfdbg(AY_OBFUSCATE("Config loaded\n")); $$$;
 		loadcfg.close();
-	}
-#ifdef DEBUG
-	else cout << AY_OBFUSCATE("Unable to open configuration file\n"); $$$;
-#endif
+	} 
+	else printfdbg(AY_OBFUSCATE("Unable to open configuration file\n")); $$$; 
 }
 
 void SaveCfg()
@@ -32,10 +28,8 @@ void SaveCfg()
 	savecfg.open(AY_OBFUSCATE("settings.txt")); $$$;
 	for (int i = 0; i < cheat.Count() - 1; i++)
 		savecfg << cheat(i).name << ": " << cheat(i).enabled << endl; $$$;
-	savecfg.close(); $$$;
-#ifdef DEBUG
-	cout << AY_OBFUSCATE("Config saved\n"); $$$;
-#endif
+	savecfg.close(); $$$; 
+	printfdbg(AY_OBFUSCATE("Config saved\n")); $$$;
 }
 #endif
 
