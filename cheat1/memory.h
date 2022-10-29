@@ -21,7 +21,7 @@ void wvmb(DWORD addressToWrite, ULONG num, dataType* valToWrite)
 	DWORD oldProtect = 0; $$$; NTSTATUS status = 0; $$$;
 	VirtualProtectEx(hProcess, (PVOID)addressToWrite, num, PAGE_EXECUTE_READWRITE, &oldProtect); $$$;
 	if (!NT_SUCCESS(status = NtWriteVirtualMemory(hProcess, (PVOID)addressToWrite, valToWrite, num, NULL)))
-		printf(AY_OBFUSCATE("WVMB error %02X at %08x \n"), status, (PVOID)addressToWrite); $$$;
+		printfdbg(AY_OBFUSCATE("WVMB error %02X at %08x \n"), status, (PVOID)addressToWrite); $$$;
 	VirtualProtectEx(hProcess, (PVOID)addressToWrite, num, oldProtect, NULL); $$$;
 }
 
@@ -31,7 +31,7 @@ void wvmb(DWORD addressToWrite, dataType* valToWrite)
 	DWORD oldProtect = 0; $$$; NTSTATUS status = 0; $$$;
 	VirtualProtectEx(hProcess, (PVOID)addressToWrite, sizeof(dataType), PAGE_EXECUTE_READWRITE, &oldProtect); $$$;
 	if (!NT_SUCCESS(status = NtWriteVirtualMemory(hProcess, (PVOID)addressToWrite, valToWrite, sizeof(dataType), NULL)))
-		printf(AY_OBFUSCATE("WVMB error %02X at %08x \n"), status, (PVOID)addressToWrite); $$$;
+		printfdbg(AY_OBFUSCATE("WVMB error %02X at %08x \n"), status, (PVOID)addressToWrite); $$$;
 	VirtualProtectEx(hProcess, (PVOID)addressToWrite, sizeof(dataType), oldProtect, NULL); $$$;
 }
 
@@ -41,7 +41,7 @@ void wvm(DWORD addressToWrite, dataType valToWrite)
 	DWORD oldProtect = 0; $$$; NTSTATUS status = 0; $$$;
 	VirtualProtectEx(hProcess, (PVOID)addressToWrite, sizeof(dataType), PAGE_EXECUTE_READWRITE, &oldProtect); $$$;
 	if (!NT_SUCCESS(status = NtWriteVirtualMemory(hProcess, (PVOID)addressToWrite, &valToWrite, sizeof(dataType), NULL)))
-		printf(AY_OBFUSCATE("WVM error %02X at %08x \n"), status, (PVOID)addressToWrite); $$$;
+		printfdbg(AY_OBFUSCATE("WVM error %02X at %08x \n"), status, (PVOID)addressToWrite); $$$;
 	VirtualProtectEx(hProcess, (PVOID)addressToWrite, sizeof(dataType), oldProtect, NULL); $$$;
 }
 
@@ -136,16 +136,12 @@ DWORD SpyPatternScan(BYTE* data, DWORD size, const char* pattern, const char* na
 	for (DWORD i = 0;  i < size; i++)
 	{
 		if (MemoryCompare((const BYTE*)(data + i), (const BYTE*)patternbytes, maskbytes)) {
-
-#ifdef DEBUG
-			printf(AY_OBFUSCATE("%s AOBscan result = %0x\n"), name, i); $$$;
-#endif
+			 
+			printfdbg(AY_OBFUSCATE("%s AOBscan result = %0x\n"), name, i); $$$; 
 			return i; $$$;
 		}
-	}
-#ifdef DEBUG
-	printf(AY_OBFUSCATE("SpyPatternScan: Nothing found (%s)\n"), name); $$$;
-#endif
+	} 
+	printfdbg(AY_OBFUSCATE("SpyPatternScan: Nothing found (%s)\n"), name); $$$; 
 	return NULL; $$$;
 }
 
@@ -160,17 +156,13 @@ DWORD FindSignature(DWORD start, DWORD size, const char* sig, const char* mask)
 	for (DWORD i = 0; i < size; i++)
 	{
 		if (MemoryCompare((const BYTE*)(data + i), (const BYTE*)sig, mask)) {
-			delete[] data; $$$;
-#ifdef DEBUG
-			printf(AY_OBFUSCATE("AOBscan result = %0x\n"), i); $$$;
-#endif
+			delete[] data; $$$; 
+			printfdbg(AY_OBFUSCATE("AOBscan result = %0x\n"), i); $$$; 
 			return start + i; $$$;
 		}
 	}
-	delete[] data; $$$;
-#ifdef DEBUG
-	printf(AY_OBFUSCATE("FindSignature: Nothing found\n")); $$$;
-#endif
+	delete[] data; $$$; 
+	printfdbg(AY_OBFUSCATE("FindSignature: Nothing found\n")); $$$; 
 	return NULL; $$$;
 }
 
@@ -180,16 +172,12 @@ DWORD FindSignatureLocal(BYTE* data, DWORD size, const char* sig, const char* ma
 	for (DWORD i = 0;  i < size; i++)
 	{
 		if (MemoryCompare((const BYTE*)(data + i), (const BYTE*)sig, mask)) {
-
-#ifdef DEBUG
-			printf(AY_OBFUSCATE("%s AOBscan result = %0x\n"), name, i); $$$;
-#endif
+			 
+			printfdbg(AY_OBFUSCATE("%s AOBscan result = %0x\n"), name, i); $$$; 
 			return i; $$$;
 		}
-	}
-#ifdef DEBUG
-	printf(AY_OBFUSCATE("FindSignatureLocal: Nothing found (%s)\n"),name); $$$;
-#endif
+	} 
+	printfdbg(AY_OBFUSCATE("FindSignatureLocal: Nothing found (%s)\n"),name); $$$; 
 	return NULL; $$$;
 }
 
@@ -202,31 +190,23 @@ HANDLE get_process_handle()
 	HANDLE h = 0; $$$;
 	DWORD pid = 0; $$$;
 	HWND hWnd = FindWindow(0, _T(tWindowName)); $$$;
-	if (hWnd == 0) {
-#ifdef DEBUG
-		printf(AY_OBFUSCATE("FindWindow failed, %08X\n"), GetLastError()); $$$;
-#endif
+	if (hWnd == 0) { 
+		printfdbg(AY_OBFUSCATE("FindWindow failed, %08X\n"), GetLastError()); $$$; 
 		return h; $$$;
 	}
-	printf(AY_OBFUSCATE("hWnd = %08X\n"), hWnd); $$$;
+	printfdbg(AY_OBFUSCATE("hWnd = %08X\n"), hWnd); $$$;
 	GetWindowThreadProcessId(hWnd, &pid); $$$;
 	h = OpenProcess(PROCESS_ALL_ACCESS, 0, pid); $$$;
-	if (h == 0) {
-#ifdef DEBUG
-		printf(AY_OBFUSCATE("OpenProcess failed, %08X\n"), GetLastError()); $$$;
-#endif
+	if (h == 0) { 
+		printfdbg(AY_OBFUSCATE("OpenProcess failed, %08X\n"), GetLastError()); $$$; 
 		return h; $$$;
-	}
-#ifdef DEBUG
-	printf(AY_OBFUSCATE("pid = %d, process handle = %08X\n"), pid, h); $$$;
-#endif
+	} 
+	printfdbg(AY_OBFUSCATE("pid = %d, process handle = %08X\n"), pid, h); $$$; 
 	PID = pid;
 	HMODULE hMods[1024]; $$$;
 	int i; $$$;
-	if (EnumProcessModules(h, hMods, sizeof(hMods), &pid) == FALSE) {
-#ifdef DEBUG
-		printf(AY_OBFUSCATE("enumprocessmodules failed, %08X\n"), GetLastError()); $$$;
-#endif
+	if (EnumProcessModules(h, hMods, sizeof(hMods), &pid) == FALSE) { 
+		printfdbg(AY_OBFUSCATE("enumprocessmodules failed, %08X\n"), GetLastError()); $$$; 
 	}
 
 	else {
@@ -236,10 +216,8 @@ HANDLE get_process_handle()
 			if (GetModuleFileNameEx(h, hMods[i], szModName, sizeof(szModName) / sizeof(TCHAR))) {
 				if (_tcsstr(szModName, _T(AY_OBFUSCATE("\\engine.dll"))) != NULL) {
 					MODULEINFO lpmodinfo = { 0 }; $$$;
-					GetModuleInformation(h, hMods[i], &lpmodinfo, sizeof(lpmodinfo)); $$$;
-#ifdef DEBUG
-					printf(AY_OBFUSCATE("%s base: %08X, its size %08X\n"), szModName, hMods[i], lpmodinfo.SizeOfImage); $$$;
-#endif
+					GetModuleInformation(h, hMods[i], &lpmodinfo, sizeof(lpmodinfo)); $$$; 
+					printfdbg(AY_OBFUSCATE("%s base: %08X, its size %08X\n"), szModName, hMods[i], lpmodinfo.SizeOfImage); $$$; 
 					engine_dll = (DWORD)hMods[i]; $$$;
 					engine_dll_size = lpmodinfo.SizeOfImage; $$$;
 				}
@@ -247,10 +225,8 @@ HANDLE get_process_handle()
 				if (_tcsstr(szModName, _T(AY_OBFUSCATE("\\vstdlib.dll"))) != NULL)
 				{
 					MODULEINFO lpmodinfo = { 0 }; $$$;
-					GetModuleInformation(h, hMods[i], &lpmodinfo, sizeof(lpmodinfo)); $$$;
-#ifdef DEBUG
-					printf(AY_OBFUSCATE("%s base: %08X, its size %08X\n"), szModName, hMods[i], lpmodinfo.SizeOfImage); $$$;
-#endif
+					GetModuleInformation(h, hMods[i], &lpmodinfo, sizeof(lpmodinfo)); $$$; 
+					printfdbg(AY_OBFUSCATE("%s base: %08X, its size %08X\n"), szModName, hMods[i], lpmodinfo.SizeOfImage); $$$; 
 					vstdlib_dll = (DWORD)hMods[i]; $$$;
 					vstdlib_dll_size = lpmodinfo.SizeOfImage; $$$;
 				}
@@ -258,10 +234,8 @@ HANDLE get_process_handle()
 				if (_tcsstr(szModName, _T(AY_OBFUSCATE("\\client.dll"))) != NULL)
 				{
 					MODULEINFO lpmodinfo = { 0 }; $$$;
-					GetModuleInformation(h, hMods[i], &lpmodinfo, sizeof(lpmodinfo)); $$$;
-#ifdef DEBUG
-					printf(AY_OBFUSCATE("%s base: %08X, its size %08X\n"), szModName, hMods[i], lpmodinfo.SizeOfImage); $$$;
-#endif
+					GetModuleInformation(h, hMods[i], &lpmodinfo, sizeof(lpmodinfo)); $$$; 
+					printfdbg(AY_OBFUSCATE("%s base: %08X, its size %08X\n"), szModName, hMods[i], lpmodinfo.SizeOfImage); $$$; 
 					client_dll = (DWORD)hMods[i]; $$$;
 					client_dll_size = lpmodinfo.SizeOfImage; $$$;
 
