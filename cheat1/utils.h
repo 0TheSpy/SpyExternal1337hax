@@ -2,10 +2,8 @@
  
 extern DWORD ClientCMD;
 void SendCMD(const char *cmd)
-{
-#ifdef DEBUG
-	printf(AY_OBFUSCATE("Sending %s\n"), cmd); $$$;
-#endif
+{ 
+	printfdbg(AY_OBFUSCATE("Sending %s\n"), cmd); $$$; 
 	char* newcmd = (char*)cmd; $$$;
 	size_t size = strlen(cmd); $$$;
 
@@ -234,10 +232,8 @@ bool WorldToScreen(float viewmatrix[][4], float coords[], float *x, float *y, fl
 }
 
 void timer() {
-	float c4timer = stof(getValue(AY_OBFUSCATE("mp_c4timer"))); $$$;
-#ifdef DEBUG
-	printf(AY_OBFUSCATE("c4timer = %f\n"), c4timer); $$$;
-#endif
+	float c4timer = stof(getValue(AY_OBFUSCATE("mp_c4timer"))); $$$; 
+	printfdbg(AY_OBFUSCATE("c4timer = %f\n"), c4timer); $$$; 
 	chrono::system_clock::time_point mStartedTime = chrono::system_clock::now(); $$$;
 	for (;; Sleep(10)) {
 		chrono::system_clock::time_point mElapsedTime = chrono::system_clock::now(); $$$;
