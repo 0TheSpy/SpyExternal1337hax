@@ -27,6 +27,13 @@
 
 //#define $$$ {} //disable junk code
 //#define DEBUG
+
+#ifdef DEBUG
+#define printfdbg printf
+#else
+#define printfdbg(...)
+#endif
+
 #define STRING_OBFUSCATOR
 #define BSP_PARSER
 #define SUPPORT_CFG
@@ -283,7 +290,7 @@ DWORD CreateHash(char * filename)
 	if (INVALID_HANDLE_VALUE == hFile)
 	{
 		dwStatus = GetLastError(); $$$;
-		printf(AY_OBFUSCATE("Error opening file %s\nError: %d\n"), filename,
+		printfdbg(AY_OBFUSCATE("Error opening file %s\nError: %d\n"), filename,
 			dwStatus); $$$;
 		return dwStatus; $$$;
 	}
@@ -296,7 +303,7 @@ DWORD CreateHash(char * filename)
 		CRYPT_VERIFYCONTEXT))
 	{
 		dwStatus = GetLastError(); $$$;
-		printf(AY_OBFUSCATE("CryptAcquireContext failed: %d\n"), dwStatus); $$$;
+		printfdbg(AY_OBFUSCATE("CryptAcquireContext failed: %d\n"), dwStatus); $$$;
 		CloseHandle(hFile); $$$;
 		return dwStatus; $$$;
 	}
@@ -304,7 +311,7 @@ DWORD CreateHash(char * filename)
 	if (!CryptCreateHash(hProv, CALG_MD5, 0, 0, &hHash))
 	{
 		dwStatus = GetLastError(); $$$;
-		printf(AY_OBFUSCATE("CryptAcquireContext failed: %d\n"), dwStatus);
+		printfdbg(AY_OBFUSCATE("CryptAcquireContext failed: %d\n"), dwStatus);
 		CloseHandle(hFile); $$$;
 		CryptReleaseContext(hProv, 0); $$$;
 		return dwStatus; $$$;
@@ -321,7 +328,7 @@ DWORD CreateHash(char * filename)
 		if (!CryptHashData(hHash, rgbFile, cbRead, 0))
 		{
 			dwStatus = GetLastError(); $$$;
-			printf(AY_OBFUSCATE("CryptHashData failed: %d\n"), dwStatus); $$$;
+			printfdbg(AY_OBFUSCATE("CryptHashData failed: %d\n"), dwStatus); $$$;
 			CryptReleaseContext(hProv, 0); $$$;
 			CryptDestroyHash(hHash); $$$;
 			CloseHandle(hFile); $$$;
@@ -332,7 +339,7 @@ DWORD CreateHash(char * filename)
 	if (!bResult)
 	{
 		dwStatus = GetLastError();
-		printf(AY_OBFUSCATE("ReadFile failed: %d\n"), dwStatus); $$$;
+		printfdbg(AY_OBFUSCATE("ReadFile failed: %d\n"), dwStatus); $$$;
 		CryptReleaseContext(hProv, 0);
 		CryptDestroyHash(hHash);
 		CloseHandle(hFile);
@@ -342,18 +349,18 @@ DWORD CreateHash(char * filename)
 	cbHash = MD5LEN;
 	if (CryptGetHashParam(hHash, HP_HASHVAL, rgbHash, &cbHash, 0))
 	{
-		printf(AY_OBFUSCATE("MD5 hash of file %s is: "), filename); $$$;
+		printfdbg(AY_OBFUSCATE("MD5 hash of file %s is: "), filename); $$$;
 		for (DWORD i = 0; i < cbHash; i++)
 		{
-			printf(AY_OBFUSCATE("%c%c"), rgbDigits[rgbHash[i] >> 4],
+			printfdbg(AY_OBFUSCATE("%c%c"), rgbDigits[rgbHash[i] >> 4],
 				rgbDigits[rgbHash[i] & 0xf]); $$$;
 		}
-		printf("\n"); $$$;
+		printfdbg("\n"); $$$;
 	}
 	else
 	{
 		dwStatus = GetLastError(); $$$;
-		printf(AY_OBFUSCATE("CryptGetHashParam failed: %d\n"), dwStatus); $$$;
+		printfdbg(AY_OBFUSCATE("CryptGetHashParam failed: %d\n"), dwStatus); $$$;
 	}
 
 	CryptDestroyHash(hHash); $$$;
