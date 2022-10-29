@@ -31,9 +31,7 @@ void Finalize()
 	{
 		NameExploit(MYname); $$$;
 		SetClanTag(MYclan); $$$;
-#ifdef DEBUG
-		printf(AY_OBFUSCATE("set %s %s back\n"), MYname, MYclan);
-#endif
+		printfdbg(AY_OBFUSCATE("set %s %s back\n"), MYname, MYclan);
 	}
 }
 
@@ -378,9 +376,7 @@ void Draw() {
 
 						if (_tcsstr(ClassName, _T("PlantedC4")) != NULL)
 						{
-#ifdef DEBUG
-							printf(AY_OBFUSCATE("PlantedC4 entity %d found\n"), i); $$$;
-#endif
+							printfdbg(AY_OBFUSCATE("PlantedC4 entity %d found\n"), i); $$$;
 							c4id = i; $$$;
 							break; $$$;
 						}
@@ -636,9 +632,7 @@ void SkinChanger() {
 			if (gmibncounter >= 5000) {
 				knifeID = GetModelIndexByName(AY_OBFUSCATE("models/weapons/v_knife_ghost.mdl")); $$$;
 				handsID = GetModelIndexByName(AY_OBFUSCATE("models/player/custom_player/legacy/ctm_st6_variantj.mdl")); $$$;
-#ifdef DEBUG
-				printf(AY_OBFUSCATE("knifeID %d handsID %d\n"), knifeID, handsID); $$$;
-#endif
+				printfdbg(AY_OBFUSCATE("knifeID %d handsID %d\n"), knifeID, handsID); $$$;
 				gmibncounter = 0; $$$;
 			}
 
