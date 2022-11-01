@@ -22,6 +22,7 @@ __declspec(naked) void SkyChange(void)
 	}
 	endfunc
 }
+
 __declspec(naked) void SlideWalkFastCrouch(void)
 {
 	__asm {
@@ -35,6 +36,7 @@ __declspec(naked) void SlideWalkFastCrouch(void)
 		mov[edx + 0x30], eax
 		pop edx
 		pop eax
+
 		push[ebp + 0x0C]
 		movss xmm0, [ebp + 0x08]
 	}
