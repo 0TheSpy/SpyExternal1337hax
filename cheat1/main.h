@@ -1,8 +1,44 @@
 #pragma once
 
-#define DEBUG
-#define DISCMSG
+///* JUNK CODE EXAMPLE ONE
+#define $$$ __asm      \
+{                      \
+	__asm _emit 0xEB      \
+	__asm _emit 0x06      \
+	__asm _emit 0xAA\
+	__asm _emit 0xEE\
+	__asm _emit 0xFF\
+	__asm _emit 0xBB\
+	__asm _emit 0xDD\
+	__asm _emit 0xCC\
+} 
 
+/* JUNK CODE EXAMPLE TWO
+#define $$$ __asm      \
+{                      \
+    __asm pushfd      \
+    __asm pushad      \
+    __asm xor ebx, ecx\
+	__asm inc edx\
+	__asm dec eax\
+    __asm popad          \
+    __asm popfd          \
+} */
+
+//#define $$$ {} //disable junk code
+//#define DEBUG
+
+#ifdef DEBUG
+#define printfdbg printf
+#else
+#define printfdbg(...)
+#endif
+
+#define STRING_OBFUSCATOR
+#define BSP_PARSER
+#define SUPPORT_CFG
+
+#define PI 3.14159265
 #include <Windows.h>
 #pragma warning( disable : 4244 )
 #pragma warning( disable : 4996 )
@@ -22,18 +58,23 @@
 #include <intrin.h> //for sqrtss
 #include <chrono> //for timer
 #include <vector>
-#include <stdlib.h>     /* srand, rand */
-#include "checksum_md5.h"
-#include "random.h"
+#include <stdlib.h> /* srand, rand */
 #include <bitset>
 #include <algorithm> //vector sort
 
 using namespace std;
 using std::stringstream;
 
-#include "spymemory.h"
-#include "d3d9.h"
+#include "memory.h"
+#include "resource1.h"
+#include "obfuscator.h"
+#include "utils.h"
 
+
+HRSRC hResInfo = FindResource(NULL, MAKEINTRESOURCE(IDR_WAVE1), "WAVE");
+HANDLE hRes = LoadResource(NULL, hResInfo);
+LPVOID lpRes = LockResource(hRes);
+	
 LRESULT CALLBACK WinProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam);
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hSecInstance, LPSTR nCmdLine, INT nCmdShow);
 void SetWindowToTarget();
@@ -44,10 +85,8 @@ HANDLE get_process_handle();
 int Width = GetSystemMetrics(SM_CXSCREEN);
 int Height = GetSystemMetrics(SM_CYSCREEN);
 const MARGINS Margin = { 0, 0, Width, Height };
-char lWindowName[256] = " ";
 HWND hWnd;
-char tWindowName[256] = "Counter-Strike Source";
-//char tWindowName[256] = "CS:S v34 ClientMod v3";
+char tWindowName[256] = "Counter-Strike: Global Offensive";
 HWND tWnd;
 RECT tSize;
 MSG Message;
@@ -57,39 +96,35 @@ RECT rc;
 D3DCOLOR color;
 D3DXVECTOR3 position;
 
-DWM_BLURBEHIND bb = { DWM_BB_ENABLE | DWM_BB_BLURREGION, true, CreateRectRgn(0, 0, -1, -1), true };
+LONG topR = 0, leftR = 0, rightR = 0, bottomR = 0;
 
-D3DCOLOR colorprim = D3DCOLOR_ARGB(255, 203, 111, 111); //PRIMARY CHEAT COLOR 
-D3DCOLOR colorsec = D3DCOLOR_ARGB(200, 5, 0, 0); //SECONDARY CHEAT COLOR 
-int border = 4; //CHEAT BORDER
+float xl, yl, wl, xl_closest = 0, yl_closest = 0, xl_closest_final = 0, yl_closest_final = 0, viewmatrix[4][4], hyp1, hyp2,
+deltaXold, deltaYold, enemyDistance, bomb, bombLine = 0;
+int closest, closest_final, aimfov, menutop = 340, i, hp, team, myteam, playerscount, intbuf, hits = 0, totalhits = 0, c4id;
 
-union dword2bytes
-{
-	DWORD dw;
-	BYTE bytes[sizeof(DWORD)];
-};
+DWORD engine_dll, engine_dll_size, vstdlib_dll, vstdlib_dll_size, client_dll, client_dll_size, iItemDefinitionIndex, glowNoFlick,
+iGlowIndex, dwBoneMatrix, aimPunchAngle, iCrosshairId, hObserverTarget, vecOrigin, iTeamNum, iHealth, iObserverMode, hActiveWeapon,
+m_lifeState, flFlashMaxAlpha, fFlags, vecViewOffset, dwGameRulesProxy, bBombPlanted, convar_name_hash_table, dwLocalPlayer, clrRender,
+dwEntityList, dwViewMatrix, dwPlayerResource, dwClientState, totalHitsOnServer, dwClientState_ViewAngles, bDormantOffset, isDefusing,
+dwForceJump, dwForceLeft, dwForceRight, nModelIndex, interface_engine_cvar, dwClientState_PlayerInfo, dwGlowObjectManager, dwClientState_Map,
+dwForceAttack, bIsScoped, dwClientState_GetLocalPlayer, dwClientState_State, m_szClan, defaultFOV, dwForceBackward, dwForceForward,
+localplayer, entityList, clientstate, ClientCMD, nameExploit, fnSetClanAddress, fakePrime, fakeRank, fakeLevel, fakeLobby[4],
+radarHax, monRev, aimPunch, seeEnemyInfo, noSmoke, reveal1, reveal2, revealOrig, freeCam, createMove, rankOffsetThing, skyFunc,
+m_hMyWeapons, m_iItemIDHigh, m_OriginalOwnerXuidHigh, m_OriginalOwnerXuidLow, m_nFallbackPaintKit, m_nFallbackSeed, m_nFallbackStatTrak,
+m_flFallbackWear, m_iEntityQuality, m_szCustomName, m_Item, delta_ticks, m_iViewModelIndex, m_dwModelPrecache, m_hViewModel, armorVal;
 
-#define PI 3.14159265
-#define PLRSZ 0x140     
-const DWORD offset = 0x228;
+float bbdeltaX, bbdeltaY; BYTE standing = 0;
 
-stringstream ss;
-string s;
-BYTE who = 0, zero = 0, ret = 0xC3, jmp = 0xE9, nop = 0x90, call = 0xE8, push = 0x68, drawmenu = 0, menuselect = 0, myid, wepid, bDormant;
-DWORD engine_dll_base, gameui_dll_base, vgui2_dll_base, vguimatsurface_dll_base, d3d9_dll_base, steam_dll_base, materialsystem_dll_base,
-localplayer, ptr, cmdptr, aobconsole, aobcmdnum, aobfakelag, enginedelta, boneptr, vmatrixptr, entity, spec1, spec2, radarhackptr, 
-scrCenterX, scrCenterY, entptr, radar3ptr, dip9, reset9, flycave, whAddr, shaderapidx9_dll, d3d9Resetcave;
-float myposX, myposY, myangY, deltaX, deltaY, fi = 0.08, coords[3], radarcoords[2], xl, yl, wl, xl_closest = 0, yl_closest = 0,
-xl_closest_final = 0, yl_closest_final = 0, viewmatrix[4][4], hyp1, hyp2, deltaXold, deltaYold, deltaZ, myposZ, enemyDistance, 
- bomb, xd = 0, bombcoords[3], prevX, prevY, flickerCheck;
-int closest, closest_final, aimfov, menutop = 340, i, hp, team, myteam, maxentityid, offs, playerscount;
-char *cstr = &s[0];
-BOOL boostsleep = 0, angleshack = 0, bombplanted = 0, fullbright = 0;
-PVOID rotating, freevisangX, freevisangY, freevisangZ, asmWHcave, fixPredict;
-byte sf[] = { 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
-0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01 };
+PVOID SWshellcode, SCshellcode, skyName, GLOWshellcode;
+D3DXVECTOR3 glowcolor, mycoords, coords, delta, enemyhead;
+BYTE head = 8, spec, who, myid, drawmenu, menuselect, bDormant, punchExtraOrigBytes[22];
+char charint[32];
+BOOL bombplanted = 0, wrongname = false;
 
-DWORD allocmem = 0x19000000;
+string folder;
+
+#pragma comment(lib, "winmm.lib")
+dword2bytes playercolor = { 0xFFFFFFFF };
 
 struct Feature
 {
@@ -107,112 +142,232 @@ struct Feature
 class Cheat {
 	vector<Feature> cheats;
 public:
-	Feature& operator()(string name) {
+	Feature& operator()(const char* name) {
 		for (int i = 0; i < cheats.size(); i++)
 		{
+			$$$;
 			if (cheats[i].name == name)
 			{
-				return cheats[i];
-				break;
+				return cheats[i]; $$$;
+				break; $$$;
 			}
 		}
-#ifdef DEBUG
-		cout << "ERROR: Can't find " << name << endl;
-#endif
-		system("pause");
+		char ErrorMsg[125]; $$$;
+		sprintf(ErrorMsg, AY_OBFUSCATE("Can't find %s feature!"), name); $$$;
+		MessageBox(0, ErrorMsg, AY_OBFUSCATE("Critical Error"), MB_OK | MB_ICONERROR); $$$;
+		_Exit(1); $$$;
 	}
 
 	Feature& operator()(int i) {
-		return cheats[i];
+		return cheats[i]; $$$;
 	}
 
-	void New(string name)
+	void New(const char* name)
 	{
-		Feature f;
-		f.name = name;
-		f.trigger = 0;
-		cheats.push_back(f);
+		Feature f; $$$;
+		f.name = name; $$$;
+		f.trigger = 0; $$$;
+		cheats.push_back(f); $$$;
 	}
 
-	void New(string name, int mode)
+	void New(const char* name, int mode)
 	{
-		Feature f;
-		f.name = name;
-		f.modes = mode;
-		f.trigger = 0;
-		cheats.push_back(f);
+		Feature f; $$$;
+		f.name = name; $$$;
+		f.modes = mode; $$$;
+		f.trigger = 0; $$$;
+		cheats.push_back(f); $$$;
 	}
 
 	int Count() {
-		return cheats.size();
+		return cheats.size(); $$$;
 	}
 
-	BOOL Triggered(string name) {
-
+	BOOL Triggered(const char* name) {
 		for (int i = 0; i < cheats.size(); i++)
 			if (cheats[i].name == name)
 				return cheats[i].trigger != cheats[i].enabled ? true : false;
-#ifdef DEBUG
-		cout << "Trigger ERROR: Can't find " << name << endl;
-		system("pause");
-#endif
+		char ErrorMsg[125]; $$$;
+		sprintf(ErrorMsg, AY_OBFUSCATE("Can't find %s feature!"), name); $$$;
+		MessageBox(0, ErrorMsg, AY_OBFUSCATE("Trigger Error"), MB_OK | MB_ICONERROR); $$$;
+		_Exit(1); $$$;
 	}
 
-	BOOL Update(string name) {
-
+	BOOL Update(const char* name) {
 		for (int i = 0; i < cheats.size(); i++)
 		{
+			$$$;
 			if (cheats[i].name == name)
 			{
-				cheats[i].trigger = cheats[i].enabled;
+				cheats[i].trigger = cheats[i].enabled; $$$;
 				return 1;
 			}
 		}
-#ifdef DEBUG
-		cout << "Update ERROR: Can't find " << name << endl;
-		system("pause");
-#endif
+		char ErrorMsg[125]; $$$;
+		sprintf(ErrorMsg, AY_OBFUSCATE("Can't find %s feature!"), name); $$$;
+		MessageBox(0, ErrorMsg, AY_OBFUSCATE("Update Error"), MB_OK | MB_ICONERROR); $$$;
+		_Exit(1); $$$;
 	}
 
 };
 
 Cheat cheat;
 
+#include "d3d9.h"
+
 bool operator==(Feature f, int enabled)
 {
-	return (f.enabled == enabled) ? true : false;
+	return (f.enabled == enabled) ? true : false; $$$;
 }
 
 bool operator==(int enabled, Feature f)
 {
-	return (f.enabled == enabled) ? true : false;
+	return (f.enabled == enabled) ? true : false; $$$;
 }
 
 bool operator!=(Feature f, int enabled)
 {
-	return (f.enabled != enabled) ? true : false;
+	return (f.enabled != enabled) ? true : false; $$$;
 }
 
 bool operator!=(int enabled, Feature f)
 {
-	return (f.enabled != enabled) ? true : false;
+	return (f.enabled != enabled) ? true : false; $$$;
 }
 
 void MenuSelect();
 void DisExit();
 
-struct PlayerScore {
-	int id, kills, place;
-};
-// Compares two players according to their frags. 
-bool compareKills(PlayerScore i1, PlayerScore i2)
-{
-	return (i1.kills > i2.kills);
-}
-bool compareID(PlayerScore i1, PlayerScore i2)
-{
-	return (i1.id < i2.id);
-}
+struct GlowObject {
+	D3DXVECTOR3 glowColor = { 0,0,0 };
+	float glowAlpha = 0.5f;
+	bool glowAlphaCappedByRenderAlpha = 0;
+	float glowAlphaFunctionOfMaxVelocity = 0;
+	float glowAlphaMax = 0.5f;
+	float glowPulseOverdrive = 0;
+	bool renderWhenOccluded = 1;
+	bool renderWhenUnoccluded = 0;
+	bool fullBloomRender = 0;
+	int fullBloomStencilTestValue = 0;
+	int glowStyle = 0;
+	
+}; GlowObject go;
 
 #include "cheat.cpp"
 
+#ifdef DEBUG
+#include <Wincrypt.h>
+
+enum HashType
+{
+	HashSha1, HashMd5, HashSha256
+};
+
+#define BUFSIZE 1024
+#define MD5LEN  16
+DWORD CreateHash(char * filename)
+{
+	DWORD dwStatus = 0; $$$;
+	BOOL bResult = FALSE; $$$;
+	HCRYPTPROV hProv = 0; $$$;
+	HCRYPTHASH hHash = 0; $$$;
+	HANDLE hFile = NULL; $$$;
+	BYTE rgbFile[BUFSIZE]; $$$;
+	DWORD cbRead = 0; $$$;
+	BYTE rgbHash[MD5LEN]; $$$;
+	DWORD cbHash = 0; $$$;
+	CHAR rgbDigits[] = "0123456789abcdef"; $$$;
+
+	// Logic to check usage goes here.
+	hFile = CreateFile(filename,
+		GENERIC_READ,
+		FILE_SHARE_READ,
+		NULL,
+		OPEN_EXISTING,
+		FILE_FLAG_SEQUENTIAL_SCAN,
+		NULL);
+
+	if (INVALID_HANDLE_VALUE == hFile)
+	{
+		dwStatus = GetLastError(); $$$;
+		printfdbg(AY_OBFUSCATE("Error opening file %s\nError: %d\n"), filename,
+			dwStatus); $$$;
+		return dwStatus; $$$;
+	}
+
+	// Get handle to the crypto provider
+	if (!CryptAcquireContext(&hProv,
+		NULL,
+		NULL,
+		PROV_RSA_FULL,
+		CRYPT_VERIFYCONTEXT))
+	{
+		dwStatus = GetLastError(); $$$;
+		printfdbg(AY_OBFUSCATE("CryptAcquireContext failed: %d\n"), dwStatus); $$$;
+		CloseHandle(hFile); $$$;
+		return dwStatus; $$$;
+	}
+
+	if (!CryptCreateHash(hProv, CALG_MD5, 0, 0, &hHash))
+	{
+		dwStatus = GetLastError(); $$$;
+		printfdbg(AY_OBFUSCATE("CryptAcquireContext failed: %d\n"), dwStatus);
+		CloseHandle(hFile); $$$;
+		CryptReleaseContext(hProv, 0); $$$;
+		return dwStatus; $$$;
+	}
+
+	while (bResult = ReadFile(hFile, rgbFile, BUFSIZE,
+		&cbRead, NULL))
+	{
+		if (0 == cbRead)
+		{
+			break; $$$;
+		}
+
+		if (!CryptHashData(hHash, rgbFile, cbRead, 0))
+		{
+			dwStatus = GetLastError(); $$$;
+			printfdbg(AY_OBFUSCATE("CryptHashData failed: %d\n"), dwStatus); $$$;
+			CryptReleaseContext(hProv, 0); $$$;
+			CryptDestroyHash(hHash); $$$;
+			CloseHandle(hFile); $$$;
+			return dwStatus; $$$;
+		}
+	}
+
+	if (!bResult)
+	{
+		dwStatus = GetLastError();
+		printfdbg(AY_OBFUSCATE("ReadFile failed: %d\n"), dwStatus); $$$;
+		CryptReleaseContext(hProv, 0);
+		CryptDestroyHash(hHash);
+		CloseHandle(hFile);
+		return dwStatus;
+	}
+
+	cbHash = MD5LEN;
+	if (CryptGetHashParam(hHash, HP_HASHVAL, rgbHash, &cbHash, 0))
+	{
+		printfdbg(AY_OBFUSCATE("MD5 hash of file %s is: "), filename); $$$;
+		for (DWORD i = 0; i < cbHash; i++)
+		{
+			printfdbg(AY_OBFUSCATE("%c%c"), rgbDigits[rgbHash[i] >> 4],
+				rgbDigits[rgbHash[i] & 0xf]); $$$;
+		}
+		printfdbg("\n"); $$$;
+	}
+	else
+	{
+		dwStatus = GetLastError(); $$$;
+		printfdbg(AY_OBFUSCATE("CryptGetHashParam failed: %d\n"), dwStatus); $$$;
+	}
+
+	CryptDestroyHash(hHash); $$$;
+	CryptReleaseContext(hProv, 0); $$$;
+	CloseHandle(hFile); $$$;
+
+	return dwStatus; $$$;
+}
+
+#endif
