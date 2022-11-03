@@ -136,7 +136,7 @@ namespace ay
 // functions for decrypting the string and is also implicitly convertable to a char*
 
 #ifdef STRING_OBFUSCATOR 
-#define AY_OBFUSCATE(data) AY_OBFUSCATE_KEY(data, '.')
+#define AY_OBFUSCATE(data) AY_OBFUSCATE_KEY(data, __TIME_UNIX__)
 #else
 #define AY_OBFUSCATE(data) data
 #endif
