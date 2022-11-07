@@ -134,7 +134,7 @@ void myInit() {
 	dwClientState_GetLocalPlayer = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("8B 80 ? ? ? ? 40 C3")) + 0x2); $$$;
 	dwClientState_State = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("83 B8 ? ? ? ? ? 0F 94 C0 C3")) + 0x2); $$$;
 	ClientCMD = engine_dll + SpyPatternScan(engineBytes, engine_dll_size,
-		AY_OBFUSCATE("55 8B EC 8B 0D ? ? ? ? 81 F9 ? ? ? ? 75 0C A1 ? ? ? ? 35 ? ? ? ? EB 05 8B 01 FF 50 34 50 A1")); $$$;
+		AY_OBFUSCATE("C2 04 00 CC CC CC CC CC CC CC CC CC 55 8B EC 8B 0D ? ? ? ? 81 F9")) + 12; $$$;
 	nameExploit = engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("75 16 57 68 ? ? ? ? FF 15 ? ? ? ? 83 C4 08 5F 5E 5B 8B E5 5D C3 8B 06")); $$$;
 	fnSetClanAddress = engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("53 56 57 8B DA 8B F9 FF 15")); $$$;
 	m_szClan = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("C7 45 D0 ? 00 00 00 0F 10 45 C4 C7 45 F0 ? ? 00 00 C7 45 E4")) + 0xE); $$$;
