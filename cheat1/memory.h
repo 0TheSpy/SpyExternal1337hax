@@ -109,7 +109,7 @@ bool MemoryCompare(const BYTE* bData, const BYTE* bMask, const char* szMask) {
 	return (*szMask == NULL); $$$;
 }
 
-DWORD SpyPatternScan(BYTE* data, DWORD size, const char* pattern, const char* name = "")
+DWORD SpyPatternScan(BYTE* data, DWORD size, const char* pattern)
 {
 	BYTE *patternbytes = new BYTE[255]; $$$;
 	char* maskbytes = new char[255]; $$$;
@@ -137,11 +137,11 @@ DWORD SpyPatternScan(BYTE* data, DWORD size, const char* pattern, const char* na
 	{
 		if (MemoryCompare((const BYTE*)(data + i), (const BYTE*)patternbytes, maskbytes)) {
 			 
-			printfdbg(AY_OBFUSCATE("%s AOBscan result = %0x\n"), name, i); $$$; 
+			printfdbg(AY_OBFUSCATE("%s AOBscan result = %0x\n"), pattern, i); $$$;
 			return i; $$$;
 		}
 	} 
-	printfdbg(AY_OBFUSCATE("SpyPatternScan: Nothing found (%s)\n"), name); $$$; 
+	printfdbg(AY_OBFUSCATE("SpyPatternScan: Nothing found (%s)\n"), pattern); $$$;
 	return NULL; $$$;
 }
 
