@@ -125,7 +125,7 @@ void myInit() {
 	ReadProcessMemory(hProcess, PVOID(engine_dll), engineBytes, engine_dll_size, 0); $$$;
 
 	dwClientState = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("A1 ? ? ? ? 33 D2 6A 00 6A 00 33 C9 89 B0")) + 0x1) - engine_dll; $$$;
-	dwLocalPlayer = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("8D 34 85 ? ? ? ? 89 15 ? ? ? ? 8B 41 08 8B 48 04 83 F9 FF"), AY_OBFUSCATE("dwLocalPlayer")) + 0x3) - client_dll + 4; $$$;
+	dwLocalPlayer = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("8D 34 85 ? ? ? ? 89 15 ? ? ? ? 8B 41 08 8B 48 04 83 F9 FF")) + 0x3) - client_dll + 4; $$$;
 	dwEntityList = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("BB ? ? ? ? 83 FF 01 0F 8C ? ? ? ? 3B F8")) + 0x1) - client_dll; $$$;
 	dwViewMatrix = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("0F 10 05 ? ? ? ? 8D 85 ? ? ? ? B9")) + 0x3) - client_dll + 0xB0; $$$;
 	bDormantOffset = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("8A 81 ? ? ? ? C3 32 C0")) + 0x2) + 8; $$$;
@@ -134,10 +134,9 @@ void myInit() {
 	dwClientState_GetLocalPlayer = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("8B 80 ? ? ? ? 40 C3")) + 0x2); $$$;
 	dwClientState_State = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("83 B8 ? ? ? ? ? 0F 94 C0 C3")) + 0x2); $$$;
 	ClientCMD = engine_dll + SpyPatternScan(engineBytes, engine_dll_size,
-		AY_OBFUSCATE("55 8B EC 8B 0D ? ? ? ? 81 F9 ? ? ? ? 75 0C A1 ? ? ? ? 35 ? ? ? ? EB 05 8B 01 FF 50 34 50 A1"),
-		AY_OBFUSCATE("ClientCMD")); $$$;
+		AY_OBFUSCATE("55 8B EC 8B 0D ? ? ? ? 81 F9 ? ? ? ? 75 0C A1 ? ? ? ? 35 ? ? ? ? EB 05 8B 01 FF 50 34 50 A1")); $$$;
 	nameExploit = engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("75 16 57 68 ? ? ? ? FF 15 ? ? ? ? 83 C4 08 5F 5E 5B 8B E5 5D C3 8B 06")); $$$;
-	fnSetClanAddress = engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("53 56 57 8B DA 8B F9 FF 15"), "fnSetClanAdress"); $$$;
+	fnSetClanAddress = engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("53 56 57 8B DA 8B F9 FF 15")); $$$;
 	m_szClan = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("C7 45 D0 ? 00 00 00 0F 10 45 C4 C7 45 F0 ? ? 00 00 C7 45 E4")) + 0xE); $$$;
 	dwPlayerResource = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("8B 3D ? ? ? ? 85 FF 0F 84 ? ? ? ? 81 C7")) + 0x2) - client_dll; $$$;
 	dwForceJump = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("8B 0D ? ? ? ? 8B D6 8B C1 83 CA 02")) + 0x2) - client_dll; $$$;
@@ -146,11 +145,11 @@ void myInit() {
 	dwForceLeft = rvm<DWORD>(dwForce + 465) - client_dll; $$$;
 	dwForceForward = rvm<DWORD>(dwForce + 245) - client_dll; $$$;
 	dwForceBackward = rvm<DWORD>(dwForce + 287) - client_dll; $$$;
-	interface_engine_cvar = rvm<DWORD>(FindSignature(vstdlib_dll, vstdlib_dll_size, AY_OBFUSCATE("\x8B\x0D\x00\x00\x00\x00\xC7\x05"), AY_OBFUSCATE("xx????xx")) + 0x2) - vstdlib_dll; $$$;
-	dwGlowObjectManager = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("A1 ? ? ? ? A8 01 75 4B"), AY_OBFUSCATE("dwGlowObjectManager")) + 0x1) - client_dll + 4; $$$;
-	fakePrime = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("83 F8 05 5E 0F 94 C0 C3"), AY_OBFUSCATE("fake prime")) + 0x2; $$$;
-	fakeLevel = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("0F 45 05 ? ? ? ? F6 05"), AY_OBFUSCATE("fake level")) + 0x3) - client_dll; $$$;
-	fakeRank = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("A1 ? ? ? ? 8b 44 ? ? 89 07 E8"), AY_OBFUSCATE("fake rank")) + 0x1) - client_dll; $$$;
+	interface_engine_cvar = rvm<DWORD>(FindSignature(vstdlib_dll, vstdlib_dll_size, AY_OBFUSCATE("\x8B\x0D\x00\x00\x00\x00\xC7\x05"), AY_OBFUSCATE("xx????xx")) + 0x2) - vstdlib_dll; $$$; 
+	dwGlowObjectManager = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("A1 ? ? ? ? A8 01 75 4B")) + 0x1) - client_dll + 4; $$$;
+	fakePrime = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("83 F8 05 5E 0F 94 C0 C3")) + 0x2; $$$;
+	fakeLevel = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("0F 45 05 ? ? ? ? F6 05")) + 0x3) - client_dll; $$$;
+	fakeRank = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("A1 ? ? ? ? 8b 44 ? ? 89 07 E8")) + 0x1) - client_dll; $$$;
 	radarHax = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("80 B9 ? ? ? ? ? 74 12 8B 41 08")) + 6; $$$;
 	aimPunch = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("03 F3 0F 10 86 ? ? ? ? F3 0F 58 43")) - 3; $$$;
 	rvm(aimPunch, &punchExtraOrigBytes); $$$;
@@ -158,25 +157,22 @@ void myInit() {
 	noSmoke = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size,
 		AY_OBFUSCATE("55 8B EC 83 EC 08 8B 15 ? ? ? ? 0F 57 C0")) + 8); $$$;
 	dwForceAttack = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size,
-		AY_OBFUSCATE("89 0D ? ? ? ? 8B 0D ? ? ? ? 8B F2 8B C1 83 CE 04"),
-		AY_OBFUSCATE("dwForceAttack")) + 2) - client_dll; $$$;
-	reveal1 = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("3B 45 ? 75 06 C6"), AY_OBFUSCATE("reveal 1")) + 3; $$$;
-	reveal2 = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("3B C6 74 27 8B CB E8"), AY_OBFUSCATE("reveal 2")); $$$;
+		AY_OBFUSCATE("89 0D ? ? ? ? 8B 0D ? ? ? ? 8B F2 8B C1 83 CE 04")) + 2) - client_dll; $$$;
+	reveal1 = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("3B 45 ? 75 06 C6")) + 3; $$$;
+	reveal2 = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("3B C6 74 27 8B CB E8")); $$$;
 	dwGameRulesProxy = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size,
-		AY_OBFUSCATE("A1 ? ? ? ? 85 C0 0F 84 ? ? ? ? 80 B8 ? ? ? ? ? 74 7A"),
-		AY_OBFUSCATE("dwGameRulesProxy")) + 1) - client_dll; $$$;
+		AY_OBFUSCATE("A1 ? ? ? ? 85 C0 0F 84 ? ? ? ? 80 B8 ? ? ? ? ? 74 7A")) + 1) - client_dll; $$$;
 	convar_name_hash_table = rvm<DWORD>(FindSignature(vstdlib_dll, vstdlib_dll_size, AY_OBFUSCATE("\x8B\x3C\x85"), AY_OBFUSCATE("xxx")) + 3) - vstdlib_dll; $$$;
 	freeCam = SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("F8 F3 0F 11 1F")) + 1; $$$;
-	aimPunchAngle = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("00 F3 0F 7E 82 ? ? 00 00 8B"), AY_OBFUSCATE("aimPunchAngle")) + 5); $$$;
-	createMove = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("C2 08 00 8B 01 FF 75"), AY_OBFUSCATE("CreateMove")) + 5; $$$;
+	aimPunchAngle = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("00 F3 0F 7E 82 ? ? 00 00 8B")) + 5); $$$;
+	createMove = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("C2 08 00 8B 01 FF 75")) + 5; $$$;
 	rankOffsetThing = client_dll + SpyPatternScan(clientBytes, client_dll_size,
-		AY_OBFUSCATE("55 8B EC 51 A1 ? ? ? ? 85 C0 75 37"),
-		AY_OBFUSCATE("rankOffset")); $$$;
-	skyFunc = engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("55 8B EC 81 EC ? ? ? ? 56 57 8B F9 C7 45"), AY_OBFUSCATE("skyFunc")); $$$;
+		AY_OBFUSCATE("55 8B EC 51 A1 ? ? ? ? 85 C0 75 37")); $$$;
+	skyFunc = engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("55 8B EC 81 EC ? ? ? ? 56 57 8B F9 C7 45")); $$$;
 	glowNoFlick = client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("8B B3 ? ? ? ? E8 ? ? ? ? 8A")); $$$;
-	dwClientState_Map = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("05 ? ? ? ? C3 CC CC CC CC CC CC CC A1"), AY_OBFUSCATE("dwClientState_Map")) + 1); $$$;
-	delta_ticks = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("C7 87 ? ? ? ? ? ? ? ? FF 15 ? ? ? ? 83 C4 08"), AY_OBFUSCATE("delta ticks"))+2); $$$;
-	m_dwModelPrecache = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("0C 3B 81 ? ? ? ? 75 11 8B 45 10 83 F8 01 7C 09 50 83"), AY_OBFUSCATE("delta ticks")) + 3); $$$;
+	dwClientState_Map = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("05 ? ? ? ? C3 CC CC CC CC CC CC CC A1")) + 1); $$$;
+	delta_ticks = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("C7 87 ? ? ? ? ? ? ? ? FF 15 ? ? ? ? 83 C4 08"))+2); $$$;
+	m_dwModelPrecache = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("0C 3B 81 ? ? ? ? 75 11 8B 45 10 83 F8 01 7C 09 50 83")) + 3); $$$;
 	
 	DWORD dwWorld = client_dll + FindSignatureLocal(clientBytes, client_dll_size, AY_OBFUSCATE("DT_TEWorldDecal"), AY_OBFUSCATE("xxxxxxxxxxxxxxx")); $$$;
 	DWORD dwClasses = rvm<DWORD>(client_dll + FindSignatureLocal(clientBytes, client_dll_size, (char*)&dwWorld, AY_OBFUSCATE("xxxx")) + 0x2B); $$$;
