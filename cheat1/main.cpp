@@ -129,7 +129,7 @@ void myInit() {
 	dwEntityList = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("BB ? ? ? ? 83 FF 01 0F 8C ? ? ? ? 3B F8")) + 0x1) - client_dll; $$$;
 	dwViewMatrix = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("0F 10 05 ? ? ? ? 8D 85 ? ? ? ? B9")) + 0x3) - client_dll + 0xB0; $$$;
 	bDormantOffset = rvm<DWORD>(client_dll + SpyPatternScan(clientBytes, client_dll_size, AY_OBFUSCATE("8A 81 ? ? ? ? C3 32 C0")) + 0x2) + 8; $$$;
-	dwClientState_ViewAngles = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("F3 0F 11 80 ? ? ? ? D9 46 04 D9 05")) + 0x4); $$$;
+	dwClientState_ViewAngles = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("F3 0F 11 86 ? ? ? ? F3 0F 10 44 24 ? F3 0F 11 86")) + 0x4); $$$;
 	dwClientState_PlayerInfo = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("8B 89 ? ? ? ? 85 C9 0F 84 ? ? ? ? 8B 01")) + 0x2); $$$;
 	dwClientState_GetLocalPlayer = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("8B 80 ? ? ? ? 40 C3")) + 0x2); $$$;
 	dwClientState_State = rvm<DWORD>(engine_dll + SpyPatternScan(engineBytes, engine_dll_size, AY_OBFUSCATE("83 B8 ? ? ? ? ? 0F 94 C0 C3")) + 0x2); $$$;
