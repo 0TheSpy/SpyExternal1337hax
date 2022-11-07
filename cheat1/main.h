@@ -86,7 +86,7 @@ int Width = GetSystemMetrics(SM_CXSCREEN);
 int Height = GetSystemMetrics(SM_CYSCREEN);
 const MARGINS Margin = { 0, 0, Width, Height };
 HWND hWnd;
-char tWindowName[256] = "Counter-Strike: Global Offensive";
+char tWindowName[256] = "Counter-Strike: Global Offensive - Direct3D 9";
 HWND tWnd;
 RECT tSize;
 MSG Message;
