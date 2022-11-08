@@ -420,7 +420,7 @@ void Suspend(bool b)
 #endif
 }
 
- vector<DWORD> FindAllOccurences(vector<int> signature, DWORD startaddress = 0, DWORD endaddress = 0)
+ vector<DWORD> SpyFindAllOccurences(vector<int> signature, DWORD startaddress = 0, DWORD endaddress = 0)
  {
 	 vector<DWORD> output;
 	 SYSTEM_INFO si;
