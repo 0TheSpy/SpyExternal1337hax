@@ -420,4 +420,55 @@ void Suspend(bool b)
 #endif
 }
 
+ vector<DWORD> FindAllOccurences(vector<int> signature, DWORD startaddress = 0, DWORD endaddress = 0)
+ {
+	 vector<DWORD> output;
+	 SYSTEM_INFO si;
+	 GetSystemInfo(&si);
+	 if (startaddress == 0) {
+		 startaddress = (DWORD)(si.lpMinimumApplicationAddress);
+	 }
+	 if (endaddress == 0) {
+		 DWORD endaddress = (DWORD)(si.lpMaximumApplicationAddress);
+	 }
+
+	 MEMORY_BASIC_INFORMATION mbi{ 0 };
+	 DWORD protectflags = (PAGE_GUARD | PAGE_NOCACHE | PAGE_NOACCESS);
+
+	 for (DWORD i = startaddress; i < endaddress - signature.size(); i++)
+	 { 
+		 if (VirtualQueryEx(hProcess, (LPCVOID)i, &mbi, sizeof(mbi))) {
+			 if (mbi.Protect & protectflags || !(mbi.State & MEM_COMMIT)) {
+#ifdef DEBUG
+				// cout << "Bad Region! Region Base Address: " << mbi.BaseAddress << " | Region end address: " << hex << (DWORD)((DWORD)mbi.BaseAddress + mbi.RegionSize) << endl;
+#endif
+				 i = (DWORD)mbi.BaseAddress + mbi.RegionSize - 1;
+				 continue; //if bad address then dont read from it
+			 }
+#ifdef DEBUG
+			// cout << "Good Region! Region Base Address: " << mbi.BaseAddress << " | Region end address: " << hex << (DWORD)((DWORD)mbi.BaseAddress + mbi.RegionSize) << endl;
+#endif
+			 auto Bytes = new BYTE[mbi.RegionSize + 1];
+			 memset(Bytes, 0, mbi.RegionSize + 1);
+			 ReadProcessMemory(hProcess, mbi.BaseAddress, Bytes, mbi.RegionSize, 0);
+			 for (DWORD k = 0; k < mbi.RegionSize - signature.size(); k++) {
+				 //for (DWORD k = (DWORD)mbi.BaseAddress; k < (DWORD)mbi.BaseAddress + mbi.RegionSize - signature.size(); k++) {
+				 for (DWORD j = 0; j < signature.size(); j++) {
+					 //if (signature.at(j) != -1 && signature.at(j) != *(unsigned char*)(k + j)) //byte
+					 if (signature.at(j) != -1 && signature.at(j) != *(unsigned char*)(Bytes + k + j)) //byte
+						 break;
+					 if (j + 1 == signature.size())
+					 {
+						 cout << AY_OBFUSCATE("Found ") << hex << (DWORD)mbi.BaseAddress + k << endl;
+						 output.push_back((DWORD)mbi.BaseAddress + k);
+					 }
+				 }
+			 }
+			 delete Bytes;
+			 i = (DWORD)mbi.BaseAddress + mbi.RegionSize - 1;
+		 }
+	 }
+	 return output;
+ }
+
 #endif
