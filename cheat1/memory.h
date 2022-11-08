@@ -467,7 +467,7 @@ void Suspend(bool b)
 					 }
 				 }
 			 }
-			 delete Bytes;
+			 delete Bytes[];
 			 i = (DWORD)mbi.BaseAddress + mbi.RegionSize - 1;
 		 }
 	 }
