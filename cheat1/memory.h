@@ -420,6 +420,9 @@ void Suspend(bool b)
 #endif
 }
 
+//usage
+//vector<int> sig = { 0x8B,0xFF,0x55,0x8B,0xEC,0x6A,0xFF,0x68,-1,-1,-1,-1, 0x64,0xA1,-1,-1,-1,-1,0x50,0x83,0xEC,0x20,0x53 };
+//vector<DWORD> findall = SpyFindAllOccurences(sig, 0x0, INT_MAX);
  vector<DWORD> SpyFindAllOccurences(vector<int> signature, DWORD startaddress = 0, DWORD endaddress = 0)
  {
 	 vector<DWORD> output;
