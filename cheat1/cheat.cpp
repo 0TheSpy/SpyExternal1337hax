@@ -576,7 +576,7 @@ void Draw() {
 					}
 
 					if (cheat(AY_OBFUSCATE("Player Glow & Color")) != 0) {
-						wvm<GlowObject>(rvm<DWORD>(client_dll + dwGlowObjectManager) + rvm<DWORD>(entityList + iGlowIndex) * 0x38 + 0x4, go); $$$;
+						wvm<GlowObject>(rvm<DWORD>(client_dll + dwGlowObjectManager) + rvm<DWORD>(entityList + iGlowIndex) * 0x38 + 0x8, go); $$$;
 						wvm<DWORD>(entityList + clrRender, playercolor.dw); $$$;
 					}
 					if (cheat(AY_OBFUSCATE("Aimbot / Friendly Fire")) == 1 && (int)team != (int)myteam && visible ||
