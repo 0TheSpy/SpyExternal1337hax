@@ -161,10 +161,7 @@ void Bunnyhop()
 				currJumpState = rvm<DWORD>(client_dll + dwForceJump); $$$;
 				onGround = rvm<BYTE>(localplayer + fFlags); $$$;
 				if (onGround & (1 << 0))
-				{
-#ifdef DEBUG
-					cout << AY_OBFUSCATE("Jumpin'\n");
-#endif
+				{ 
 					currJumpState |= FORCE_JUMP_BITMASK; $$$;
 					wvm(client_dll + dwForceJump, currJumpState); $$$;
 				}
